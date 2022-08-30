@@ -1,0 +1,66 @@
+# General configuration options
+mk_add_options MOZ_CO_PROJECT=mail
+ac_add_options --enable-application=comm/mail
+ac_add_options --prefix=/app
+ac_add_options --enable-release
+ac_add_options --enable-official-branding
+ac_add_options --with-branding=comm/mail/branding/betterbird
+ac_add_options --without-wasm-sandboxed-libraries
+mk_add_options AUTOCLOBBER=1
+export MOZ_NOSPAM=1
+
+# Disable enforcing that add-ons are signed.
+MOZ_REQUIRE_SIGNING=
+MOZ_REQUIRE_ADDON_SIGNING=0
+
+# use system libs if possible
+ac_add_options --with-system-jpeg
+ac_add_options --with-system-zlib
+ac_add_options --with-system-libvpx
+# freedesktop runtime is missing bzip2.pc file
+#ac_add_options --with-system-bz2
+# requires icu-i18n >= 69.1
+#ac_add_options --with-system-icu
+# requires nss >=3.53.1
+#ac_add_options --with-system-nss
+#ac_add_options --with-system-nspr
+ac_add_options --with-system-png
+# https://github.com/flathub/org.mozilla.Thunderbird/pull/61#issue-275142159
+#ac_add_options --enable-system-sqlite
+ac_add_options --enable-system-ffi
+ac_add_options --enable-system-pixman
+
+# For NSS symbols
+export MOZ_DEBUG_SYMBOLS=1
+
+# build optimizations
+ac_add_options --enable-optimize
+
+# Retain debug symbols
+ac_add_options --disable-strip
+ac_add_options --disable-install-strip
+
+# disable less useful features and minimize dependencies
+ac_add_options --disable-debug
+ac_add_options --disable-crashreporter
+ac_add_options --disable-tests
+ac_add_options --disable-necko-wifi
+ac_add_options --disable-updater
+
+# Needed to enable breakpad in application.ini
+# The preceding comment appears all over the Mozilla repos, however it is misleading.
+# "Official" (server) builds, as opposed to local builds, should have nothing to do
+# with "breakpad" (https://chromium.googlesource.com/breakpad/) crash reporting.
+# In any case, we don't want a local build.
+export MOZILLA_OFFICIAL=1
+
+export MOZ_TELEMETRY_REPORTING=  # No telemetry.
+
+# Used for Linux to create small launcher executable for file browsers.
+# See https://hg.mozilla.org/mozilla-central/rev/3cbbfc5127e4 for details.
+export MOZ_NO_PIE_COMPAT=1
+
+# mk_add_options MOZ_MAKE_FLAGS="-j16"
+
+# Fix python virtualenv
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/build-dir
