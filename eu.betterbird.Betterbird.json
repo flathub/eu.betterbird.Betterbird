@@ -267,7 +267,7 @@
         },
         {
           "type": "git",
-          "url": "https://github.com/mfschumann/thunderbird-patches.git",
+          "url": "https://github.com/Betterbird/thunderbird-patches.git",
           "tag": "102.2.1-bb15",
           "commit": "526010ec03eb942a5f5379d402386a6b6c890b44",
           "dest": "thunderbird-patches"
