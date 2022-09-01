@@ -268,21 +268,25 @@
         {
           "type": "git",
           "url": "https://github.com/mfschumann/thunderbird-patches.git",
-          "tag": "102.2.0-bb14-test",
-          "commit": "c58aac8c3e7b17aeff1364b8d9a38581fa568b84",
+          "tag": "102.2.1-bb15",
+          "commit": "526010ec03eb942a5f5379d402386a6b6c890b44",
           "dest": "thunderbird-patches"
         },
         {
-            "type": "file",
-            "path": "mozconfig-Linux",
-            "only-arches": ["x86_64"],
-            "dest-filename": "mozconfig"
+          "type": "file",
+          "path": "mozconfig-Linux",
+          "only-arches": [
+            "x86_64"
+          ],
+          "dest-filename": "mozconfig"
         },
         {
-            "type": "file",
-            "path": "mozconfig-Linux-aarch64",
-            "only-arches": ["aarch64"],
-            "dest-filename": "mozconfig"
+          "type": "file",
+          "path": "mozconfig-Linux-aarch64",
+          "only-arches": [
+            "aarch64"
+          ],
+          "dest-filename": "mozconfig"
         },
         {
           "type": "file",
