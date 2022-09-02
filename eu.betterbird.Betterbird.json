@@ -1,7 +1,7 @@
 {
     "app-id": "eu.betterbird.Betterbird",
     "runtime": "org.freedesktop.Platform",
-    "runtime-version": "21.08",
+    "runtime-version": "22.08",
     "sdk": "org.freedesktop.Sdk",
     "command": "betterbird",
     "rename-icon": "betterbird",
