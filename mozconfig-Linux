@@ -63,4 +63,4 @@ export MOZ_NO_PIE_COMPAT=1
 # mk_add_options MOZ_MAKE_FLAGS="-j16"
 
 # Fix python virtualenv
-mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/build-dir
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/builddir
