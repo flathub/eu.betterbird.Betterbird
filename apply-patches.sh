@@ -31,8 +31,6 @@ cat thunderbird-patches/$VERSION/series-M-C | while read line || [[ -n $line ]]
 echo
 echo "======================================================="
 echo "Applying patch series for comm repository"
-echo "... without disabling multi-language support"
-sed -i 's/05-misc-no-multi-lingual.patch/# 05-misc-no-multi-lingual.patch/g' thunderbird-patches/$VERSION/series
 cd comm
 cat ../thunderbird-patches/$VERSION/series | while read line || [[ -n $line ]]
     do
