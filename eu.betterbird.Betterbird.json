@@ -53,8 +53,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://www.betterbird.eu/downloads/LinuxArchive/betterbird-102.2.1-bb15.en-US.linux-x86_64.tar.bz2",
-                    "sha256": "996f50bcacf99c446659b0f982acf168754cb15ad58318b0a868044995767ec6"
+                    "url": "https://www.betterbird.eu/downloads/LinuxArchive/betterbird-102.2.2-bb16.en-US.linux-x86_64.tar.bz2",
+                    "sha256": "ef2f526b934261e7d57670e672b304b84ff76c215512891c97adfef90d53bb13"
                 },
                 {
                     "type": "file",
