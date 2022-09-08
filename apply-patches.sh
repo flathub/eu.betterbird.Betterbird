@@ -15,7 +15,7 @@ echo "Applying patch series for main repository"
 cat thunderbird-patches/$VERSION/series-M-C | while read line || [[ -n $line ]]
     do 
         patch=$(echo $line | cut -f1 -d'#' | sed 's/ *$//')
-        if [[ ! -z "${patch// }" ]]
+        if [[ -n "${patch// }" ]]
         then
             if [[ -f patches/$patch ]]
             then
@@ -37,7 +37,7 @@ cd comm
 cat ../thunderbird-patches/$VERSION/series | while read line || [[ -n $line ]]
     do
         patch=$(echo $line | cut -f1 -d'#' | sed 's/ *$//')
-        if [[ ! -z "${patch// }" ]]
+        if [[ -n "${patch// }" ]]
         then
             if [[ -f ../patches/$patch ]]
             then
