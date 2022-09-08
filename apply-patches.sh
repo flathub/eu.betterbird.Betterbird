@@ -11,7 +11,8 @@ find thunderbird-patches/$VERSION -type f -name *.patch -exec cp '{}' patches ';
 echo
 echo "======================================================="
 echo "Applying patch series for main repository"
-
+echo "... without enabling showing missing fluent strings"
+sed -i 's/04-misc-missing-fluent-strings-m-c.patch/# 04-misc-missing-fluent-strings-m-c.patch/g' thunderbird-patches/$VERSION/series-M-C
 cat thunderbird-patches/$VERSION/series-M-C | while read line || [[ -n $line ]]
     do 
         patch=$(echo $line | cut -f1 -d'#' | sed 's/ *$//')
