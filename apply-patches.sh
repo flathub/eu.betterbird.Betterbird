@@ -22,6 +22,9 @@ cat thunderbird-patches/$VERSION/series-M-C | while read line || [[ -n $line ]]
         then
             echo Applying patch $patch ... 
             git apply --apply patches/$patch
+        else
+            echo Patch $patch not found. Exiting.
+            exit 1
         fi
     done
 
@@ -36,6 +39,9 @@ cat ../thunderbird-patches/$VERSION/series | while read line || [[ -n $line ]]
         then
             echo Applying patch $patch ... 
             git apply --apply ../patches/$patch
+        else
+            echo Patch $patch not found. Exiting.
+            exit 1
         fi
     done
 cd ..
