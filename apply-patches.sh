@@ -18,13 +18,16 @@ sed -i 's/08a-branding-m-c.patch/# 08a-branding-m-c.patch/g' thunderbird-patches
 cat thunderbird-patches/$VERSION/series-M-C | while read line || [[ -n $line ]]
     do 
         patch=$(echo $line | cut -f1 -d'#' | sed 's/ *$//')
-        if [[ -f patches/$patch ]]
+        if [[ ! -z "${patch// }" ]]
         then
-            echo Applying patch $patch ... 
-            git apply --apply patches/$patch
-        else
-            echo Patch $patch not found. Exiting.
-            exit 1
+            if [[ -f patches/$patch ]]
+            then
+                echo Applying patch $patch ... 
+                git apply --apply patches/$patch
+            else
+                echo Patch $patch not found. Exiting.
+                exit 1
+            fi
         fi
     done
 
@@ -35,13 +38,16 @@ cd comm
 cat ../thunderbird-patches/$VERSION/series | while read line || [[ -n $line ]]
     do
         patch=$(echo $line | cut -f1 -d'#' | sed 's/ *$//')
-        if [[ -f ../patches/$patch ]]
+        if [[ ! -z "${patch// }" ]]
         then
-            echo Applying patch $patch ... 
-            git apply --apply ../patches/$patch
-        else
-            echo Patch $patch not found. Exiting.
-            exit 1
+            if [[ -f ../patches/$patch ]]
+            then
+                echo Applying patch $patch ... 
+                git apply --apply ../patches/$patch
+            else
+                echo Patch $patch not found. Exiting.
+                exit 1
+            fi
         fi
     done
 cd ..
