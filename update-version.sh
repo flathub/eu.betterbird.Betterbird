@@ -11,21 +11,31 @@ fi
 THUNDERBIRD_VERSION="$1"
 BETTERBIRD_PATCHES_VERSION="$2"
 BETTERBIRD_COMMIT="$3"
-#BETTERBIRD_RELEASE_DATE="$4"
 BETTERBIRD_VERSION="$THUNDERBIRD_VERSION-bb$BETTERBIRD_PATCHES_VERSION"
 BETTERBIRD_REPO="https://github.com/Betterbird/thunderbird-patches"
 PACKAGE=thunderbird
 PLATFORM=linux-x86_64
-BASE_URL="https://archive.mozilla.org/pub/$PACKAGE/releases/$THUNDERBIRD_VERSION"
 SOURCES_FILE="$PACKAGE-sources.json"
-#APPDATA_FILE="eu.betterbird.Betterbird.appdata.xml"
+APPDATA_FILE="thunderbird-patches/metadata/eu.betterbird.Betterbird.appdata.xml"
 MANIFEST_FILE="eu.betterbird.Betterbird.json"
 
-# check provided release date
-#if ! [[ "$BETTERBIRD_RELEASE_DATE" =~ ^20[0-9]{2}-(0[0-9]|1[0-2])-([0-2][0-9]|3[01])$ ]]; then
-#  echo >&2 "Invalid release date '$BETTERBIRD_RELEASE_DATE'. Please provide the date in the format YYYY-MM-DD, e.g. 2021-01-28."
-#  exit 1
-#fi
+# clone Betterbird repo
+git clone -n $BETTERBIRD_REPO thunderbird-patches
+cd thunderbird-patches
+git checkout $BETTERBIRD_COMMIT
+cd ..
+
+# get version from appdata.xml
+betterbird_version_appdata=$(cat $APPDATA_FILE | grep '<release version=' | sed -r 's@^\s+<release version="(([^"])+)(" date=")([^"]+)(">)$@\1@')
+if [[ "$betterbird_version_appdata" != "$BETTERBIRD_VERSION" ]]
+then
+  echo "Betterbird version given on command line ($BETTERBIRD_VERSION) and version according to $APPDATA_FILE ($betterbird_version_appdata) don't agree. Stopping."
+  exit 1
+fi
+
+# get base URL for sources from appdata.xml
+source_archive=$(cat $APPDATA_FILE | sed -rz 's@.+<artifact type="source">\s*<location>([^<]+)<\/location>.+@\1@')
+base_url="${source_archive%/source/*}"
 
 # write new sources file
 echo '[' >"$SOURCES_FILE"
@@ -40,7 +50,7 @@ while read -r line; do
   if [[ $path =~ ^source/ ]]; then
     source_archive='    {
         "type": "archive",
-        "url": "'"$BASE_URL"'/'"$path"'",
+        "url": "'"$base_url"'/'"$path"'",
         "sha256": "'"$checksum"'"
     }'
 
@@ -53,14 +63,14 @@ while read -r line; do
     cat >>"$SOURCES_FILE" <<EOT
     {
         "type": "file",
-        "url": "$BASE_URL/$path",
+        "url": "$base_url/$path",
         "sha256": "$checksum",
         "dest": "langpacks/",
         "dest-filename": "langpack-$locale@$PACKAGE.mozilla.org.xpi"
     },
 EOT
   fi
-done < <(curl -Ss "$BASE_URL/SHA256SUMS" | grep "^\S\+  \(source\|$PLATFORM/xpi\)/")
+done < <(curl -Ss "$base_url/SHA256SUMS" | grep "^\S\+  \(source\|$PLATFORM/xpi\)/")
 
 # add source archive entry to sources file
 echo -e "$source_archive\n]" >>"$SOURCES_FILE"
@@ -75,10 +85,6 @@ jq '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects |
 rm -f $tmpfile
 
 # add external patches to sources file
-git clone -n $BETTERBIRD_REPO thunderbird-patches
-cd thunderbird-patches
-git checkout $BETTERBIRD_COMMIT
-cd ..
 # patch series for main repo
 while read -r line; do
   url=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
