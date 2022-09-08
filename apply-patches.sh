@@ -6,7 +6,6 @@ VERSION="$1"
 echo
 echo "======================================================="
 echo "Copying patches"
-rm -rf patches; mkdir patches
 find thunderbird-patches/$VERSION -type f -name *.patch -exec cp '{}' patches ';'
 
 echo
@@ -15,12 +14,20 @@ echo "Applying patch series for main repository"
 echo "... without patches for Windows installer"
 sed -i 's/08-branding-m-c.patch/# 08-branding-m-c.patch/g' thunderbird-patches/$VERSION/series-M-C
 sed -i 's/08a-branding-m-c.patch/# 08a-branding-m-c.patch/g' thunderbird-patches/$VERSION/series-M-C
+
 cat thunderbird-patches/$VERSION/series-M-C | while read line || [[ -n $line ]]
     do 
-        if [[ -f patches/$line ]]
+        patch=$(echo $line | cut -f1 -d'#' | sed 's/ *$//')
+        if [[ ! -z "${patch// }" ]]
         then
-            echo Applying patch $line ... 
-            git apply --stat --apply patches/$line
+            if [[ -f patches/$patch ]]
+            then
+                echo Applying patch $patch ... 
+                git apply --apply patches/$patch
+            else
+                echo Patch $patch not found. Exiting.
+                exit 1
+            fi
         fi
     done
 
@@ -32,10 +39,17 @@ sed -i 's/05-misc-no-multi-lingual.patch/# 05-misc-no-multi-lingual.patch/g' thu
 cd comm
 cat ../thunderbird-patches/$VERSION/series | while read line || [[ -n $line ]]
     do
-        if [[ -f ../patches/$line ]]
+        patch=$(echo $line | cut -f1 -d'#' | sed 's/ *$//')
+        if [[ ! -z "${patch// }" ]]
         then
-            echo Applying patch $line ... 
-            git apply --stat --apply ../patches/$line
+            if [[ -f ../patches/$patch ]]
+            then
+                echo Applying patch $patch ... 
+                git apply --apply ../patches/$patch
+            else
+                echo Patch $patch not found. Exiting.
+                exit 1
+            fi
         fi
     done
 cd ..

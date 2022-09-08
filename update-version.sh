@@ -2,17 +2,18 @@
 set -eo pipefail
 
 if (($# < 2)); then
-  echo "Usage: $0 THUNDERBIRD_VERSION BETTERBIRD_PATCHES_VERSION BETTERBIRD_COMMIT BETTERBIRD_RELEASE_DATE"
+  echo "Usage: $0 THUNDERBIRD_VERSION BETTERBIRD_PATCHES_VERSION BETTERBIRD_COMMIT"
   echo ""
-  echo "Example: $0 102.2.0 14 fb63d05198813bc2ed4336759bf6e17a1076e97d 2022-08-27"
+  echo "Example: $0 102.2.0 14 fb63d05198813bc2ed4336759bf6e17a1076e97d"
   exit 1
 fi
 
 THUNDERBIRD_VERSION="$1"
 BETTERBIRD_PATCHES_VERSION="$2"
 BETTERBIRD_COMMIT="$3"
-BETTERBIRD_RELEASE_DATE="$4"
+#BETTERBIRD_RELEASE_DATE="$4"
 BETTERBIRD_VERSION="$THUNDERBIRD_VERSION-bb$BETTERBIRD_PATCHES_VERSION"
+BETTERBIRD_REPO="https://github.com/Betterbird/thunderbird-patches"
 PACKAGE=thunderbird
 PLATFORM=linux-x86_64
 BASE_URL="https://archive.mozilla.org/pub/$PACKAGE/releases/$THUNDERBIRD_VERSION"
@@ -21,10 +22,10 @@ SOURCES_FILE="$PACKAGE-sources.json"
 MANIFEST_FILE="eu.betterbird.Betterbird.json"
 
 # check provided release date
-if ! [[ "$BETTERBIRD_RELEASE_DATE" =~ ^20[0-9]{2}-(0[0-9]|1[0-2])-([0-2][0-9]|3[01])$ ]]; then
-  echo >&2 "Invalid release date '$BETTERBIRD_RELEASE_DATE'. Please provide the date in the format YYYY-MM-DD, e.g. 2021-01-28."
-  exit 1
-fi
+#if ! [[ "$BETTERBIRD_RELEASE_DATE" =~ ^20[0-9]{2}-(0[0-9]|1[0-2])-([0-2][0-9]|3[01])$ ]]; then
+#  echo >&2 "Invalid release date '$BETTERBIRD_RELEASE_DATE'. Please provide the date in the format YYYY-MM-DD, e.g. 2021-01-28."
+#  exit 1
+#fi
 
 # write new sources file
 echo '[' >"$SOURCES_FILE"
@@ -72,6 +73,37 @@ tmpfile="tmp.json"
 jq '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .commit) = "'$BETTERBIRD_COMMIT'"' $MANIFEST_FILE > $tmpfile
 jq '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .tag) = "'$BETTERBIRD_VERSION'"' $tmpfile > $MANIFEST_FILE
 rm -f $tmpfile
+
+# add external patches to sources file
+git clone -n $BETTERBIRD_REPO thunderbird-patches
+cd thunderbird-patches
+git checkout $BETTERBIRD_COMMIT
+cd ..
+# patch series for main repo
+while read -r line; do
+  url=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
+  name=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\1/')
+  wget $url -O $name
+  sha256=$(sha256sum "$name" | cut -f1 -d' ')
+  jq --arg url $url --arg name $name --arg sha256 $sha256 \
+    '. += [{"type":"file","url":$url,"sha256":$sha256,"dest":"patches/","dest-filename":$name}]' \
+    $SOURCES_FILE > $tmpfile
+  mv $tmpfile $SOURCES_FILE
+  rm -f $name
+done < <(grep " # " thunderbird-patches/$(echo $THUNDERBIRD_VERSION | cut -f1 -d'.')/series-M-C)
+# patch series for comm repo
+while read -r line; do
+  url=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
+  name=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\1/')
+  wget $url -O $name
+  sha256=$(sha256sum "$name" | cut -f1 -d' ')
+  jq --arg url $url --arg name $name --arg sha256 $sha256 \
+    '. += [{"type":"file","url":$url,"sha256":$sha256,"dest":"patches/","dest-filename":$name}]' \
+    $SOURCES_FILE > $tmpfile
+  mv $tmpfile $SOURCES_FILE
+  rm -f $name
+done < <(grep " # " thunderbird-patches/$(echo $THUNDERBIRD_VERSION | cut -f1 -d'.')/series)
+rm -rf thunderbird-patches
 
 cat <<EOT
 The files were successfully updated to Betterbird $BETTERBIRD_VERSION.
