@@ -11,9 +11,6 @@ find thunderbird-patches/$VERSION -type f -name *.patch -exec cp '{}' patches ';
 echo
 echo "======================================================="
 echo "Applying patch series for main repository"
-echo "... without patches for Windows installer"
-sed -i 's/08-branding-m-c.patch/# 08-branding-m-c.patch/g' thunderbird-patches/$VERSION/series-M-C
-sed -i 's/08a-branding-m-c.patch/# 08a-branding-m-c.patch/g' thunderbird-patches/$VERSION/series-M-C
 
 cat thunderbird-patches/$VERSION/series-M-C | while read line || [[ -n $line ]]
     do 
