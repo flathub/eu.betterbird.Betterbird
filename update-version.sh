@@ -60,15 +60,19 @@ while read -r line; do
     locale="${path##*/}"
     locale="${locale%.*}"
 
-    cat >>"$SOURCES_FILE" <<EOT
-    {
-        "type": "file",
-        "url": "$base_url/$path",
-        "sha256": "$checksum",
-        "dest": "langpacks/",
-        "dest-filename": "langpack-$locale@$PACKAGE.mozilla.org.xpi"
-    },
+    # include langpack only if there is a Betterbird patch for it
+    if [[ -f "thunderbird-patches/${BETTERBIRD_VERSION%%.*}/scripts/$locale.cmd" ]]
+    then
+      cat >>"$SOURCES_FILE" <<EOT
+      {
+          "type": "file",
+          "url": "$base_url/$path",
+          "sha256": "$checksum",
+          "dest": "langpacks/",
+          "dest-filename": "langpack-$locale@$PACKAGE.mozilla.org.xpi"
+      },
 EOT
+    fi
   fi
 done < <(curl -Ss "$base_url/SHA256SUMS" | grep "^\S\+  \(source\|$PLATFORM/xpi\)/")
 
