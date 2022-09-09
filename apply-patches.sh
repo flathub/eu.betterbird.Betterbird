@@ -11,7 +11,6 @@ find thunderbird-patches/$VERSION -type f -name *.patch -exec cp '{}' patches ';
 echo
 echo "======================================================="
 echo "Applying patch series for main repository"
-
 cat thunderbird-patches/$VERSION/series-M-C | while read line || [[ -n $line ]]
     do 
         patch=$(echo $line | cut -f1 -d'#' | sed 's/ *$//')
