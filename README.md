@@ -12,12 +12,14 @@ In order to migrate from pre-exisiting Thunderbird flatpak installation and pres
 `~/.var/app/org.mozilla.Thunderbird/.thunderbird`<br>
 folder into<br>
 `~/.var/app/eu.betterbird.Betterbird/.thunderbird`
+When starting Betterbird for the first time, check if a Thunderbird language pack is installed (that has been migrated with your profile) and remove it.
 
 #### Migration from pre-exisiting Thunderbird non-flatpak installations
 In order to migrate from pre-exisiting non-flatpak Thunderbird installation and preserve all settings please copy or move entire<br>
 `~/.thunderbird`<br>
 folder into<br>
 `~/.var/app/eu.betterbird.Betterbird/.thunderbird`
+When starting Betterbird for the first time, check if a Thunderbird language pack is installed (that has been migrated with your profile) and remove it.
 
 #### Migration from pre-exisiting Betterbird non-flatpak installations
 In order to migrate from pre-exisiting non-flatpak Betterbird installation and preserve all settings please copy or move entire<br>
