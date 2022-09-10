@@ -114,5 +114,5 @@ cat <<EOT
 The files were successfully updated to Betterbird $BETTERBIRD_VERSION.
 
 You can commit the result by executing the following command:
-git commit --message='Update to $BETTERBIRD_VERSION' -- '$SOURCES_FILE' '$APPDATA_FILE' '$MANIFEST_FILE'
+git commit --message='Update to $BETTERBIRD_VERSION' -- '$SOURCES_FILE' '$MANIFEST_FILE'
 EOT
