@@ -33,13 +33,12 @@ jobs:
       - name: Checking for new tags
         run: |
           auto_update_major_release=102
-          pwd
-          ls -l
           cd thunderbird-patches
           new_tags=$(comm -23 <(git tag | sort) <(sort ../eu.betterbird.Betterbird/.known-tags))
           cd ../eu.betterbird.Betterbird
           if [[ -n $new_tags ]]
           then
+            echo " --- New tags: $new_tags ---"
             for tag in ${new_tags}
             do
               if [[ $(echo $tag | cut -f1 -d.) == $auto_update_major_release ]]
@@ -49,6 +48,7 @@ jobs:
             done
             if [[ -n $target_tag ]]
             then
+              echo " --- Updating to $target_tag ---"
               ./update-version.sh $target_tag \
               && echo $target_tag >> .known-tags \
               && git switch -c "update-$target_tag" \
@@ -56,5 +56,7 @@ jobs:
               && git push --set-upstream origin "update-$target_tag" \
               || exit 1
             fi
+          else
+            echo " --- No new tags found ---"
           fi
           
