@@ -1,0 +1,58 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  schedule:
+    - cron: "0 */1 * * *"
+  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+        with:
+          path: eu.betterbird.Betterbird
+      - uses: actions/checkout@v3
+        with:
+          repository: Betterbird/thunderbird-patches
+          path: thunderbird-patches
+          fetch-depth: 0
+
+      # Runs a set of commands using the runners shell
+      - name: Checking for new tags
+        run: |
+          auto_update_major_release=102
+          cd thunderbird-patches
+          new_tags=$(comm -23 <(git tag | sort) <(sort ../eu.betterbird.Betterbird/.known-tags))
+          cd ../eu.betterbird.Betterbird
+          if [[ -n $new_tags ]]
+          then
+            for tag in ${new_tags}
+            do
+              if [[ $(echo $tag | cut -f1 -d.) == $auto_update_major_release ]]
+              then
+                target_tag=$tag
+              fi
+            done
+            if [[ -n $target_tag ]]
+            then
+              ./update-version.sh $target_tag \
+              && echo $target_tag >> .known-tags \
+              && git switch -c "update-$target_tag" \
+              && git commit -m "Update to $target_tag" -- .known-tags eu.betterbird.Betterbird.json thunderbird-sources.json \
+              && git push --set-upstream origin "update-$target_tag" \
+              || exit 1
+            fi
+          fi
+          
