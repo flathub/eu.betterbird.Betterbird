@@ -1,70 +1,298 @@
 {
-    "app-id": "eu.betterbird.Betterbird",
-    "runtime": "org.freedesktop.Platform",
-    "runtime-version": "22.08",
-    "sdk": "org.freedesktop.Sdk",
-    "command": "betterbird",
-    "rename-icon": "betterbird",
-    "finish-args": [
-        "--share=ipc", "--socket=x11",
-        "--device=dri",
-        "--share=network",
-        "--socket=pulseaudio",
-        "--persist=.thunderbird",
-        "--filesystem=xdg-download:rw",
-        "--talk-name=org.a11y.Bus",
-        "--talk-name=org.freedesktop.Notifications",
-        "--socket=pcsc",
-        "--require-version=0.10.3",
-        "--filesystem=~/.gnupg",
-        "--filesystem=xdg-run/gnupg:ro",
-        "--filesystem=/run/.heim_org.h5l.kcm-socket",
-        "--env=GTK_PATH=/app/lib/gtkmodules",
-        "--socket=cups"
-    ],
-    "cleanup": [
-        "/include",
-        "/lib/pkgconfig",
-        "/lib/girepository-1.0",
-        "/share/pkgconfig",
-        "/share/aclocal",
-        "/share/gtk-doc",
-        "/share/doc",
-        "/share/info",
-        "/share/gir-1.0",
-        "/share/man",
-        "/man",
-        "*.la", "*.a"
-    ],
-    "modules": [
-        "shared-modules/dbus-glib/dbus-glib.json",
-        "shared-modules/libcanberra/libcanberra.json",
+  "id": "eu.betterbird.Betterbird",
+  "runtime": "org.freedesktop.Platform",
+  "runtime-version": "21.08",
+  "sdk": "org.freedesktop.Sdk",
+  "sdk-extensions": [
+    "org.freedesktop.Sdk.Extension.rust-stable",
+    "org.freedesktop.Sdk.Extension.node14",
+    "org.freedesktop.Sdk.Extension.llvm13"
+  ],
+  "command": "betterbird",
+  "finish-args": [
+    "--share=ipc",
+    "--socket=x11",
+    "--device=dri",
+    "--share=network",
+    "--socket=pulseaudio",
+    "--persist=.thunderbird",
+    "--filesystem=xdg-download:rw",
+    "--talk-name=org.a11y.Bus",
+    "--talk-name=org.freedesktop.Notifications",
+    "--socket=pcsc",
+    "--require-version=0.10.3",
+    "--filesystem=~/.gnupg",
+    "--filesystem=xdg-run/gnupg:ro",
+    "--filesystem=/run/.heim_org.h5l.kcm-socket",
+    "--env=GTK_PATH=/app/lib/gtkmodules",
+    "--socket=cups"
+  ],
+  "cleanup": [
+    "/include",
+    "/lib/pkgconfig",
+    "/lib/girepository-1.0",
+    "/share/pkgconfig",
+    "/share/aclocal",
+    "/share/gtk-doc",
+    "/share/doc",
+    "/share/info",
+    "/share/gir-1.0",
+    "/share/man",
+    "/man",
+    "*.la",
+    "*.a"
+  ],
+  "modules": [
+    "shared-modules/dbus-glib/dbus-glib.json",
+    "shared-modules/libcanberra/libcanberra.json",
+    "shared-modules/intltool/intltool-0.51.json",
+    {
+      "name": "pcsc-lite",
+      "config-opts": [
+        "--disable-libudev",
+        "--disable-libsystemd",
+        "--without-systemdsystemunitdir",
+        "--disable-serial",
+        "--disable-usb",
+        "--disable-documentation"
+      ],
+      "post-install": [
+        "rm /app/sbin/pcscd",
+        "rmdir /app/sbin || true"
+      ],
+      "sources": [
         {
-            "name": "betterbird",
-            "buildsystem": "simple",
-            "build-commands": [
-                "install -d /app/lib/betterbird",
-                "cp -r * /app/lib/betterbird/",
-                "ln -s /app/lib/betterbird/betterbird /app/bin/betterbird",
-                "for i in 16 22 24 32 48 64 128 256;do install -Dm644 chrome/icons/default/default${i}.png /app/share/icons/hicolor/${i}x${i}/apps/betterbird.png;done",
-                "install -Dm644 eu.betterbird.Betterbird.desktop /app/share/applications/eu.betterbird.Betterbird.desktop",
-                "install -Dm644 eu.betterbird.Betterbird.appdata.xml /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml"
-            ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://www.betterbird.eu/downloads/LinuxArchive/betterbird-102.2.2-bb16.en-US.linux-x86_64.tar.bz2",
-                    "sha256": "ef2f526b934261e7d57670e672b304b84ff76c215512891c97adfef90d53bb13"
-                },
-                {
-                    "type": "file",
-                    "path": "eu.betterbird.Betterbird.desktop"
-                },
-                {
-                    "type": "file",
-                    "path": "eu.betterbird.Betterbird.appdata.xml"
-                }
-            ]
+          "type": "archive",
+          "url": "https://github.com/LudovicRousseau/PCSC/archive/pcsc-1.9.0.tar.gz",
+          "sha256": "9e9b332bf8d37123d0c29e0ac359140b64cfd2bdf7be341a8d39e49fda592df2"
         }
-    ]
+      ]
+    },
+    {
+      "name": "autoconf-2.13",
+      "config-opts": [
+        "--program-suffix=2.13"
+      ],
+      "cleanup": [
+        "*"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://ftp.gnu.org/gnu/autoconf/autoconf-2.13.tar.gz",
+          "sha256": "f0611136bee505811e9ca11ca7ac188ef5323a8e2ef19cffd3edb3cf08fd791e"
+        }
+      ]
+    },
+    {
+      "name": "yasm",
+      "cleanup": [
+        "*"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz",
+          "sha256": "3dce6601b495f5b3d45b59f7d2492a340ee7e84b5beca17e48f862502bd5603f"
+        }
+      ]
+    },
+    {
+      "name": "libnotify",
+      "buildsystem": "meson",
+      "config-opts": [
+        "-Dtests=false",
+        "-Dintrospection=disabled",
+        "-Dman=false",
+        "-Dgtk_doc=false",
+        "-Ddocbook_docs=disabled"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://download.gnome.org/sources/libnotify/0.7/libnotify-0.7.12.tar.xz",
+          "sha256": "744b2b37508135f8261b755a9debe6e09add421adc75bde930f6e198b70ab46e"
+        }
+      ]
+    },
+    {
+      "name": "gtk-cups-backend",
+      "buildsystem": "meson",
+      "make-args": [
+        "modules/printbackends/libprintbackend-cups.so"
+      ],
+      "no-make-install": true,
+      "post-install": [
+        "install -Dm 755 modules/printbackends/libprintbackend-cups.so -t /app/lib/gtkmodules/3.0.0/printbackends/"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://download.gnome.org/core/41/41.5/sources/gtk%2B-3.24.33.tar.xz",
+          "sha256": "588b06522e25d1579e989b6f9d8a1bdbf2fe13cde01a04e904ff346a225e7801"
+        }
+      ]
+    },
+    {
+      "name": "gtk-settings",
+      "buildsystem": "simple",
+      "build-commands": [
+        "install -Dm 644 gtk-settings.ini /app/etc/xdg/gtk-3.0/settings.ini"
+      ],
+      "sources": [
+        {
+          "type": "file",
+          "path": "gtk-settings.ini"
+        }
+      ]
+    },
+    {
+      "name": "sound-theme-freedesktop",
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://salsa.debian.org/gnome-team/sound-theme-freedesktop.git",
+          "tag": "upstream/0.8"
+        }
+      ]
+    },
+    {
+      "name": "krb5",
+      "subdir": "src",
+      "config-opts": [
+        "--localstatedir=/var/lib",
+        "--sbindir=${FLATPAK_DEST}/bin",
+        "--disable-rpath",
+        "--disable-static"
+      ],
+      "post-install": [
+        "install -Dm644 ../krb5.conf -t ${FLATPAK_DEST}/etc/"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://kerberos.org/dist/krb5/1.19/krb5-1.19.3.tar.gz",
+          "sha256": "56d04863cfddc9d9eb7af17556e043e3537d41c6e545610778676cf551b9dcd0"
+        },
+        {
+          "type": "file",
+          "path": "krb5.conf"
+        }
+      ],
+      "cleanup": [
+        "/bin",
+        "/share/et",
+        "/share/examples",
+        "/share/man"
+      ]
+    },
+    {
+      "name": "cbindgen",
+      "buildsystem": "simple",
+      "build-commands": [
+        "cargo --offline fetch --manifest-path Cargo.toml --verbose",
+        "cargo --offline build --release --verbose",
+        "install -Dm 755 target/release/cbindgen -t /app/bin"
+      ],
+      "build-options": {
+        "append-path": "/usr/lib/sdk/rust-stable/bin",
+        "env": {
+          "CARGO_HOME": "/run/build/cbindgen/cargo"
+        }
+      },
+      "cleanup": [
+        "*"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/eqrion/cbindgen.git",
+          "tag": "v0.23.0",
+          "commit": "798cfab52bced65a749443faa16990ec3a8e0cfe"
+        },
+        "cbindgen-sources.json"
+      ]
+    },
+    {
+      "name": "betterbird",
+      "buildsystem": "simple",
+      "build-options": {
+        "append-path": "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/node14/bin:/usr/lib/sdk/llvm13/bin",
+        "prepend-ld-library-path": "/usr/lib/sdk/llvm13/lib",
+        "env": {
+          "TERM": "linux",
+          "CARGO_HOME": "/run/build/betterbird/cargo",
+          "npm_config_nodedir": "/usr/lib/sdk/node14"
+        }
+      },
+      "build-commands": [
+        "chmod u+x apply-patches.sh",
+        "./apply-patches.sh 102",
+        "export MOZ_BUILD_DATE=$(head -1 ./sourcestamp.txt); ./mach create-mach-environment; ./mach configure; ./mach build -v -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install",
+        "rm -rf /app/lib/thunderbird/chrome",
+        "mkdir -p /app/lib/betterbird",
+        "mv /app/lib/thunderbird/* /app/lib/betterbird/",
+        "install -Dm755 betterbird-wrapper /app/bin/betterbird",
+        "install -Dm644 policies.json /app/lib/betterbird/distribution/policies.json",
+        "install -Dm644 distribution.ini /app/lib/betterbird/distribution/distribution.ini",
+        "install -Dm644 default-preferences.js /app/lib/betterbird/defaults/pref/default-preferences.js",
+        "mkdir -p /app/lib/betterbird/distribution/extensions",
+        "for lang in langpacks/*.xpi;do export locale=$(basename -s .xpi $lang); install -Dm644 -t /app/share/runtime/locale/${locale:9:2}/ $lang; ln -sf /app/share/runtime/locale/${locale:9:2}/$(basename $lang) /app/lib/betterbird/distribution/extensions/$(basename $lang); done",
+        "for i in 16 22 24 32 48 64 128 256;do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png;done",
+        "install -Dm644 thunderbird-patches/metadata/icons/betterbird.svg /app/share/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg",
+        "install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop /app/share/applications/eu.betterbird.Betterbird.desktop",
+        "install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.appdata.xml /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml"
+      ],
+      "sources": [
+        "thunderbird-sources.json",
+        {
+          "type": "file",
+          "path": "policies.json"
+        },
+        {
+          "type": "file",
+          "path": "distribution.ini"
+        },
+        {
+          "type": "file",
+          "path": "default-preferences.js"
+        },
+        {
+          "type": "script",
+          "dest-filename": "betterbird-wrapper",
+          "commands": [
+            "export TMPDIR=\"$XDG_RUNTIME_DIR/app/$FLATPAK_ID\"",
+            "exec /app/lib/betterbird/betterbird \"$@\""
+          ]
+        },
+        {
+          "type": "git",
+          "url": "https://github.com/Betterbird/thunderbird-patches.git",
+          "commit": "497c37a256caa8271643185dd0e61658e4033a48",
+          "dest": "thunderbird-patches",
+          "tag": "102.2.2-bb16"
+        },
+        {
+          "type": "file",
+          "path": "mozconfig-Linux",
+          "only-arches": [
+            "x86_64"
+          ],
+          "dest-filename": "mozconfig"
+        },
+        {
+          "type": "file",
+          "path": "mozconfig-Linux-aarch64",
+          "only-arches": [
+            "aarch64"
+          ],
+          "dest-filename": "mozconfig"
+        },
+        {
+          "type": "file",
+          "path": "apply-patches.sh"
+        }
+      ]
+    }
+  ]
 }

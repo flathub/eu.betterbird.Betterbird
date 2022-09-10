@@ -11,13 +11,15 @@ Betterbird is a fine-tuned version of [Mozilla Thunderbird](https://www.thunderb
 In order to migrate from pre-exisiting Thunderbird flatpak installation and preserve all settings please copy or move entire<br>
 `~/.var/app/org.mozilla.Thunderbird/.thunderbird`<br>
 folder into<br>
-`~/.var/app/eu.betterbird.Betterbird/.thunderbird`
+`~/.var/app/eu.betterbird.Betterbird/.thunderbird`<br>
+When starting Betterbird for the first time, check if a Thunderbird language pack is installed (that has been migrated with your profile) and remove it.
 
 #### Migration from pre-exisiting Thunderbird non-flatpak installations
 In order to migrate from pre-exisiting non-flatpak Thunderbird installation and preserve all settings please copy or move entire<br>
 `~/.thunderbird`<br>
 folder into<br>
-`~/.var/app/eu.betterbird.Betterbird/.thunderbird`
+`~/.var/app/eu.betterbird.Betterbird/.thunderbird`<br>
+When starting Betterbird for the first time, check if a Thunderbird language pack is installed (that has been migrated with your profile) and remove it.
 
 #### Migration from pre-exisiting Betterbird non-flatpak installations
 In order to migrate from pre-exisiting non-flatpak Betterbird installation and preserve all settings please copy or move entire<br>
@@ -31,7 +33,8 @@ then select the right profile and tick "*Use the selected profile without asking
 
 ## Known issues
 #### Language support
-The Betterbird flatpak currently only contains the English version of the software.
+The Betterbird flatpak ships all language packs that are currently available for Betterbird. Flatpak installs a selection matching the user configuration that has been set with `flatpak config --set languages` and `flatpak config --set extra-languages`, defaulting to the system language. **Thunderbird language packs do not work with Betterbird**, so do not attempt to install them.
+In case the localization of your Betterbird is incomplete, check if a Thunderbird language pack is installed (e.g. after migrating your profile from Thunderbird to Betterbird) and remove it.
 
 #### New mail notifications
 ([#11](https://github.com/flathub/org.mozilla.Thunderbird/issues/11#issuecomment-531987872)) To enable new mail notifications:<br>

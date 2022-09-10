@@ -1,0 +1,119 @@
+[
+  {
+    "type": "file",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.2.2-candidates/build1/linux-x86_64/xpi/de.xpi",
+    "sha256": "3d70426d723f9f3e35ad4bba96ab1c9b3aa3f2e9eef5331a0a28c191d5623e66",
+    "dest": "langpacks/",
+    "dest-filename": "langpack-de@thunderbird.mozilla.org.xpi"
+  },
+  {
+    "type": "file",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.2.2-candidates/build1/linux-x86_64/xpi/es-AR.xpi",
+    "sha256": "1dda150598e470c5b9e1dd4e4512941d18feaac79ea851fc5926d2b78e8fe657",
+    "dest": "langpacks/",
+    "dest-filename": "langpack-es-AR@thunderbird.mozilla.org.xpi"
+  },
+  {
+    "type": "file",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.2.2-candidates/build1/linux-x86_64/xpi/fr.xpi",
+    "sha256": "27843aa769152e5e8e3138743a2f8a4c8e3f7f4b53f7e44b49d8d01b3fed9ce6",
+    "dest": "langpacks/",
+    "dest-filename": "langpack-fr@thunderbird.mozilla.org.xpi"
+  },
+  {
+    "type": "file",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.2.2-candidates/build1/linux-x86_64/xpi/ja.xpi",
+    "sha256": "8de82a41fe900b36e65e52b31df5aad815b3e8fd758859647b99e111d67e37a1",
+    "dest": "langpacks/",
+    "dest-filename": "langpack-ja@thunderbird.mozilla.org.xpi"
+  },
+  {
+    "type": "file",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.2.2-candidates/build1/linux-x86_64/xpi/nl.xpi",
+    "sha256": "3cedcb4c9459a84f287a51becd2353ce8eef3a97e2274fb108805caf36e30598",
+    "dest": "langpacks/",
+    "dest-filename": "langpack-nl@thunderbird.mozilla.org.xpi"
+  },
+  {
+    "type": "file",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.2.2-candidates/build1/linux-x86_64/xpi/pt-BR.xpi",
+    "sha256": "693622b1618c53e05ab6cfd4b938b9e0ce8edbbac5d47cf68f56be80a46e62b6",
+    "dest": "langpacks/",
+    "dest-filename": "langpack-pt-BR@thunderbird.mozilla.org.xpi"
+  },
+  {
+    "type": "file",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.2.2-candidates/build1/linux-x86_64/xpi/zh-CN.xpi",
+    "sha256": "2ab99145f7d0e36b69503b83b68938e2221211f2708413e65f683f30ae3c4b7f",
+    "dest": "langpacks/",
+    "dest-filename": "langpack-zh-CN@thunderbird.mozilla.org.xpi"
+  },
+  {
+    "type": "archive",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.2.2-candidates/build1/source/thunderbird-102.2.2.source.tar.xz",
+    "sha256": "5d5f327ea450572ef2a135e5c849b3f38f7d54e897f41a1dec5223e184558f2b"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/mozilla-central/raw-rev/8644e2025dbd",
+    "sha256": "818083806c3424a74fa2712daf77a70d5ecbcade7c3b578d88fe9613448a25af",
+    "dest": "patches/",
+    "dest-filename": "1779846-spell-check-dialog-m-c.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/b1b52e85bce9",
+    "sha256": "153339984beb024b30c25edec6dbdc7d1c6023890b20b802a1903fdcd339c790",
+    "dest": "patches/",
+    "dest-filename": "1777276-fix-startup-console-error.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/2c8b783c8774",
+    "sha256": "0dc84145a9de7c6f560ec01f56cfaf3301c9cc66c0dbe9b864b8b1dd3c7328e4",
+    "dest": "patches/",
+    "dest-filename": "1780963-gloda-undefined-display.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/09f0f3bb58b7",
+    "sha256": "80327cd560402870373afbc9a22db4572e26c4bb1d9ea596b50d2458a6d0d01e",
+    "dest": "patches/",
+    "dest-filename": "1785773-fix-nntp-big-download-error.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/9786cf9408c3",
+    "sha256": "0f4b474e0c22238ee037324556bf1f33f3a84a7d1a69a3c6af85a78d5bdaef4c",
+    "dest": "patches/",
+    "dest-filename": "1787955-news-dot-stuffing.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/805177a45f28",
+    "sha256": "9bd53fc45c22adb67d7fef9f282f372e68222ef6ea95162f2525b44c23eee44f",
+    "dest": "patches/",
+    "dest-filename": "1787448-max-height-spell-suggestions.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/a117373cebce",
+    "sha256": "939b512566b54de56de88344c54385b8d0600eef6fb31773540acf77750bb410",
+    "dest": "patches/",
+    "dest-filename": "1787789-double-dot-newsgroup.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/3a46afd3cefc",
+    "sha256": "4889d09eb2093f8ca686b1a97dfb78c924bc3b26e90919c975260815f0bfd800",
+    "dest": "patches/",
+    "dest-filename": "1788952-set-size-of-pgp-key.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/1fb407c18de3",
+    "sha256": "4d642647adaba99acbc2a302b4931e6b34ea41c6137173d150c3d081ab04cc1f",
+    "dest": "patches/",
+    "dest-filename": "1788580-stop-incorporate-on-error.patch"
+  }
+]
