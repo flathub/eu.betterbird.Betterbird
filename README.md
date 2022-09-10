@@ -11,14 +11,14 @@ Betterbird is a fine-tuned version of [Mozilla Thunderbird](https://www.thunderb
 In order to migrate from pre-exisiting Thunderbird flatpak installation and preserve all settings please copy or move entire<br>
 `~/.var/app/org.mozilla.Thunderbird/.thunderbird`<br>
 folder into<br>
-`~/.var/app/eu.betterbird.Betterbird/.thunderbird`
+`~/.var/app/eu.betterbird.Betterbird/.thunderbird`<br>
 When starting Betterbird for the first time, check if a Thunderbird language pack is installed (that has been migrated with your profile) and remove it.
 
 #### Migration from pre-exisiting Thunderbird non-flatpak installations
 In order to migrate from pre-exisiting non-flatpak Thunderbird installation and preserve all settings please copy or move entire<br>
 `~/.thunderbird`<br>
 folder into<br>
-`~/.var/app/eu.betterbird.Betterbird/.thunderbird`
+`~/.var/app/eu.betterbird.Betterbird/.thunderbird`<br>
 When starting Betterbird for the first time, check if a Thunderbird language pack is installed (that has been migrated with your profile) and remove it.
 
 #### Migration from pre-exisiting Betterbird non-flatpak installations
