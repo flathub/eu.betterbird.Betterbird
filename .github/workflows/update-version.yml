@@ -33,6 +33,8 @@ jobs:
       - name: Checking for new tags
         run: |
           auto_update_major_release=102
+          pwd
+          ls -l
           cd thunderbird-patches
           new_tags=$(comm -23 <(git tag | sort) <(sort ../eu.betterbird.Betterbird/.known-tags))
           cd ../eu.betterbird.Betterbird
