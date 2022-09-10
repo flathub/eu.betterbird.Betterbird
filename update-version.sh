@@ -1,17 +1,14 @@
 #!/bin/bash
 set -eo pipefail
 
-if (($# < 2)); then
-  echo "Usage: $0 THUNDERBIRD_VERSION BETTERBIRD_PATCHES_VERSION BETTERBIRD_COMMIT"
+if (($# < 1)); then
+  echo "Usage: $0 BETTERBIRD_VERSION"
   echo ""
-  echo "Example: $0 102.2.0 14 fb63d05198813bc2ed4336759bf6e17a1076e97d"
+  echo "Example: $0 102.2.2-bb16"
   exit 1
 fi
 
-THUNDERBIRD_VERSION="$1"
-BETTERBIRD_PATCHES_VERSION="$2"
-BETTERBIRD_COMMIT="$3"
-BETTERBIRD_VERSION="$THUNDERBIRD_VERSION-bb$BETTERBIRD_PATCHES_VERSION"
+BETTERBIRD_VERSION="$1"
 BETTERBIRD_REPO="https://github.com/Betterbird/thunderbird-patches"
 PACKAGE=thunderbird
 PLATFORM=linux-x86_64
@@ -22,7 +19,8 @@ MANIFEST_FILE="eu.betterbird.Betterbird.json"
 # clone Betterbird repo
 git clone -n $BETTERBIRD_REPO thunderbird-patches
 cd thunderbird-patches
-git checkout $BETTERBIRD_COMMIT
+git checkout $BETTERBIRD_VERSION
+betterbird_commit=$(git rev-list -1 $BETTERBIRD_VERSION)
 cd ..
 
 # get version from appdata.xml
@@ -79,12 +77,9 @@ done < <(curl -Ss "$base_url/SHA256SUMS" | grep "^\S\+  \(source\|$PLATFORM/xpi\
 # add source archive entry to sources file
 echo -e "$source_archive\n]" >>"$SOURCES_FILE"
 
-# update releases in appdata file
-#sed -ri 's@^(\s+<release version=")[^"]+(" date=")[^"]+(" />)$@'"\1$BETTERBIRD_VERSION\2$BETTERBIRD_RELEASE_DATE\3@" "$APPDATA_FILE"
-
 # update betterbird release tag and commit in manifest
 tmpfile="tmp.json"
-jq '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .commit) = "'$BETTERBIRD_COMMIT'"' $MANIFEST_FILE > $tmpfile
+jq '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .commit) = "'$betterbird_commit'"' $MANIFEST_FILE > $tmpfile
 jq '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .tag) = "'$BETTERBIRD_VERSION'"' $tmpfile > $MANIFEST_FILE
 rm -f $tmpfile
 
@@ -100,7 +95,7 @@ while read -r line; do
     $SOURCES_FILE > $tmpfile
   mv $tmpfile $SOURCES_FILE
   rm -f $name
-done < <(grep " # " thunderbird-patches/$(echo $THUNDERBIRD_VERSION | cut -f1 -d'.')/series-M-C)
+done < <(grep " # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series-M-C)
 # patch series for comm repo
 while read -r line; do
   url=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
@@ -112,7 +107,7 @@ while read -r line; do
     $SOURCES_FILE > $tmpfile
   mv $tmpfile $SOURCES_FILE
   rm -f $name
-done < <(grep " # " thunderbird-patches/$(echo $THUNDERBIRD_VERSION | cut -f1 -d'.')/series)
+done < <(grep " # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series)
 rm -rf thunderbird-patches
 
 cat <<EOT
