@@ -1,5 +1,5 @@
 {
-  "app-id": "eu.betterbird.Betterbird",
+  "id": "eu.betterbird.Betterbird",
   "runtime": "org.freedesktop.Platform",
   "runtime-version": "22.08",
   "sdk": "org.freedesktop.Sdk",
