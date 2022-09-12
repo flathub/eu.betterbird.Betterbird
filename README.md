@@ -4,6 +4,11 @@ Betterbird is a fine-tuned version of [Mozilla Thunderbird](https://www.thunderb
 
 [Betterbird](https://betterbird.eu/) for [Flatpak](https://flatpak.org/) installation instructions are available by [clicking here to visit the Betterbird app page on Flathub](https://flathub.org/apps/details/eu.betterbird.Betterbird).
 
+## Useful links
+- [Flathub builds](https://buildbot.flathub.org/#/apps/eu.betterbird.Betterbird)
+- [Betterbird repo](https://github.com/Betterbird/thunderbird-patches)
+- [Thunderbird flathub repo](https://github.com/flathub/org.mozilla.Thunderbird)
+- [Thunderbird 102 builds](https://treeherder.mozilla.org/jobs?repo=comm-esr102)
 
 ## Migration from pre-exisiting installations
 
