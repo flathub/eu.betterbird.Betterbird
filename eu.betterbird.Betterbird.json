@@ -228,7 +228,7 @@
       "build-commands": [
         "chmod u+x apply-patches.sh",
         "./apply-patches.sh 102",
-        "export MOZ_BUILD_DATE=$(head -1 ./sourcestamp.txt); ./mach create-mach-environment; ./mach configure; ./mach build -v -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install",
+        "export MOZ_BUILD_DATE=$(TZ='Europe/Berlin' date '+%Y%m%d%H%M%S'); ./mach create-mach-environment; ./mach configure; ./mach build -v -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install",
         "rm -rf /app/lib/thunderbird/chrome",
         "mkdir -p /app/lib/betterbird",
         "mv /app/lib/thunderbird/* /app/lib/betterbird/",
