@@ -15,6 +15,7 @@ PLATFORM=linux-x86_64
 SOURCES_FILE="$PACKAGE-sources.json"
 APPDATA_FILE="thunderbird-patches/metadata/eu.betterbird.Betterbird.appdata.xml"
 MANIFEST_FILE="eu.betterbird.Betterbird.json"
+DIST_FILE="distribution.ini"
 
 # clone Betterbird repo
 git clone -n $BETTERBIRD_REPO thunderbird-patches
@@ -83,6 +84,9 @@ jq '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects |
 jq '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .tag) = "'$BETTERBIRD_VERSION'"' $tmpfile > $MANIFEST_FILE
 rm -f $tmpfile
 
+# update version in distribution.ini
+sed -i 's/version=.*$/version='"$(git rev-parse --short $betterbird_commit)"'/' "$DIST_FILE"
+
 # add external patches to sources file
 # patch series for main repo
 while read -r line; do
@@ -114,5 +118,5 @@ cat <<EOT
 The files were successfully updated to Betterbird $BETTERBIRD_VERSION.
 
 You can commit the result by executing the following command:
-git commit --message='Update to $BETTERBIRD_VERSION' -- '$SOURCES_FILE' '$MANIFEST_FILE'
+git commit --message='Update to $BETTERBIRD_VERSION' -- '$SOURCES_FILE' '$MANIFEST_FILE' '$DIST_FILE'
 EOT
