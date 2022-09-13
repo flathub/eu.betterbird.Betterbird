@@ -226,6 +226,7 @@
         }
       },
       "build-commands": [
+        "sed -i 's/version=.*$/version='$(git rev-parse --short HEAD)'/' distribution.ini",
         "./make-mozconfig.sh 102",
         "chmod u+x apply-patches.sh",
         "./apply-patches.sh 102",
