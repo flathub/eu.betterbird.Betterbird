@@ -2,13 +2,15 @@
 set -eo pipefail
 
 if (($# < 1)); then
-  echo "Usage: $0 BETTERBIRD_VERSION"
+  echo "Usage: $0 BETTERBIRD_VERSION [BETTERBIRD_COMMIT]"
   echo ""
   echo "Example: $0 102.2.2-bb16"
+  echo "         $0 102 4d587481bc7dbca1ffc99cce319f84425fab7852"
   exit 1
 fi
 
-BETTERBIRD_VERSION="$1"
+BETTERBIRD_VERSION="$1" # Betterbird version. Can either be a tag or a major version number. If it's a tag, the commit is identified automatically. In case only the major version number is given, a commit must be specified by passing its hash as 2nd argument. 
+BETTERBIRD_COMMIT="$2"
 BETTERBIRD_REPO="https://github.com/Betterbird/thunderbird-patches"
 PACKAGE=thunderbird
 PLATFORM=linux-x86_64
@@ -17,19 +19,36 @@ APPDATA_FILE="thunderbird-patches/metadata/eu.betterbird.Betterbird.appdata.xml"
 MANIFEST_FILE="eu.betterbird.Betterbird.json"
 DIST_FILE="distribution.ini"
 
+# determine if the source revision was specified as a tag or as a commit hash 
+[[ "x$BETTERBIRD_COMMIT" != "x" ]] && source_spec=commit || source_spec=tag
+echo ""
+[[ "$source_spec" == "tag" ]] && echo -n "Updating to TAG $BETTERBIRD_VERSION"
+[[ "$source_spec" == "commit" ]] && echo -n "Updating to COMMIT $BETTERBIRD_COMMIT"
+echo " using Betterbird patches for Thunderbird ${BETTERBIRD_VERSION%%.*}"
+echo ""
+
 # clone Betterbird repo
+[ -d thunderbird-patches ] && rm -rf thunderbird-patches
 git clone -n $BETTERBIRD_REPO thunderbird-patches
 cd thunderbird-patches
-git checkout $BETTERBIRD_VERSION
-betterbird_commit=$(git rev-list -1 $BETTERBIRD_VERSION)
+if [[ "$source_spec" == "tag" ]]
+then
+  betterbird_commit=$(git rev-list -1 $BETTERBIRD_VERSION)
+else
+  betterbird_commit=$(git rev-list -1 $BETTERBIRD_COMMIT)
+fi
+git checkout $betterbird_commit
 cd ..
 
-# get version from appdata.xml
-betterbird_version_appdata=$(cat $APPDATA_FILE | grep '<release version=' | sed -r 's@^\s+<release version="(([^"])+)(" date=")([^"]+)(">)$@\1@')
-if [[ "$betterbird_version_appdata" != "$BETTERBIRD_VERSION" ]]
+if [[ "$source_spec" == "tag" ]]
 then
-  echo "Betterbird version given on command line ($BETTERBIRD_VERSION) and version according to $APPDATA_FILE ($betterbird_version_appdata) don't agree. Stopping."
-  exit 1
+  # check if version from appdata.xml agrees with tag
+  betterbird_version_appdata=$(cat $APPDATA_FILE | grep '<release version=' | sed -r 's@^\s+<release version="(([^"])+)(" date=")([^"]+)(">)$@\1@')
+  if [[ "$betterbird_version_appdata" != "$BETTERBIRD_VERSION" ]]
+  then
+    echo "Betterbird version given on command line ($BETTERBIRD_VERSION) and version according to $APPDATA_FILE ($betterbird_version_appdata) don't agree. Stopping."
+    exit 1
+  fi
 fi
 
 # get base URL for sources from appdata.xml
@@ -81,7 +100,13 @@ echo -e "$source_archive\n]" >>"$SOURCES_FILE"
 # update betterbird release tag and commit in manifest
 tmpfile="tmp.json"
 jq '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .commit) = "'$betterbird_commit'"' $MANIFEST_FILE > $tmpfile
-jq '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .tag) = "'$BETTERBIRD_VERSION'"' $tmpfile > $MANIFEST_FILE
+if [[ "$source_spec" == "tag" ]]
+then
+  jq '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .tag) = "'$BETTERBIRD_VERSION'"' $tmpfile > $MANIFEST_FILE
+elif [[ "$source_spec" == "commit" ]]
+then
+  jq 'del((.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .tag))' $tmpfile > $MANIFEST_FILE
+fi
 rm -f $tmpfile
 
 # update version in distribution.ini

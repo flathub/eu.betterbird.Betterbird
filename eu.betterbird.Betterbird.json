@@ -226,6 +226,7 @@
         }
       },
       "build-commands": [
+        "./make-mozconfig.sh 102",
         "chmod u+x apply-patches.sh",
         "./apply-patches.sh 102",
         "export MOZ_BUILD_DATE=$(TZ='Europe/Berlin' date '+%Y%m%d%H%M%S'); ./mach create-mach-environment; ./mach configure; ./mach build -v -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install",
@@ -274,19 +275,27 @@
         },
         {
           "type": "file",
-          "path": "mozconfig-Linux",
-          "only-arches": [
-            "x86_64"
-          ],
-          "dest-filename": "mozconfig"
+          "path": "mozconfig-flatpak"
         },
         {
-          "type": "file",
-          "path": "mozconfig-Linux-aarch64",
+          "type": "script",
+          "dest-filename": "make-mozconfig.sh",
+          "commands": [
+            "cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak > mozconfig"
+          ],
+          "only-arches": [
+            "x86_64"
+          ]
+        },
+        {
+          "type": "script",
+          "dest-filename": "make-mozconfig.sh",
+          "commands": [
+            "cat thunderbird-patches/$1/mozconfig-Linux-aarch64 mozconfig-flatpak > mozconfig"
+          ],
           "only-arches": [
             "aarch64"
-          ],
-          "dest-filename": "mozconfig"
+          ]
         },
         {
           "type": "file",
