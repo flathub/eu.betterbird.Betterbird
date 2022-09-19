@@ -22,6 +22,13 @@
   },
   {
     "type": "file",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.2.2-candidates/build1/linux-x86_64/xpi/it.xpi",
+    "sha256": "f7cf89344f23d4a54bea66365e93b372ca9ae69a53411cb7351b01ca283f1876",
+    "dest": "langpacks/",
+    "dest-filename": "langpack-it@thunderbird.mozilla.org.xpi"
+  },
+  {
+    "type": "file",
     "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.2.2-candidates/build1/linux-x86_64/xpi/ja.xpi",
     "sha256": "8de82a41fe900b36e65e52b31df5aad815b3e8fd758859647b99e111d67e37a1",
     "dest": "langpacks/",
@@ -69,31 +76,10 @@
   },
   {
     "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/2c8b783c8774",
-    "sha256": "0dc84145a9de7c6f560ec01f56cfaf3301c9cc66c0dbe9b864b8b1dd3c7328e4",
-    "dest": "patches/",
-    "dest-filename": "1780963-gloda-undefined-display.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/09f0f3bb58b7",
-    "sha256": "80327cd560402870373afbc9a22db4572e26c4bb1d9ea596b50d2458a6d0d01e",
-    "dest": "patches/",
-    "dest-filename": "1785773-fix-nntp-big-download-error.patch"
-  },
-  {
-    "type": "file",
     "url": "https://hg.mozilla.org/comm-central/raw-rev/9786cf9408c3",
     "sha256": "0f4b474e0c22238ee037324556bf1f33f3a84a7d1a69a3c6af85a78d5bdaef4c",
     "dest": "patches/",
     "dest-filename": "1787955-news-dot-stuffing.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/805177a45f28",
-    "sha256": "9bd53fc45c22adb67d7fef9f282f372e68222ef6ea95162f2525b44c23eee44f",
-    "dest": "patches/",
-    "dest-filename": "1787448-max-height-spell-suggestions.patch"
   },
   {
     "type": "file",
@@ -104,16 +90,9 @@
   },
   {
     "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/3a46afd3cefc",
-    "sha256": "4889d09eb2093f8ca686b1a97dfb78c924bc3b26e90919c975260815f0bfd800",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/aabe52d80296",
+    "sha256": "7e2a36e67acee55b438baff8e5739540f683a8de0f297e628fbfd82a68c42e3f",
     "dest": "patches/",
-    "dest-filename": "1788952-set-size-of-pgp-key.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/1fb407c18de3",
-    "sha256": "4d642647adaba99acbc2a302b4931e6b34ea41c6137173d150c3d081ab04cc1f",
-    "dest": "patches/",
-    "dest-filename": "1788580-stop-incorporate-on-error.patch"
+    "dest-filename": "1789975-CRAM-MD5-pop3.patch"
   }
 ]
