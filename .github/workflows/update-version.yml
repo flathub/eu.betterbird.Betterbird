@@ -1,11 +1,13 @@
-# This is a basic workflow to help you get started with Actions
+# This workflow regularly checks for new tags in Betterbird/thunderbird-patches, 
+# runs ./update-version.sh $tag if there is a new tag, and commits the result
+# on a new branch named update-$tag that branches off from develop.
 
 name: update-version
 
 # Controls when the workflow will run
 on:
   schedule:
-    - cron: "0 */1 * * *"
+    - cron: "0 */6 * * *"
   
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -23,6 +25,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           path: eu.betterbird.Betterbird
+          ref: develop
       - uses: actions/checkout@v3
         with:
           repository: Betterbird/thunderbird-patches
