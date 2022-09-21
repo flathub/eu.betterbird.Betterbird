@@ -34,9 +34,5 @@ ac_add_options --disable-install-strip
 ac_add_options --disable-debug
 ac_add_options --disable-necko-wifi
 
-# temporary workaround to match the WM_CLASS in the .desktop file of 102.2.2-bb16
-export MOZ_APP_REMOTINGNAME=betterbird-default
-
-
 # Fix python virtualenv
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/builddir
