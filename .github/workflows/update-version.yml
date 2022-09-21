@@ -26,6 +26,7 @@ jobs:
         with:
           path: eu.betterbird.Betterbird
           ref: develop
+          fetch-depth: 0
       - uses: actions/checkout@v3
         with:
           repository: Betterbird/thunderbird-patches
@@ -45,7 +46,8 @@ jobs:
             echo " --- New tags: $new_tags ---"
             for tag in ${new_tags}
             do
-              if [[ $(echo $tag | cut -f1 -d.) == $auto_update_major_release ]]
+              if [[ $(echo $tag | cut -f1 -d.) == $auto_update_major_release ]] \
+                && [[ -z $(git branch --list --remote origin/update-$tag) ]]
               then
                 target_tag=$tag
               fi
