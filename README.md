@@ -61,7 +61,9 @@ In case the localization of your Betterbird is incomplete, check if a Thunderbir
 
 ## Bug Reporting / Support
 
-Read [www.betterbird.eu/support/](https://www.betterbird.eu//support/). Here is an abridged version:
+For issues related to the flathub package for Betterbird, please check [the issue tracker for this repository](https://github.com/flathub/eu.betterbird.Betterbird/issues) if the issue has already been reported and open a new issue otherwise.
+
+For bugs concerning Betterbird itself, please read [www.betterbird.eu/support/](https://www.betterbird.eu/support/) before creating a bug report in the [Betterbird issue tracker](https://github.com/Betterbird/thunderbird-patches/issues). Here is an abridged version of the bug reporting guidelines:
 
 1. Thunderbird has 14.000+ bugs which won't be fixed as part of Betterbird.
 1. First step: Check whether the bug exists in Thunderbird. If so, check whether it has been reported at [Bugzilla](https://bugzilla.mozilla.org/). If reported, please let us know the bug number. If not reported, either you or our project will need to report it (see following item).
