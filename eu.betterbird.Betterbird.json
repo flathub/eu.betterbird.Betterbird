@@ -18,7 +18,7 @@
     "--persist=.thunderbird",
     "--filesystem=xdg-download:rw",
     "--talk-name=org.a11y.Bus",
-    "--own-name=eu.betterbird.betterbird_default.*",
+    "--own-name=org.mozilla.betterbird.*",
     "--talk-name=org.freedesktop.Notifications",
     "--socket=pcsc",
     "--require-version=0.10.3",
