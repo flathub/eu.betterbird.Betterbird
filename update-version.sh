@@ -18,6 +18,7 @@ SOURCES_FILE="$PACKAGE-sources.json"
 APPDATA_FILE="thunderbird-patches/metadata/eu.betterbird.Betterbird.appdata.xml"
 MANIFEST_FILE="eu.betterbird.Betterbird.json"
 DIST_FILE="distribution.ini"
+BUILD_DATE_FILE=".build-date"
 
 # determine if the source revision was specified as a tag or as a commit hash 
 [[ "x$BETTERBIRD_COMMIT" != "x" ]] && source_spec=commit || source_spec=tag
@@ -50,6 +51,9 @@ then
     exit 1
   fi
 fi
+
+# save current date
+TZ='Europe/Berlin' date '+%Y%m%d%H%M%S' > $BUILD_DATE_FILE
 
 # get base URL for sources from appdata.xml
 source_archive=$(cat $APPDATA_FILE | sed -rz 's@.+<artifact type="source">\s*<location>([^<]+)<\/location>.+@\1@')
@@ -143,5 +147,5 @@ cat <<EOT
 The files were successfully updated to Betterbird $BETTERBIRD_VERSION.
 
 You can commit the result by executing the following command:
-git commit --message='Update to $BETTERBIRD_VERSION' -- '$SOURCES_FILE' '$MANIFEST_FILE' '$DIST_FILE'
+git commit --message='Update to $BETTERBIRD_VERSION' -- '$SOURCES_FILE' '$MANIFEST_FILE' '$DIST_FILE' '$BUILD_DATE_FILE'
 EOT

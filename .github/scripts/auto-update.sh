@@ -22,7 +22,7 @@ then
     git config user.email github-actions@github.com
     ./update-version.sh $target_tag \
     && echo "${all_tags}" > .known-tags \
-    && git commit -m "Update to $target_tag" -- .known-tags eu.betterbird.Betterbird.json thunderbird-sources.json \
+    && git commit -m "Update to $target_tag" -- .known-tags eu.betterbird.Betterbird.json thunderbird-sources.json .build-date \
     && git push \
     || exit 1
   fi
