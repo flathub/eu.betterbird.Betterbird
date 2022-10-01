@@ -64,8 +64,8 @@
       "sources": [
         {
           "type": "archive",
-                    "url": "https://pcsclite.apdu.fr/files/pcsc-lite-1.9.9.tar.bz2",
-                    "sha256": "cbcc3b34c61f53291cecc0d831423c94d437b188eb2b97b7febc08de1c914e8a"
+          "url": "https://pcsclite.apdu.fr/files/pcsc-lite-1.9.9.tar.bz2",
+          "sha256": "cbcc3b34c61f53291cecc0d831423c94d437b188eb2b97b7febc08de1c914e8a"
         }
       ]
     },
@@ -111,8 +111,8 @@
       "sources": [
         {
           "type": "archive",
-                    "url": "https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.1.tar.xz",
-                    "sha256": "d033e6d4d6ccbf46a436c31628a4b661b36dca1f5d4174fe0173e274f4e62557"
+          "url": "https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.1.tar.xz",
+          "sha256": "d033e6d4d6ccbf46a436c31628a4b661b36dca1f5d4174fe0173e274f4e62557"
         }
       ]
     },
@@ -141,8 +141,8 @@
       "sources": [
         {
           "type": "archive",
-                    "url": "https://kerberos.org/dist/krb5/1.20/krb5-1.20.tar.gz",
-                    "sha256": "7e022bdd3c851830173f9faaa006a230a0e0fdad4c953e85bff4bf0da036e12f"
+          "url": "https://kerberos.org/dist/krb5/1.20/krb5-1.20.tar.gz",
+          "sha256": "7e022bdd3c851830173f9faaa006a230a0e0fdad4c953e85bff4bf0da036e12f"
         },
         {
           "type": "file",
@@ -239,9 +239,9 @@
         {
           "type": "git",
           "url": "https://github.com/Betterbird/thunderbird-patches.git",
-          "commit": "1a576ab764561b8201d8faf55efffaed9addb2bf",
+          "commit": "343e5818f29e5bf27511b00ddc8cfb0f18b6ce82",
           "dest": "thunderbird-patches",
-          "tag": "102.3.0-bb17"
+          "tag": "102.3.1-bb18"
         },
         {
           "type": "file",
