@@ -75,6 +75,7 @@ while read -r line; do
         "url": "'"$base_url"'/'"$path"'",
         "sha256": "'"$checksum"'"
     }'
+    source_url="$base_url/$path"
 
   # add locale to sources file
   else
@@ -143,9 +144,16 @@ while read -r line; do
 done < <(grep " # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series)
 rm -rf thunderbird-patches
 
+# download TB source to update cbindgen-sources.json
+curl -O $source_url
+local_source_archive=$(basename $source_url)
+tar -xvf $local_source_archive ${local_source_archive%.source.tar.xz}/Cargo.lock
+python flatpak-builder-tools/cargo/flatpak-cargo-generator.py ${local_source_archive%.source.tar.xz}/Cargo.lock -o cbindgen-sources.json
+rm -f $local_source_archive
+
 cat <<EOT
 The files were successfully updated to Betterbird $BETTERBIRD_VERSION.
 
 You can commit the result by executing the following command:
-git commit --message='Update to $BETTERBIRD_VERSION' -- '$SOURCES_FILE' '$MANIFEST_FILE' '$DIST_FILE' '$BUILD_DATE_FILE'
+git commit --message='Update to $BETTERBIRD_VERSION' -- '$SOURCES_FILE' '$MANIFEST_FILE' '$DIST_FILE' '$BUILD_DATE_FILE' cbindgen-sources.json
 EOT
