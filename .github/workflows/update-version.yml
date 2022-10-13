@@ -35,4 +35,12 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Auto-update to newest tag
         run: ./eu.betterbird.Betterbird/.github/scripts/auto-update.sh
-          
+      
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4.1.3
+        with:
+          branch: develop
+          delete-branch: false
+          base: master
+          title: Auto-update Betterbird version
+      
