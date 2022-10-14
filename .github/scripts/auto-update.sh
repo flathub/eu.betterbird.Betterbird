@@ -23,7 +23,6 @@ then
     ./update-version.sh $target_tag \
     && echo "${all_tags}" > .known-tags \
     && git commit -m "Update to $target_tag" -- .known-tags eu.betterbird.Betterbird.json thunderbird-sources.json .build-date \
-    && git push \
     || exit 1
   fi
 else

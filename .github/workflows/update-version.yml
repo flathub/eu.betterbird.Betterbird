@@ -1,38 +1,42 @@
 # This workflow regularly checks for new tags in Betterbird/thunderbird-patches, 
-# runs ./update-version.sh $tag if there is a new tag, and commits the result
-# on a new branch named update-$tag that branches off from develop.
+# runs ./update-version.sh $tag if there is a new tag, commits the result to the
+# develop branch and creates a PR for merging develop into master.
 
 name: update-version
 
-# Controls when the workflow will run
 on:
   schedule:
     - cron: "0 */6 * * *"
-  
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   job:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
         with:
           path: eu.betterbird.Betterbird
-          ref: develop
+          ref: master
       - uses: actions/checkout@v3
         with:
           repository: Betterbird/thunderbird-patches
           path: thunderbird-patches
           fetch-depth: 0
 
-      # Runs a set of commands using the runners shell
+      # Checks for new upstream tags and updates the manifest if new
+      # tags are available
       - name: Auto-update to newest tag
         run: ./eu.betterbird.Betterbird/.github/scripts/auto-update.sh
-          
+      
+      # Moves the commit made during auto-update to develop branch
+      # and creates a PR to merge develop into master
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4.1.3
+        with:
+          path: eu.betterbird.Betterbird
+          branch: develop
+          delete-branch: false
+          base: master
+          title: Auto-update Betterbird version
+      
