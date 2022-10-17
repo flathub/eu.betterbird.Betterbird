@@ -59,7 +59,7 @@ In case the localization of your Betterbird is incomplete, check if a Thunderbir
 #### Lacking file permissions
 ([#263](https://github.com/flathub/org.mozilla.Thunderbird/issues/263)) Thunderbird does not use '[Portals](https://docs.flatpak.org/en/latest/sandbox-permissions.html#portals)' for file access everywhere leading to an inconsistent user experience. For example:
 - When attaching a file using the "Attach" button in the compose window, you can select any file and attach it successfully.
-- Drag & drop only works for files in a limited set of folders, e.g. ~/Downloads. 
+- Drag & drop or attaching a mail signature from a file only works for files in a limited set of folders, e.g. ~/Downloads. 
 - Composing a new mail with attachment from the command line by running `flatpak -compose "attachment='file:///home/username/file.txt'"` works only for files in a limited set of folders.
 
 You can work around this issue by giving the Betterbird flatpak access to your complete home directory, either by starting it using `flatpak run --filesystem=home:rw eu.betterbird.Betterbird` or by giving it the `filesystem=home` permission using Flatseal. 
