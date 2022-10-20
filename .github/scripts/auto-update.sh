@@ -13,16 +13,23 @@ then
     if [[ $(echo $tag | cut -f1 -d.) == $auto_update_major_release ]]
     then
       target_tag=$tag
+      update_branch=$(git ls-remote --heads origin update-$target_tag)
     fi
   done
   if [[ -n $target_tag ]]
   then
-    echo " --- Updating to $target_tag ---"
-    ./update-version.sh $target_tag \
-    && echo "${all_tags}" > .known-tags \
-    || exit 1
-    echo "version_updated=true" >> $GITHUB_ENV
-    echo "new_version=$target_tag" >> $GITHUB_ENV
+    if [[ -z $update_branch ]]
+    then
+      echo " --- Updating to $target_tag ---"
+      ./update-version.sh $target_tag \
+      && echo "${all_tags}" > .known-tags \
+      || exit 1
+      echo "version_updated=true" >> $GITHUB_ENV
+      echo "new_version=$target_tag" >> $GITHUB_ENV
+    else
+      echo " --- Skipping update, because branch $update_branch already exists ---"
+      echo "version_updated=false" >> $GITHUB_ENV
+    fi
   fi
 else
   echo " --- No new tags found ---"
