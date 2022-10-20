@@ -25,6 +25,7 @@ then
     && git commit -m "Update to $target_tag" -- .known-tags eu.betterbird.Betterbird.json thunderbird-sources.json .build-date \
     || exit 1
     echo "version_updated=true" >> $GITHUB_ENV
+    echo "new_version=$target_tag" >> $GITHUB_ENV
   fi
 else
   echo " --- No new tags found ---"
