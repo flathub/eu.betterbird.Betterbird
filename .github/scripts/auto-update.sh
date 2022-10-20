@@ -27,7 +27,7 @@ then
       echo "version_updated=true" >> $GITHUB_ENV
       echo "new_version=$target_tag" >> $GITHUB_ENV
     else
-      echo " --- Skipping update, because branch $update_branch already exists ---"
+      echo " --- Skipping update, because branch update-$target_tag already exists ---"
       echo "version_updated=false" >> $GITHUB_ENV
     fi
   fi
