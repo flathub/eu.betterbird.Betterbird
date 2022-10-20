@@ -41,17 +41,10 @@ then select the right profile and tick "*Use the selected profile without asking
 The Betterbird flatpak ships all language packs that are currently available for Betterbird. Flatpak installs a selection matching the user configuration that has been set with `flatpak config --set languages` and `flatpak config --set extra-languages`, defaulting to the system language. **Thunderbird language packs do not work with Betterbird**, so do not attempt to install them.
 In case the localization of your Betterbird is incomplete, check if a Thunderbird language pack is installed (e.g. after migrating your profile from Thunderbird to Betterbird) and remove it.
 
-#### New mail notifications
-([#11](https://github.com/flathub/org.mozilla.Thunderbird/issues/11#issuecomment-531987872)) To enable new mail notifications:<br>
-1. [Menu Bar](https://support.mozilla.org/kb/display-thunderbird-menus-and-toolbar) > `Edit` > `Preferences` > `Advanced` > `General` > `Config Editor…`, set `mail.biff.use_system_alert` to `true` (default)<br>
-1. [Menu Bar](https://support.mozilla.org/kb/display-thunderbird-menus-and-toolbar) > `Edit` > `Preferences` > `General` > Select `Customize…` for "Show an alert" and set "Show New Mail alert for:"
-
-([#79](https://github.com/flathub/org.mozilla.Thunderbird/issues/79#issuecomment-534298255)) Alternatively you may set `mail.biff.use_system_alert` to `false` which will make notifications non-native but clicking on them will open mail in Thunderbird.
-
 #### Wayland
 ([#75](https://github.com/flathub/org.mozilla.Thunderbird/issues/75)) To enable the experimental [Wayland](https://wayland.freedesktop.org/) backend (assuming the desktop session runs under a Wayland):<br>
 1. Give the `eu.betterbird.Betterbird` flatpak the `--socket=wayland` permission, e.g. by using [Flatseal](https://flathub.org/apps/details/com.github.tchx84.Flatseal).
-2. Run `flatpak override --user --env=MOZ_ENABLE_WAYLAND=1 org.mozilla.Thunderbird` to enable the Wayland backend.
+2. Run `flatpak override --env=MOZ_ENABLE_WAYLAND=1 eu.betterbird.Betterbird` to enable the Wayland backend.
 
 #### Smartcard
 ([#51](https://github.com/flathub/org.mozilla.Thunderbird/issues/51)) For Smartcard support you need at least Flatpak 1.3.2.
