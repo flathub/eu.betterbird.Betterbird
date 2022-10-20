@@ -18,11 +18,8 @@ then
   if [[ -n $target_tag ]]
   then
     echo " --- Updating to $target_tag ---"
-    git config user.name github-actions
-    git config user.email github-actions@github.com
     ./update-version.sh $target_tag \
     && echo "${all_tags}" > .known-tags \
-    && git commit -m "Update to $target_tag" -- .known-tags eu.betterbird.Betterbird.json thunderbird-sources.json .build-date \
     || exit 1
     echo "version_updated=true" >> $GITHUB_ENV
     echo "new_version=$target_tag" >> $GITHUB_ENV
