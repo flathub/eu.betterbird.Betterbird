@@ -1,71 +1,64 @@
 [
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.4.2-candidates/build2/linux-x86_64/xpi/de.xpi",
-    "sha256": "b284fa00c677764b752ca5ede93bac6bb746b2f344d0b60bf7ad59f8830c532f",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.5.0-candidates/build1/linux-x86_64/xpi/de.xpi",
+    "sha256": "4b59f46700a41e2f6d613527ecbce05b8d0dbe1e5932bd3218539a6e4b374b14",
     "dest": "langpacks/",
     "dest-filename": "langpack-de@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.4.2-candidates/build2/linux-x86_64/xpi/es-AR.xpi",
-    "sha256": "ea2bd90c834cd2b9ed6446017445f4b37b4bcd6d10f86eb34470126eb8044d83",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.5.0-candidates/build1/linux-x86_64/xpi/es-AR.xpi",
+    "sha256": "186c5c5a59a2fe61b6a8444b72c393ab441dbeafa37294f1130472f3a5fc07ce",
     "dest": "langpacks/",
     "dest-filename": "langpack-es-AR@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.4.2-candidates/build2/linux-x86_64/xpi/fr.xpi",
-    "sha256": "50e9928d60e9d99604d3f5abf3b45ba01dc5887556e86eaf2904db72c1533ac7",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.5.0-candidates/build1/linux-x86_64/xpi/fr.xpi",
+    "sha256": "f7022ba3ff91e89d1d588ea0e33155a850428f61da0dcc6e2603b524aeee6347",
     "dest": "langpacks/",
     "dest-filename": "langpack-fr@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.4.2-candidates/build2/linux-x86_64/xpi/it.xpi",
-    "sha256": "843ff3eee7b1eaa498f3fc0558d7b3760180ca914717f028444ca93103c99a3a",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.5.0-candidates/build1/linux-x86_64/xpi/it.xpi",
+    "sha256": "5709afd680a228d13ad3ee8bd1e986ee00b2443ac39bf39cbbb2239e8f397a2a",
     "dest": "langpacks/",
     "dest-filename": "langpack-it@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.4.2-candidates/build2/linux-x86_64/xpi/ja.xpi",
-    "sha256": "a7228502fe1164c7822a728aeb281d2dde40c0d50ca0852cbe831bf0d05e325e",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.5.0-candidates/build1/linux-x86_64/xpi/ja.xpi",
+    "sha256": "f45d6bcc217d870ccb99fa8cf40fe82a8925a71e68b9a6212d75dd84ee8bfb9b",
     "dest": "langpacks/",
     "dest-filename": "langpack-ja@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.4.2-candidates/build2/linux-x86_64/xpi/nl.xpi",
-    "sha256": "4b0a08f987fc2519a8115cac55541c80d69b40f13a2ddab8a34d37d2d16d1589",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.5.0-candidates/build1/linux-x86_64/xpi/nl.xpi",
+    "sha256": "e4fd5e7bb27475fb98315286ea25bb61d0184bad62e8062ebf57c40507c522a7",
     "dest": "langpacks/",
     "dest-filename": "langpack-nl@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.4.2-candidates/build2/linux-x86_64/xpi/pt-BR.xpi",
-    "sha256": "3e52bfc0697f174bac1d71baa38416f879ae791af2e09f2511faf2e033aec7bc",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.5.0-candidates/build1/linux-x86_64/xpi/pt-BR.xpi",
+    "sha256": "687935d4bdd6562f23cd296a0d723b1c98d14b5587891cbd47f48bf89f68f3b4",
     "dest": "langpacks/",
     "dest-filename": "langpack-pt-BR@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.4.2-candidates/build2/linux-x86_64/xpi/zh-CN.xpi",
-    "sha256": "6663dc6fc70ccda6c6d2d868e4d02b1e4ca66f7a73147b1aaebb1d55f5672130",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.5.0-candidates/build1/linux-x86_64/xpi/zh-CN.xpi",
+    "sha256": "233225a7079b14aee591206c182ffa5447ae2533ac8915d78147f5a44a9d71d1",
     "dest": "langpacks/",
     "dest-filename": "langpack-zh-CN@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "archive",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.4.2-candidates/build2/source/thunderbird-102.4.2.source.tar.xz",
-    "sha256": "ffc4a0499ccef41dccd99a683715199e9c839d628240dfb4b5f52bf1e6c902d5"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/mozilla-central/raw-rev/8644e2025dbd",
-    "sha256": "818083806c3424a74fa2712daf77a70d5ecbcade7c3b578d88fe9613448a25af",
-    "dest": "patches/",
-    "dest-filename": "1779846-spell-check-dialog-m-c.patch"
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.5.0-candidates/build1/source/thunderbird-102.5.0.source.tar.xz",
+    "sha256": "02f1b7a0941fbf4f6d4c8164599a267e83133947f5fb0618673906e54734824b"
   },
   {
     "type": "file",
@@ -80,33 +73,5 @@
     "sha256": "12339e566e47ba24de9576ab2b602d54ec2829818d062f87e4e91f2bffa969be",
     "dest": "patches/",
     "dest-filename": "1708320-calendar-go-labels.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/abcaf011c387",
-    "sha256": "d31ac1dfb66355a64015679adf3eac25ec130dab514e3b5458c8f5b10ffcf1c2",
-    "dest": "patches/",
-    "dest-filename": "1792281-show-nntp-server-error.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/b2697513aaef",
-    "sha256": "acadfe0742545c1fb0efee296ce6d270c86be1bd10d8d66a3a0bd573b2dc9de3",
-    "dest": "patches/",
-    "dest-filename": "1735803-host-name-lower-case.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/d19295ace812",
-    "sha256": "ec371a134e1118def2d9057c28408f8125f81fdfe7c4dba6b0f5a99fa7b4ea42",
-    "dest": "patches/",
-    "dest-filename": "1795751-openUILinkIn-contribute-link.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/99dc129c1c5c",
-    "sha256": "9d69c2769147f96cff0d07aefb328cb994151ecf751e29a25914da97097baafc",
-    "dest": "patches/",
-    "dest-filename": "1787531-no-notification-for-junk-deleted.patch"
   }
 ]
