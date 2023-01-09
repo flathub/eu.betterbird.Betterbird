@@ -50,6 +50,13 @@
   },
   {
     "type": "file",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.6.1-candidates/build1/linux-x86_64/xpi/sq.xpi",
+    "sha256": "42d52c4ce57e8cae43667faf7600e98d085b0ab713e7607bc1dae1f34932be67",
+    "dest": "langpacks/",
+    "dest-filename": "langpack-sq@thunderbird.mozilla.org.xpi"
+  },
+  {
+    "type": "file",
     "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.6.1-candidates/build1/linux-x86_64/xpi/zh-CN.xpi",
     "sha256": "edd966278b660bb280e8e319300e18652ce2ef0fca5baeeb72696b5fd2a03d69",
     "dest": "langpacks/",
@@ -62,10 +69,10 @@
   },
   {
     "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/b1b52e85bce9",
-    "sha256": "153339984beb024b30c25edec6dbdc7d1c6023890b20b802a1903fdcd339c790",
+    "url": "https://hg.mozilla.org/mozilla-central/raw-rev/d31170282eb9",
+    "sha256": "5566c056b6e54d463ed871cbf492de86be2d52417c9637130132d3065386831c",
     "dest": "patches/",
-    "dest-filename": "1777276-fix-startup-console-error.patch"
+    "dest-filename": "1799093-fix-cropping-in-tree-view-m-c.patch"
   },
   {
     "type": "file",
@@ -80,20 +87,6 @@
     "sha256": "1fea17c1af30f065cd9d1c99a27d9c81ebdcb9937444246fc3c2affb9def6819",
     "dest": "patches/",
     "dest-filename": "1798597-hourglass-when-offline-nntp.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/940ed8491b16",
-    "sha256": "57442e31b4207172f919592df1f4c85d88e73f9558d3fbaa1daed1689fb6a087",
-    "dest": "patches/",
-    "dest-filename": "1797384-compose-with-no-dicts1.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/139615ae2d49",
-    "sha256": "59811d9c6fbbe05a7ae8a0d6857fb51f5533b92262ff8520cf9615fb040d3174",
-    "dest": "patches/",
-    "dest-filename": "1797384-compose-with-no-dicts2.patch"
   },
   {
     "type": "file",
