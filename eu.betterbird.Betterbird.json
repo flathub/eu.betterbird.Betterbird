@@ -239,6 +239,7 @@
           "dest-filename": "betterbird-wrapper",
           "commands": [
             "export TMPDIR=\"$XDG_RUNTIME_DIR/app/$FLATPAK_ID\"",
+            "if [ ! -f \"$XDG_CONFIG_HOME/fontconfig/fonts.conf\" ]; then install -Dm644 /app/etc/fonts/fonts.conf \"$XDG_CONFIG_HOME/fontconfig/fonts.conf\"; fi",
             "exec /app/lib/betterbird/betterbird \"$@\""
           ]
         },
