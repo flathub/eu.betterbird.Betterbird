@@ -29,7 +29,6 @@
     "--filesystem=/var/spool/mail",
     "--filesystem=/usr/mail",
     "--filesystem=/usr/spool/mail",
-    "--env=GTK_PATH=/app/lib/gtkmodules",
     "--socket=cups"
   ],
   "cleanup": [
