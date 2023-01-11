@@ -11,7 +11,7 @@ fi
 
 BETTERBIRD_VERSION="$1" # Betterbird version. Can either be a tag or a major version number. If it's a tag, the commit is identified automatically. In case only the major version number is given, a commit must be specified by passing its hash as 2nd argument. 
 BETTERBIRD_COMMIT="$2"
-BETTERBIRD_REPO="https://github.com/Betterbird/thunderbird-patches"
+BETTERBIRD_REPO="https://github.com/mfschumann/thunderbird-patches"
 PACKAGE=thunderbird
 PLATFORM=linux-x86_64
 SOURCES_FILE="$PACKAGE-sources.json"
