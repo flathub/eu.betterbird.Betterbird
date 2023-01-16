@@ -213,6 +213,8 @@
         "mkdir -p /app/lib/betterbird/distribution/extensions",
         "for lang in langpacks/*.xpi;do export locale=$(basename -s .xpi $lang); install -Dm644 -t /app/share/runtime/locale/${locale:9:2}/ $lang; ln -sf /app/share/runtime/locale/${locale:9:2}/$(basename $lang) /app/lib/betterbird/distribution/extensions/$(basename $lang); done",
         "for i in 16 22 24 32 48 64 128 256;do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/lib/betterbird/chrome/icons/default/default${i}.png;done",
+        "install -Dm644 comm/mail/branding/betterbird/default.svg /app/lib/betterbird/chrome/icons/default/default.svg;done",
+        "install -Dm644 comm/mail/branding/betterbird/newmail.svg /app/lib/betterbird/chrome/icons/default/newmail.svg;done",
         "for i in 16 22 24 32 48 64 128 256;do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png;done",
         "install -Dm644 thunderbird-patches/metadata/icons/betterbird.svg /app/share/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg",
         "install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop /app/share/applications/eu.betterbird.Betterbird.desktop",
