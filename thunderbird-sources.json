@@ -64,8 +64,8 @@
   },
   {
     "type": "archive",
-    "url": "https://dl.mfs.name/thunderbird-102.6.1-bb-0d1005.source.tar.xz",
-    "sha256": "3ea24695adedfe29ab1eb2c30dbff10b623bc249eec85b029b39c0bd958f27aa"
+    "url": "https://dl.mfs.name/thunderbird-102.7.0-bb-be991b.source.tar.xz",
+    "sha256": "499a94dd0527880317542e62e39571f48ea9e9276ac5f848a46c505374015767"
   },
   {
     "type": "file",
@@ -101,5 +101,19 @@
     "sha256": "21fa6f97b098241b5c7f4a4542f8a4cdc52997c9907dffdde5a7247603ddc8f5",
     "dest": "patches/",
     "dest-filename": "1806245-nsMsgFilterService-ApplyFilters-crash.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/b22c7ed01459",
+    "sha256": "c4afe9ba7fc98d1b6e04c3737c89d1709d2292794787ed92ad1a9944bfcbcbd5",
+    "dest": "patches/",
+    "dest-filename": "1807200-allow-loading.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/fdebd932734c",
+    "sha256": "5dcdf7a6797d1d9927042a8da9bb34b508ede267fd3a8f08f32bcc7f3fab29e0",
+    "dest": "patches/",
+    "dest-filename": "1799106-fix-localised-inbox.patch"
   }
 ]
