@@ -228,8 +228,6 @@
       "build-options": {
         "append-path": "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/node16/bin:/usr/lib/sdk/llvm14/bin",
         "prepend-ld-library-path": "/usr/lib/sdk/llvm14/lib",
-        "cflags": "-I/app/include/libdbusmenu-glib-0.4",
-        "cxxflags": "-I/app/include/libdbusmenu-glib-0.4",
         "env": {
           "TERM": "linux",
           "CARGO_HOME": "/run/build/betterbird/cargo",
