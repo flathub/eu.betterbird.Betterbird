@@ -34,7 +34,7 @@ cd comm
 cat ../thunderbird-patches/$VERSION/series | while read line || [[ -n $line ]]
     do
         patch=$(echo $line | cut -f1 -d'#' | sed 's/ *$//')
-        if [[ -n "${patch// }" ]] && [[ "$patch" != "99-misc-release-set-version.patch" ]]
+        if [[ -n "${patch// }" ]]
         then
             if [[ -f ../patches/$patch ]]
             then
