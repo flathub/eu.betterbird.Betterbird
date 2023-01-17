@@ -50,7 +50,7 @@
     "shared-modules/dbus-glib/dbus-glib.json",
     "shared-modules/libcanberra/libcanberra.json",
     "shared-modules/intltool/intltool-0.51.json",
-     {
+    {
       "name": "libdbusmenu",
       "build-options": {
         "cflags": "-Wno-error",
@@ -283,7 +283,7 @@
         {
           "type": "git",
           "url": "https://github.com/Betterbird/thunderbird-patches.git",
-          "commit": "b124dea8a876f4b22bff1ac5cc6232a951496fd7",
+          "commit": "2bf2a6bf961a16961901b0cad036551d4430c341",
           "dest": "thunderbird-patches"
         },
         {
