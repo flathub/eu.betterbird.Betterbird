@@ -51,6 +51,42 @@
     "shared-modules/libcanberra/libcanberra.json",
     "shared-modules/intltool/intltool-0.51.json",
     {
+      "name": "libdbusmenu",
+      "build-options": {
+        "cflags": "-Wno-error",
+        "env": {
+          "HAVE_VALGRIND_FALSE": "#",
+          "HAVE_VALGRIND_TRUE": ""
+        }
+      },
+      "cleanup": [
+        "/include",
+        "/libexec",
+        "/lib/pkgconfig",
+        "/lib/*.la",
+        "/share/doc",
+        "/share/libdbusmenu",
+        "/share/gtk-doc",
+        "/share/gir-1.0"
+      ],
+      "config-opts": [
+        "--disable-static",
+        "--disable-gtk-doc",
+        "--enable-introspection=no",
+        "--disable-vala",
+        "--disable-dumper",
+        "--disable-tests",
+        "--with-gtk=3"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://launchpad.net/libdbusmenu/16.04/16.04.0/+download/libdbusmenu-16.04.0.tar.gz",
+          "sha256": "b9cc4a2acd74509435892823607d966d424bd9ad5d0b00938f27240a1bfa878a"
+        }
+      ]
+    },
+    {
       "name": "pcsc-lite",
       "config-opts": [
         "--disable-libudev",
@@ -202,7 +238,8 @@
         "./make-mozconfig.sh 102",
         "chmod u+x apply-patches.sh",
         "./apply-patches.sh 102",
-        "export MOZ_BUILD_DATE=$(cat .build-date); ./mach create-mach-environment; ./mach configure; ./mach build -v -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install",
+        "sed -i 's#-I/usr/include#-I/app/include#g' comm/third_party/appindicator/moz.build",
+        "export MOZ_BUILD_DATE=$(cat .build-date); ./mach configure; ./mach build -v -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install",
         "rm -rf /app/lib/thunderbird/chrome",
         "rm -f /app/bin/thunderbird",
         "mv /app/lib/thunderbird /app/lib/betterbird",
@@ -213,6 +250,8 @@
         "mkdir -p /app/lib/betterbird/distribution/extensions",
         "for lang in langpacks/*.xpi;do export locale=$(basename -s .xpi $lang); install -Dm644 -t /app/share/runtime/locale/${locale:9:2}/ $lang; ln -sf /app/share/runtime/locale/${locale:9:2}/$(basename $lang) /app/lib/betterbird/distribution/extensions/$(basename $lang); done",
         "for i in 16 22 24 32 48 64 128 256;do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/lib/betterbird/chrome/icons/default/default${i}.png;done",
+        "install -Dm644 comm/mail/branding/betterbird/default.svg /app/lib/betterbird/chrome/icons/default/default.svg",
+        "install -Dm644 comm/mail/branding/betterbird/newmail.svg /app/lib/betterbird/chrome/icons/default/newmail.svg",
         "for i in 16 22 24 32 48 64 128 256;do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png;done",
         "install -Dm644 thunderbird-patches/metadata/icons/betterbird.svg /app/share/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg",
         "install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop /app/share/applications/eu.betterbird.Betterbird.desktop",
@@ -244,9 +283,9 @@
         {
           "type": "git",
           "url": "https://github.com/Betterbird/thunderbird-patches.git",
-          "commit": "394750121142bb28ba00d9e1f4747e9c74d250ab",
+          "commit": "5b946e123f153f9e2637f0ede65ffc87897c4bad",
           "dest": "thunderbird-patches",
-          "tag": "102.6.1-bb27"
+          "tag": "102.7.0-bb28"
         },
         {
           "type": "file",
