@@ -56,7 +56,9 @@ In case the localization of your Betterbird is incomplete, check if a Thunderbir
 - Composing a new mail with attachment from the command line by running `flatpak -compose "attachment='file:///home/username/file.txt'"` works only for files in a limited set of folders.
 - When selecting a default location for saving attachments, the selected folder is replaced by some path under `/run/user/1000/doc`. (This one is actually a consequence of using the Portals mechanism, but can also be avoided by applying the work around below.)
 
-You can work around this issue by giving the Betterbird flatpak access to your complete home directory, either by starting it using `flatpak run --filesystem=home:rw eu.betterbird.Betterbird` or by giving it the `filesystem=home` permission using the [Flatseal app](https://flathub.org/apps/details/com.github.tchx84.Flatseal). 
+You can work around this issue by giving the Betterbird flatpak access to your complete home directory 
+* temporarily: by starting Betterbird using `flatpak run --filesystem=home:rw eu.betterbird.Betterbird` every time.
+* permanently: by giving Betterbird the `filesystem=home` permission using the [Flatseal app](https://flathub.org/apps/details/com.github.tchx84.Flatseal) or by running `flatpak override --user --filesystem=home eu.betterbird.Betterbird` (once is enough). 
 
 **Caveats**: Once Betterbird has access to your home directory, it will use the profile in `~/.thunderbird` instead of `~/.var/app/eu.betterbird.Betterbird/.thunderbird`. Meaning that in order to keep using your current profile, you will have to move it to `~/.thunderbird` after applying the work-around. Make sure that Betterbird is closed while moving the profile!
 
