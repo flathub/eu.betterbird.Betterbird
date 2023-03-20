@@ -247,6 +247,8 @@
         "install -Dm644 policies.json /app/lib/betterbird/distribution/policies.json",
         "install -Dm644 distribution.ini /app/lib/betterbird/distribution/distribution.ini",
         "install -Dm644 default-preferences.js /app/lib/betterbird/defaults/pref/default-preferences.js",
+        "mkdir -p /app/lib/betterbird/extensions",
+        "install -Dm644 smarttemplates-3.16-tb.xpi /app/lib/betterbird/extensions/smarttemplates-3.16-tb.xpi",
         "mkdir -p /app/lib/betterbird/distribution/extensions",
         "for lang in langpacks/*.xpi;do export locale=$(basename -s .xpi $lang); install -Dm644 -t /app/share/runtime/locale/${locale:9:2}/ $lang; ln -sf /app/share/runtime/locale/${locale:9:2}/$(basename $lang) /app/lib/betterbird/distribution/extensions/$(basename $lang); done",
         "for i in 16 22 24 32 48 64 128 256;do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/lib/betterbird/chrome/icons/default/default${i}.png;done",
@@ -271,6 +273,10 @@
         {
           "type": "file",
           "path": "default-preferences.js"
+        },
+        {
+          "type": "file",
+          "path": "smarttemplates-3.16-tb.xpi"
         },
         {
           "type": "script",
