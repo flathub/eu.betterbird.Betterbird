@@ -283,9 +283,9 @@
         {
           "type": "git",
           "url": "https://github.com/Betterbird/thunderbird-patches.git",
-          "commit": "c4421b9bfcf0b233362e42bde2aaffd883ac27fa",
+          "commit": "913032e14d6b0509bbf717db4fb70e65e95ad2bf",
           "dest": "thunderbird-patches",
-          "tag": "102.11.0-bb35-build2"
+          "tag": "102.11.0-bb35-build2-plus-pl-take2"
         },
         {
           "type": "file",
