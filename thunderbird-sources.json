@@ -43,6 +43,13 @@
   },
   {
     "type": "file",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.11.0-candidates/build1/linux-x86_64/xpi/pl.xpi",
+    "sha256": "f323512055f2303ae6551970bcf8e2e50ec4bc2f2784b43425b2b125f75a2c49",
+    "dest": "langpacks/",
+    "dest-filename": "langpack-pl@thunderbird.mozilla.org.xpi"
+  },
+  {
+    "type": "file",
     "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/102.11.0-candidates/build1/linux-x86_64/xpi/pt-BR.xpi",
     "sha256": "985dc31719df761f6f54cd9a55cb93e9b9ad66ecf948bad50cdaae3e56da3a2a",
     "dest": "langpacks/",
