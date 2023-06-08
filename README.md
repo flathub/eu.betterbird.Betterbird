@@ -76,3 +76,5 @@ For bugs concerning Betterbird itself, please read [www.betterbird.eu/support/](
 1. If the bug is also in Thunderbird, let us know that it's important to you, please provide reasons why Betterbird should fix it and not upstream Thunderbird. We'll check whether we deem it "must have" enough to fix it considering the necessary effort.
 1. If the bug is only in Betterbird, let us know, we'll endeavour to fix it asap, usually within days.
 1. Common sense bug reporting rules apply: Bug needs to be reproducible, user needs to cooperate in debugging.
+
+
