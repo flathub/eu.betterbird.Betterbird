@@ -283,9 +283,9 @@
         {
           "type": "git",
           "url": "https://github.com/Betterbird/thunderbird-patches.git",
-          "commit": "effd44465cabe8f53a853e3ae9360409223b2cf9",
+          "commit": "9050da8ead144265c509171b09ab4f17f91736bd",
           "dest": "thunderbird-patches",
-          "tag": "102.11.1-bb36"
+          "tag": "102.12.0-bb37"
         },
         {
           "type": "file",
@@ -322,6 +322,10 @@
         {
           "type": "file",
           "path": "fonts.conf"
+        },
+        {
+          "type": "patch",
+          "path": "rust1.70.patch"
         }
       ]
     }
