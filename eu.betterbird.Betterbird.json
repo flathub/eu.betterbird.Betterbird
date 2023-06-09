@@ -322,6 +322,10 @@
         {
           "type": "file",
           "path": "fonts.conf"
+        },
+        {
+          "type": "patch",
+          "path": "rust1.70.patch"
         }
       ]
     }
