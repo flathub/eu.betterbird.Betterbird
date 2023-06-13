@@ -283,9 +283,8 @@
         {
           "type": "git",
           "url": "https://github.com/mfschumann/thunderbird-patches.git",
-          "commit": "9050da8ead144265c509171b09ab4f17f91736bd",
-          "dest": "thunderbird-patches",
-          "tag": "102.12.0-bb37"
+          "commit": "75bf5163657c06d6ade91d3537cb4058c0632213",
+          "dest": "thunderbird-patches"
         },
         {
           "type": "file",
