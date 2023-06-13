@@ -14,6 +14,9 @@ then
     then
       target_tag=$tag
       update_branch=$(git ls-remote --heads origin update-$target_tag)
+    else
+      echo " --- Skipping update, because version $tag does not match auto-updatable major release $auto_update_major_release ---"
+      echo "version_updated=false" >> $GITHUB_ENV
     fi
   done
   if [[ -n $target_tag ]]
