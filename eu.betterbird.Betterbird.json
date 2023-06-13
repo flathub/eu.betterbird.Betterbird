@@ -235,9 +235,9 @@
         }
       },
       "build-commands": [
-        "./make-mozconfig.sh 102",
+        "./make-mozconfig.sh 115",
         "chmod u+x apply-patches.sh",
-        "./apply-patches.sh 102",
+        "./apply-patches.sh 115",
         "sed -i 's#-I/usr/include#-I/app/include#g' comm/third_party/appindicator/moz.build",
         "export MOZ_BUILD_DATE=$(cat .build-date); ./mach configure; ./mach build -v -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install",
         "rm -rf /app/lib/thunderbird/chrome",
