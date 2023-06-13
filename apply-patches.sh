@@ -19,7 +19,7 @@ cat thunderbird-patches/$VERSION/series-M-C | while read line || [[ -n $line ]]
             if [[ -f patches/$patch ]]
             then
                 echo Applying patch $patch ... 
-                git apply --apply patches/$patch
+                git apply --apply --allow-empty patches/$patch
             else
                 echo Patch $patch not found. Exiting.
                 exit 1
@@ -39,7 +39,7 @@ cat ../thunderbird-patches/$VERSION/series | while read line || [[ -n $line ]]
             if [[ -f ../patches/$patch ]]
             then
                 echo Applying patch $patch ... 
-                git apply --apply ../patches/$patch
+                git apply --apply --allow-empty ../patches/$patch
             else
                 echo Patch $patch not found. Exiting.
                 exit 1
