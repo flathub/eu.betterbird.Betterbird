@@ -1,0 +1,9 @@
+### aarch64-specific options (taken from github.com/Betterbird/thunderbird-patches)
+
+# Set target and host to aarch64-unknown-linux-gnu
+ac_add_options --target=aarch64-unknown-linux-gnu
+ac_add_options --host=aarch64-unknown-linux-gnu
+
+# Additional options specific to aarch64
+ac_add_options --disable-tests
+mk_add_options AUTOCLOBBER=1

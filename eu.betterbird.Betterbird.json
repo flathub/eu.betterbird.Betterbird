@@ -292,6 +292,10 @@
         },
         {
           "type": "file",
+          "path": "mozconfig-aarch64"
+        },
+        {
+          "type": "file",
           "path": ".build-date"
         },
         {
@@ -308,7 +312,7 @@
           "type": "script",
           "dest-filename": "make-mozconfig.sh",
           "commands": [
-            "cat thunderbird-patches/$1/mozconfig-Linux-aarch64 mozconfig-flatpak > mozconfig"
+            "cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak mozconfig-aarch64 > mozconfig"
           ],
           "only-arches": [
             "aarch64"
