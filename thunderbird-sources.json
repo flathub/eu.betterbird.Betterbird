@@ -1,22 +1,8 @@
 [
   {
     "type": "archive",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.0b2-candidates/build1/source/thunderbird-115.0b2.source.tar.xz",
-    "sha256": "de802acc1b9edf75e934c6f5e38d89e59ab45e770e7d17151e14ac90b3717fe5"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/ab0b6cede71f",
-    "sha256": "5a685420909d152ac2573d122b96c33d6883a06518d064c60b59371065e914ef",
-    "dest": "patches/",
-    "dest-filename": "1834606-empty-unified-junk.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/1128a563e54c",
-    "sha256": "e6d0598c5b58d6e2060dccd593e043a67b48c48440463af144ba6972d630e119",
-    "dest": "patches/",
-    "dest-filename": "1837137-fix-empty-local-trash.patch"
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.0b2-candidates/build2/source/thunderbird-115.0b2.source.tar.xz",
+    "sha256": "d2deaf64e1b448b7e82300ae34d3cb1a16f19934cb784bc552aa02b565a3e6ab"
   },
   {
     "type": "file",
@@ -59,5 +45,12 @@
     "sha256": "3cb22accf2624e88bae3e7b9b1f60b21ebe3bdd3f7a5a3d227f84f0a5e5ebae9",
     "dest": "patches/",
     "dest-filename": "1836736-fix-calendar-drop.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/78947f14f83d",
+    "sha256": "60f7f824262c436ef73cdbd3aa5c28c6532228a1a980b73fcfe1787332f7e944",
+    "dest": "patches/",
+    "dest-filename": "1832395-fix-tray-icon-always-on-official.patch"
   }
 ]
