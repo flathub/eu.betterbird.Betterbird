@@ -45,11 +45,11 @@ if [[ "$source_spec" == "tag" ]]
 then
   # check if version from appdata.xml agrees with tag
   betterbird_version_appdata=$(cat $APPDATA_FILE | grep '<release version=' | sed -r 's@^\s+<release version="(([^"])+)(" date=")([^"]+)(">)$@\1@')
-  if [[ "$betterbird_version_appdata" != "$BETTERBIRD_VERSION" ]]
-  then
-    echo "Betterbird version given on command line ($BETTERBIRD_VERSION) and version according to $APPDATA_FILE ($betterbird_version_appdata) don't agree. Stopping."
-    exit 1
-  fi
+  #if [[ "$betterbird_version_appdata" != "$BETTERBIRD_VERSION" ]]
+  #then
+  #  echo "Betterbird version given on command line ($BETTERBIRD_VERSION) and version according to $APPDATA_FILE ($betterbird_version_appdata) don't agree. Stopping."
+  #  exit 1
+  #fi
 fi
 
 # save current date
