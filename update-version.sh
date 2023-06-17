@@ -121,7 +121,7 @@ sed -i 's/version=.*$/version='"$(git rev-parse --short $betterbird_commit)"'/' 
 while read -r line; do
   url=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
   name=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\1/')
-  wget $url -O $name
+  wget $url --max-redirect=20 -O $name
   sha256=$(sha256sum "$name" | cut -f1 -d' ')
   jq --arg url $url --arg name $name --arg sha256 $sha256 \
     '. += [{"type":"file","url":$url,"sha256":$sha256,"dest":"patches/","dest-filename":$name}]' \
@@ -133,7 +133,7 @@ done < <(grep " # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'
 while read -r line; do
   url=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
   name=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\1/')
-  wget $url -O $name
+  wget $url --max-redirect=20 -O $name
   sha256=$(sha256sum "$name" | cut -f1 -d' ')
   jq --arg url $url --arg name $name --arg sha256 $sha256 \
     '. += [{"type":"file","url":$url,"sha256":$sha256,"dest":"patches/","dest-filename":$name}]' \
