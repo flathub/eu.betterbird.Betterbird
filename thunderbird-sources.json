@@ -1,8 +1,8 @@
 [
   {
     "type": "archive",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.0b2-candidates/build2/source/thunderbird-115.0b2.source.tar.xz",
-    "sha256": "d2deaf64e1b448b7e82300ae34d3cb1a16f19934cb784bc552aa02b565a3e6ab"
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.0b3-candidates/build1/source/thunderbird-115.0b3.source.tar.xz",
+    "sha256": "5663d39f15daa429b3ea82750a986308e1be414b7d54d9826346c5a1375ecde2"
   },
   {
     "type": "file",
@@ -13,44 +13,79 @@
   },
   {
     "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/01255e7da373",
-    "sha256": "11bbfae769c45ff10263e371944a05b31beb16c72730b3ac0d9daa6ca8d5260a",
-    "dest": "patches/",
-    "dest-filename": "1837892-openpgp-sig-filename.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/d8c1f3ba2b40",
-    "sha256": "c1b521b726a7b3e9b8903534a7ff6ef16465a2264c425efad763f2433a0a2f1a",
-    "dest": "patches/",
-    "dest-filename": "545365-fix-NNTP-part1.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/c357a7917dc6",
-    "sha256": "341790050a783234fdf013f236029c75ad9008f31372f7c122b1751e836c64f2",
-    "dest": "patches/",
-    "dest-filename": "545365-fix-NNTP-part2.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/0c6d3be396b7",
-    "sha256": "3211bd377e362b2a81d9ac4703096f97e0bcf0e88a28f6ca545fe69ff63dbecb",
-    "dest": "patches/",
-    "dest-filename": "1836058-ics-import-resize.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/62ace67f9c36",
-    "sha256": "3cb22accf2624e88bae3e7b9b1f60b21ebe3bdd3f7a5a3d227f84f0a5e5ebae9",
-    "dest": "patches/",
-    "dest-filename": "1836736-fix-calendar-drop.patch"
-  },
-  {
-    "type": "file",
     "url": "https://hg.mozilla.org/comm-central/raw-rev/78947f14f83d",
     "sha256": "60f7f824262c436ef73cdbd3aa5c28c6532228a1a980b73fcfe1787332f7e944",
     "dest": "patches/",
     "dest-filename": "1832395-fix-tray-icon-always-on-official.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/c6a15e621a6a",
+    "sha256": "e5a8435d92f9cedc213f67a01bc81425eede5681fb47f1d6db33c6f56bd18dac",
+    "dest": "patches/",
+    "dest-filename": "1831303-context-menu-link.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/c89e92423ca7",
+    "sha256": "42373e2937e1af9c177522a728ab438e085b1c16c7b5c3b50673602b57029565",
+    "dest": "patches/",
+    "dest-filename": "1837368-virtual-folder-search.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/62a6a138511c",
+    "sha256": "509a724b154bef9764c8e0cdcccd5cce49be8d110eeaf254a2e504d3b1b4efe4",
+    "dest": "patches/",
+    "dest-filename": "1835173-sroll-after-delete.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/2b594678bf34",
+    "sha256": "fbbf01d4e481723a416bb6f03f214ee6a7a815dd053515f28994e2af1f6a8aa3",
+    "dest": "patches/",
+    "dest-filename": "1838609-dummy-row-styling.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/a498fed9095a",
+    "sha256": "ecf8b03320b221264d23aaf72ae12e707c971cda40fd17e35b89c4200d57db1d",
+    "dest": "patches/",
+    "dest-filename": "1838347-await-save-attachment.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/8df0e380852f",
+    "sha256": "a56d27f421bdddae493aa6b84cff2acad1581544e52073480f3359f9b6047d8f",
+    "dest": "patches/",
+    "dest-filename": "1836423-search-folder-update.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://phabricator.services.mozilla.com/D181027?download=true",
+    "sha256": "33415bba9ab4ab4244901f4141d7edfffd320e2424ebd2e07500ecde84c29357",
+    "dest": "patches/",
+    "dest-filename": "1838520-qfb-folder-changes.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/9ca1cd4698e9",
+    "sha256": "28fcd12a8e8d315beaa6e03be30eee9b670d28e08cc3f3b5265a1c6e5eba44d3",
+    "dest": "patches/",
+    "dest-filename": "1835025-ab-view-update.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://phabricator.services.mozilla.com/D181187?download=true",
+    "sha256": "46faf3c12b2d3a975dab382aa2f5b933226a503e8312db2cf052b58090537aec",
+    "dest": "patches/",
+    "dest-filename": "1831190-fix-view-after-repair.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://phabricator.services.mozilla.com/D181019?download=true",
+    "sha256": "7a8c65f7460a9ec221372c96d50971474a599f9b853d8d8186e680a039b531a9",
+    "dest": "patches/",
+    "dest-filename": "1838190-fix-more-feed-icons.patch"
   }
 ]
