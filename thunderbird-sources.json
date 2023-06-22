@@ -1,8 +1,8 @@
 [
   {
     "type": "archive",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.0b3-candidates/build1/source/thunderbird-115.0b3.source.tar.xz",
-    "sha256": "5663d39f15daa429b3ea82750a986308e1be414b7d54d9826346c5a1375ecde2"
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.0b4-candidates/build1/source/thunderbird-115.0b4.source.tar.xz",
+    "sha256": "7f9c24e2f4cc6b1a998b3097daddbe56a8e46443c7f69f49dff8f10d914534a6"
   },
   {
     "type": "file",
@@ -10,20 +10,6 @@
     "sha256": "d6af2e46dfb13e5cc2d8ddfcfa712a80aac3b92a72249a625a063db2a9fa6694",
     "dest": "patches/",
     "dest-filename": "1836735-fix-startup-console-error.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/78947f14f83d",
-    "sha256": "60f7f824262c436ef73cdbd3aa5c28c6532228a1a980b73fcfe1787332f7e944",
-    "dest": "patches/",
-    "dest-filename": "1832395-fix-tray-icon-always-on-official.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/c6a15e621a6a",
-    "sha256": "e5a8435d92f9cedc213f67a01bc81425eede5681fb47f1d6db33c6f56bd18dac",
-    "dest": "patches/",
-    "dest-filename": "1831303-context-menu-link.patch"
   },
   {
     "type": "file",
@@ -37,21 +23,7 @@
     "url": "https://hg.mozilla.org/comm-central/raw-rev/62a6a138511c",
     "sha256": "509a724b154bef9764c8e0cdcccd5cce49be8d110eeaf254a2e504d3b1b4efe4",
     "dest": "patches/",
-    "dest-filename": "1835173-sroll-after-delete.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/2b594678bf34",
-    "sha256": "fbbf01d4e481723a416bb6f03f214ee6a7a815dd053515f28994e2af1f6a8aa3",
-    "dest": "patches/",
-    "dest-filename": "1838609-dummy-row-styling.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/a498fed9095a",
-    "sha256": "ecf8b03320b221264d23aaf72ae12e707c971cda40fd17e35b89c4200d57db1d",
-    "dest": "patches/",
-    "dest-filename": "1838347-await-save-attachment.patch"
+    "dest-filename": "1835173-scroll-after-delete.patch"
   },
   {
     "type": "file",
@@ -62,8 +34,8 @@
   },
   {
     "type": "file",
-    "url": "https://phabricator.services.mozilla.com/D181027?download=true",
-    "sha256": "33415bba9ab4ab4244901f4141d7edfffd320e2424ebd2e07500ecde84c29357",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/ba2ef53fe94c",
+    "sha256": "41a4cfc2f3e2e72ef24c6c65049593f49aefc9e2f6be7673a699d9076e5f29c5",
     "dest": "patches/",
     "dest-filename": "1838520-qfb-folder-changes.patch"
   },
@@ -73,19 +45,5 @@
     "sha256": "28fcd12a8e8d315beaa6e03be30eee9b670d28e08cc3f3b5265a1c6e5eba44d3",
     "dest": "patches/",
     "dest-filename": "1835025-ab-view-update.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://phabricator.services.mozilla.com/D181187?download=true",
-    "sha256": "46faf3c12b2d3a975dab382aa2f5b933226a503e8312db2cf052b58090537aec",
-    "dest": "patches/",
-    "dest-filename": "1831190-fix-view-after-repair.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://phabricator.services.mozilla.com/D181019?download=true",
-    "sha256": "7a8c65f7460a9ec221372c96d50971474a599f9b853d8d8186e680a039b531a9",
-    "dest": "patches/",
-    "dest-filename": "1838190-fix-more-feed-icons.patch"
   }
 ]
