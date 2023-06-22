@@ -45,5 +45,12 @@
     "sha256": "28fcd12a8e8d315beaa6e03be30eee9b670d28e08cc3f3b5265a1c6e5eba44d3",
     "dest": "patches/",
     "dest-filename": "1835025-ab-view-update.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://phabricator.services.mozilla.com/D181717?download=true",
+    "sha256": "6ea2104af38efd4cd73f75dcb3f9625b6e80681c2b33ee71bf4699b8942054a9",
+    "dest": "patches/",
+    "dest-filename": "1834479-fix-unified-subfolders-official.patch"
   }
 ]
