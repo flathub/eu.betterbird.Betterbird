@@ -1,6 +1,6 @@
 #!/bin/bash
 
-auto_update_major_release=102
+auto_update_major_release=115
 cd thunderbird-patches
 all_tags=$(git tag | sort)
 new_tags=$(comm -23 <(echo "${all_tags}") <(sort ../eu.betterbird.Betterbird/.known-tags))
