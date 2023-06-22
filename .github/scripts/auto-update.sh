@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 
 auto_update_major_release=115
 cd thunderbird-patches
