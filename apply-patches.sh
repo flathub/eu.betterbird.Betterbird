@@ -44,7 +44,7 @@ while read -r line; do
           exit 1
       fi
   fi
-done < <(grep -E "^[^#].*" thunderbird-patches/$VERSION/series)
+done < <(grep -E "^[^#].*" ../thunderbird-patches/$VERSION/series)
 cd ..
 
 echo
