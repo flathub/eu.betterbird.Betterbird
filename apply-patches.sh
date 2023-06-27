@@ -11,41 +11,39 @@ find thunderbird-patches/$VERSION -type f -name *.patch -exec cp '{}' patches ';
 echo
 echo "======================================================="
 echo "Applying patch series for main repository"
-cat thunderbird-patches/$VERSION/series-M-C | while read line || [[ -n $line ]]
-    do 
-        patch=$(echo $line | cut -f1 -d'#' | sed 's/ *$//')
-        if [[ -n "${patch// }" ]]
-        then
-            if [[ -f patches/$patch ]]
+while read -r line; do
+  patch=$(echo $line | cut -f1 -d'#' | sed 's/ *$//')
+  if [[ -n "${patch// }" ]]
+  then
+      if [[ -f patches/$patch ]]
             then
                 echo Applying patch $patch ... 
                 git apply --apply --allow-empty patches/$patch
             else
                 echo Patch $patch not found. Exiting.
-                exit 1
-            fi
-        fi
-    done
+          exit 1
+      fi
+  fi
+done < <(grep -E "^[^#].*" thunderbird-patches/$VERSION/series-M-C)
 
 echo
 echo "======================================================="
 echo "Applying patch series for comm repository"
 cd comm
-cat ../thunderbird-patches/$VERSION/series | while read line || [[ -n $line ]]
-    do
-        patch=$(echo $line | cut -f1 -d'#' | sed 's/ *$//')
-        if [[ -n "${patch// }" ]]
-        then
-            if [[ -f ../patches/$patch ]]
+while read -r line; do
+  patch=$(echo $line | cut -f1 -d'#' | sed 's/ *$//')
+  if [[ -n "${patch// }" ]]
+  then
+      if [[ -f ../patches/$patch ]]
             then
                 echo Applying patch $patch ... 
                 git apply --apply --allow-empty ../patches/$patch
             else
                 echo Patch $patch not found. Exiting.
-                exit 1
-            fi
-        fi
-    done
+          exit 1
+      fi
+  fi
+done < <(grep -E "^[^#].*" ../thunderbird-patches/$VERSION/series)
 cd ..
 
 echo
