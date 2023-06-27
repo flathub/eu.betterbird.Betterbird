@@ -1,5 +1,6 @@
 #!/bin/bash
 set -eo pipefail
+set -x
 
 VERSION="$1"
 
@@ -16,11 +17,11 @@ while read -r line; do
   if [[ -n "${patch// }" ]]
   then
       if [[ -f patches/$patch ]]
-            then
-                echo Applying patch $patch ... 
-                git apply --apply --allow-empty patches/$patch
-            else
-                echo Patch $patch not found. Exiting.
+      then
+          echo Applying patch $patch ... 
+          git apply --apply --allow-empty patches/$patch
+      else
+          echo Patch $patch not found. Exiting.
           exit 1
       fi
   fi
@@ -35,11 +36,11 @@ while read -r line; do
   if [[ -n "${patch// }" ]]
   then
       if [[ -f ../patches/$patch ]]
-            then
-                echo Applying patch $patch ... 
-                git apply --apply --allow-empty ../patches/$patch
-            else
-                echo Patch $patch not found. Exiting.
+      then
+          echo Applying patch $patch ... 
+          git apply --apply --allow-empty ../patches/$patch
+      else
+          echo Patch $patch not found. Exiting.
           exit 1
       fi
   fi
