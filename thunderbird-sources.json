@@ -1,8 +1,8 @@
 [
   {
     "type": "archive",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.0b4-candidates/build1/source/thunderbird-115.0b4.source.tar.xz",
-    "sha256": "7f9c24e2f4cc6b1a998b3097daddbe56a8e46443c7f69f49dff8f10d914534a6"
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.0b5-candidates/build1/source/thunderbird-115.0b5.source.tar.xz",
+    "sha256": "9f8aa7f43097769219654c151e12a2ccb889755b41f6edd31e87d1aeb0a3e03b"
   },
   {
     "type": "file",
@@ -13,44 +13,16 @@
   },
   {
     "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/c89e92423ca7",
-    "sha256": "42373e2937e1af9c177522a728ab438e085b1c16c7b5c3b50673602b57029565",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/2eaade4a491a",
+    "sha256": "a029c0833cd719288e92937ecd37ce7320f71e36714e3a9f72849fea596a84c7",
     "dest": "patches/",
-    "dest-filename": "1837368-virtual-folder-search.patch"
+    "dest-filename": "1808557-fix-convert-message-to-task.patch"
   },
   {
     "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/62a6a138511c",
-    "sha256": "509a724b154bef9764c8e0cdcccd5cce49be8d110eeaf254a2e504d3b1b4efe4",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/86deb9432786",
+    "sha256": "b7ab8fe11dc3abffecc647626be396e387fae86b771da38fdc0cf3c259c052ed",
     "dest": "patches/",
-    "dest-filename": "1835173-scroll-after-delete.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/8df0e380852f",
-    "sha256": "a56d27f421bdddae493aa6b84cff2acad1581544e52073480f3359f9b6047d8f",
-    "dest": "patches/",
-    "dest-filename": "1836423-search-folder-update.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/ba2ef53fe94c",
-    "sha256": "41a4cfc2f3e2e72ef24c6c65049593f49aefc9e2f6be7673a699d9076e5f29c5",
-    "dest": "patches/",
-    "dest-filename": "1838520-qfb-folder-changes.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/9ca1cd4698e9",
-    "sha256": "28fcd12a8e8d315beaa6e03be30eee9b670d28e08cc3f3b5265a1c6e5eba44d3",
-    "dest": "patches/",
-    "dest-filename": "1835025-ab-view-update.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://phabricator.services.mozilla.com/D181717?download=true",
-    "sha256": "6ea2104af38efd4cd73f75dcb3f9625b6e80681c2b33ee71bf4699b8942054a9",
-    "dest": "patches/",
-    "dest-filename": "1834479-fix-unified-subfolders-official.patch"
+    "dest-filename": "1840407-fix-tab-folder-icon.patch"
   }
 ]
