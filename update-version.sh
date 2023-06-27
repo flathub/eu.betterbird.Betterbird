@@ -128,7 +128,7 @@ while read -r line; do
     $SOURCES_FILE > $tmpfile
   mv $tmpfile $SOURCES_FILE
   rm -f $name
-done < <(grep " # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series-M-C)
+done < <(grep -E "^[^#].* # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series-M-C)
 # patch series for comm repo
 while read -r line; do
   url=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
@@ -140,7 +140,7 @@ while read -r line; do
     $SOURCES_FILE > $tmpfile
   mv $tmpfile $SOURCES_FILE
   rm -f $name
-done < <(grep " # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series)
+done < <(grep -E "^[^#].* # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series)
 rm -rf thunderbird-patches
 
 cat <<EOT
