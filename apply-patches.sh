@@ -13,7 +13,7 @@ echo
 echo "======================================================="
 echo "Applying patch series for main repository"
 while read -r line; do
-  patch=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\1/')
+  patch=$(echo $line | cut -f1 -d'#' | sed 's/ *$//')
   if [[ -n "${patch// }" ]]
   then
       if [[ -f patches/$patch ]]
@@ -25,14 +25,14 @@ while read -r line; do
           exit 1
       fi
   fi
-done < <(grep -E "^[^#].* # " thunderbird-patches/$VERSION/series-M-C)
+done < <(grep -E "^[^#].*" thunderbird-patches/$VERSION/series-M-C)
 
 echo
 echo "======================================================="
 echo "Applying patch series for comm repository"
 cd comm
 while read -r line; do
-  patch=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\1/')
+  patch=$(echo $line | cut -f1 -d'#' | sed 's/ *$//')
   if [[ -n "${patch// }" ]]
   then
       if [[ -f ../patches/$patch ]]
@@ -44,7 +44,7 @@ while read -r line; do
           exit 1
       fi
   fi
-done < <(grep -E "^[^#].* # " thunderbird-patches/$VERSION/series)
+done < <(grep -E "^[^#].*" thunderbird-patches/$VERSION/series)
 cd ..
 
 echo
