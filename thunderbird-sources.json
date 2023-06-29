@@ -10,19 +10,5 @@
     "sha256": "d6af2e46dfb13e5cc2d8ddfcfa712a80aac3b92a72249a625a063db2a9fa6694",
     "dest": "patches/",
     "dest-filename": "1836735-fix-startup-console-error.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/2eaade4a491a",
-    "sha256": "a029c0833cd719288e92937ecd37ce7320f71e36714e3a9f72849fea596a84c7",
-    "dest": "patches/",
-    "dest-filename": "1808557-fix-convert-message-to-task.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/86deb9432786",
-    "sha256": "b7ab8fe11dc3abffecc647626be396e387fae86b771da38fdc0cf3c259c052ed",
-    "dest": "patches/",
-    "dest-filename": "1840407-fix-tab-folder-icon.patch"
   }
 ]
