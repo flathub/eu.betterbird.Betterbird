@@ -64,7 +64,7 @@ then
       rm -f ../$langpack
 
       echo "   * removing original branding"
-      rm -f chrome/$lang/locale/$lang/branding/*
+      rm -f chrome/$lang/locale/branding/*
       rm -f localization/$lang/branding/*
 
       echo "   * modifying manifest.json"
@@ -74,7 +74,7 @@ then
       echo "   * copying Betterbird branding from en-US"
       branding_source="../../comm/mail/branding/betterbird/locales/en-US"
       cp "$branding_source/brand.ftl" localization/$lang/branding/
-      cp "$branding_source/brand.dtd" "$branding_source/brand.properties" chrome/$lang/locale/$lang/branding/ 
+      cp "$branding_source/brand.dtd" "$branding_source/brand.properties" chrome/$lang/locale/branding/ 
 
       bb_string_patcher="../../thunderbird-patches/$VERSION/scripts/$lang.cmd"
       if [[ -f "$bb_string_patcher" ]]
