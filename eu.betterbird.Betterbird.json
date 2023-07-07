@@ -19,7 +19,6 @@
     "--filesystem=xdg-download:rw",
     "--talk-name=org.a11y.Bus",
     "--own-name=org.mozilla.betterbird.*",
-    "--talk-name=org.freedesktop.Notifications",
     "--socket=pcsc",
     "--require-version=0.10.3",
     "--filesystem=~/.gnupg",
@@ -283,9 +282,9 @@
         {
           "type": "git",
           "url": "https://github.com/Betterbird/thunderbird-patches.git",
-          "commit": "9050da8ead144265c509171b09ab4f17f91736bd",
+          "commit": "9ae047f84ca20cc297d557a5a9c36c0b64743207",
           "dest": "thunderbird-patches",
-          "tag": "102.12.0-bb37"
+          "tag": "102.13.0-bb38"
         },
         {
           "type": "file",
@@ -322,10 +321,6 @@
         {
           "type": "file",
           "path": "fonts.conf"
-        },
-        {
-          "type": "patch",
-          "path": "rust1.70.patch"
         }
       ]
     }
