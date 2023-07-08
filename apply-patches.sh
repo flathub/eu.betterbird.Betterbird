@@ -29,6 +29,8 @@ done < <(grep -E "^[^#].*" thunderbird-patches/$VERSION/series-M-C)
 echo
 echo "======================================================="
 echo "Applying patch series for comm repository"
+echo "... without icon patch for Windows installer (04-branding)"
+sed -i 's/04-branding.patch/# 04-branding.patch/g' thunderbird-patches/$VERSION/series
 cd comm
 while read -r line; do
   patch=$(echo $line | cut -f1 -d'#' | sed 's/ *$//')
