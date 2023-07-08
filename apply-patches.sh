@@ -29,6 +29,8 @@ done < <(grep -E "^[^#].*" thunderbird-patches/$VERSION/series-M-C)
 echo
 echo "======================================================="
 echo "Applying patch series for comm repository"
+echo "... without icon patch for Windows installer (04-branding)"
+sed -i 's/04-branding.patch/# 04-branding.patch/g' thunderbird-patches/$VERSION/series
 cd comm
 while read -r line; do
   patch=$(echo $line | cut -f1 -d'#' | sed 's/ *$//')
@@ -64,7 +66,7 @@ then
       rm -f ../$langpack
 
       echo "   * removing original branding"
-      rm -f chrome/$lang/locale/$lang/branding/*
+      rm -f chrome/$lang/locale/branding/*
       rm -f localization/$lang/branding/*
 
       echo "   * modifying manifest.json"
@@ -74,13 +76,13 @@ then
       echo "   * copying Betterbird branding from en-US"
       branding_source="../../comm/mail/branding/betterbird/locales/en-US"
       cp "$branding_source/brand.ftl" localization/$lang/branding/
-      cp "$branding_source/brand.dtd" "$branding_source/brand.properties" chrome/$lang/locale/$lang/branding/ 
+      cp "$branding_source/brand.dtd" "$branding_source/brand.properties" chrome/$lang/locale/branding/ 
 
       bb_string_patcher="../../thunderbird-patches/$VERSION/scripts/$lang.cmd"
       if [[ -f "$bb_string_patcher" ]]
       then
           echo "   * adding extra strings"
-          sed -ri 's/^(::|REM)/#/; s/%lecho%/lessecho/; s/\r$//; s/\$/\\\$/g' "$bb_string_patcher"
+          sed -ri 's/^(::|REM)/#/; s/%lecho%/lessecho/; s/\r$//; s/\$/\\\$/g; s/%%S/%S/g' "$bb_string_patcher"
           perl -pi -e 's#\\(?=[^ ]+$)#/#g' "$bb_string_patcher"
           . "$bb_string_patcher"
       fi
