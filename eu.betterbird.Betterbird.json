@@ -282,9 +282,9 @@
         {
           "type": "git",
           "url": "https://github.com/Betterbird/thunderbird-patches.git",
-          "commit": "ea79f6dc4f53b3d093c9e94672245d947199d9a8",
+          "commit": "a3d6d896d24de44fa55c0dcd3b596f7739f6c70b",
           "dest": "thunderbird-patches",
-          "tag": "115.0-bb6-build9-Mac-only"
+          "tag": "115.0-bb6-build10"
         },
         {
           "type": "file",

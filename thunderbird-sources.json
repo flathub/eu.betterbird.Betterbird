@@ -94,5 +94,47 @@
     "sha256": "9a9cdfc5a5fe3857b56d7ddb1bf1396e51423b8ce6950c68419e0aab6bcd0813",
     "dest": "patches/",
     "dest-filename": "1841200-folder-tree-enter.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/62a6a138511c",
+    "sha256": "509a724b154bef9764c8e0cdcccd5cce49be8d110eeaf254a2e504d3b1b4efe4",
+    "dest": "patches/",
+    "dest-filename": "1835173-deletion-mess-part1.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/f4ecceb0af98",
+    "sha256": "9c24e7c662ca01f171cf16e0fe70b18a587e0acbc68e1d9807576633864d3ae8",
+    "dest": "patches/",
+    "dest-filename": "1840007-deletion-mess-part2.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/277b0ef6873d",
+    "sha256": "19f63270611c3054d39f9ab541ae91e540f8265fd62da7bd144e72312d5bd809",
+    "dest": "patches/",
+    "dest-filename": "1837041-deletion-mess-part3.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/df334c424861",
+    "sha256": "876fc066e4c12a96a012fed4a27865cd6f6a129b3aae0b1bc36813116aab0d20",
+    "dest": "patches/",
+    "dest-filename": "1841208-deletion-mess-part4.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/816193cc2a2e",
+    "sha256": "923057e9e452a6420c3054a81b24dff4125e8f434a9727fb6be15b2a72528972",
+    "dest": "patches/",
+    "dest-filename": "1842126-deletion-mess-part5.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/e5e02e731940",
+    "sha256": "c2a47adf5b7f0d1a1774b35d72ff73585ec4849a52d80688dc054bf05d965e83",
+    "dest": "patches/",
+    "dest-filename": "1833665-deletion-mess-part6.patch"
   }
 ]
