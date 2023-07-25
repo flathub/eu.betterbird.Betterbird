@@ -83,6 +83,13 @@
   },
   {
     "type": "file",
+    "url": "https://hg.mozilla.org/mozilla-central/raw-rev/d8a8eaf13f78",
+    "sha256": "959f95f4150a0cfaa4001292f0a4a9411444042a16ae99a71a6d82f4549a670f",
+    "dest": "patches/",
+    "dest-filename": "1819592-1803739-no-sec-headers-for-feeds-m-c.patch"
+  },
+  {
+    "type": "file",
     "url": "https://hg.mozilla.org/comm-central/raw-rev/0e11a569621a",
     "sha256": "d6af2e46dfb13e5cc2d8ddfcfa712a80aac3b92a72249a625a063db2a9fa6694",
     "dest": "patches/",
