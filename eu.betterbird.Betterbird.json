@@ -282,9 +282,9 @@
         {
           "type": "git",
           "url": "https://github.com/Betterbird/thunderbird-patches.git",
-          "commit": "464b02fa0d5bd3dcdbf2ff5e6f1fd7a75c8e4811",
+          "commit": "a0030b806a4a70ccafbe79c5ad019621703bbe69",
           "dest": "thunderbird-patches",
-          "tag": "115.1.0-bb8-pre-release"
+          "tag": "115.1.0-bb8"
         },
         {
           "type": "file",
