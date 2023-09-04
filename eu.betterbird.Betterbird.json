@@ -26,8 +26,6 @@
     "--filesystem=/run/.heim_org.h5l.kcm-socket",
     "--filesystem=/var/mail",
     "--filesystem=/var/spool/mail",
-    "--filesystem=/usr/mail",
-    "--filesystem=/usr/spool/mail",
     "--socket=cups"
   ],
   "cleanup": [
