@@ -6,7 +6,7 @@
   "sdk-extensions": [
     "org.freedesktop.Sdk.Extension.rust-stable",
     "org.freedesktop.Sdk.Extension.node18",
-    "org.freedesktop.Sdk.Extension.llvm15"
+    "org.freedesktop.Sdk.Extension.llvm16"
   ],
   "command": "betterbird",
   "finish-args": [
@@ -225,8 +225,8 @@
       "name": "betterbird",
       "buildsystem": "simple",
       "build-options": {
-        "append-path": "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/node18/bin:/usr/lib/sdk/llvm15/bin",
-        "prepend-ld-library-path": "/usr/lib/sdk/llvm15/lib",
+        "append-path": "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/node18/bin:/usr/lib/sdk/llvm16/bin",
+        "prepend-ld-library-path": "/usr/lib/sdk/llvm16/lib",
         "env": {
           "TERM": "linux",
           "CARGO_HOME": "/run/build/betterbird/cargo",
