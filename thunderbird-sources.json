@@ -146,9 +146,65 @@
   },
   {
     "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/e263d251112e",
+    "sha256": "1538c3295c1ae7e752cef33d7f5727a2394adaceaaf444e33e70361b8c5ac225",
+    "dest": "patches/",
+    "dest-filename": "1842482-middle-click.patch"
+  },
+  {
+    "type": "file",
     "url": "https://hg.mozilla.org/comm-central/raw-rev/6faeed02e049",
     "sha256": "670d90ed5650ea4b7a87848526198b98e900354a6b6ec37375f676fe2c89075b",
     "dest": "patches/",
     "dest-filename": "1843707-from-field-width-official.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/605a9a33202a",
+    "sha256": "f5331205dc747a01d0aa7ac4b4a3a26e4ba05a39a6191f8bee2e8ca038cd2d7e",
+    "dest": "patches/",
+    "dest-filename": "1845376-fix-mark-as-deleted-jump.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/31f5a02e3c8f",
+    "sha256": "92e451444de241340393fd8cfbf9d6e89dd731d6a1b0ae8d9643dfdf0ff1ffe3",
+    "dest": "patches/",
+    "dest-filename": "1850850-fix-mark-as-read-multiple.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/8b4bbad19903",
+    "sha256": "cd8c8e6b55959f2561aaafb4b776b4631f396c4242e7f42e201587fda0785564",
+    "dest": "patches/",
+    "dest-filename": "1806860-fix-status-bar-compose.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/1a98572a0114",
+    "sha256": "a21fca11a456c26af40766e7c6e768090e38d0169110a2270c9e73c15664dceb",
+    "dest": "patches/",
+    "dest-filename": "1848155-fill-Mac-compose-tools.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/0ae43dd02062",
+    "sha256": "b8e7741969b8ea354da8368fa845ada091b761962017b219fdbad27a7a787f54",
+    "dest": "patches/",
+    "dest-filename": "1847441-splitter-separators.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/144ba5ff17ef",
+    "sha256": "2d58e3eac5e41777e79940935b6664939ca90a021392e888fc0269d4e1cc6a7a",
+    "dest": "patches/",
+    "dest-filename": "1848261-event-invitees-scrollbar.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/aab067903744",
+    "sha256": "df33aa98efbac40b8fceb5e12d43211feee58767da1aa28ef78f7de759e5a140",
+    "dest": "patches/",
+    "dest-filename": "1670457-newsgroup-autocomplete.patch"
   }
 ]
