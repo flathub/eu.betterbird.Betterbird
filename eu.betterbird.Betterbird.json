@@ -282,9 +282,9 @@
         {
           "type": "git",
           "url": "https://github.com/Betterbird/thunderbird-patches.git",
-          "commit": "85c4d84dc06f26374aecf131eae185d77f6c8b68",
+          "commit": "1b20bb554901a48e6f6fc2a2765c32c112f7ab7a",
           "dest": "thunderbird-patches",
-          "tag": "115.2.0-bb10"
+          "tag": "115.2.0-bb10-build2a-aka-refresh"
         },
         {
           "type": "file",
