@@ -83,6 +83,13 @@
   },
   {
     "type": "file",
+    "url": "https://hg.mozilla.org/releases/mozilla-esr115/raw-rev/2e61ec742c20",
+    "sha256": "ac27a9cc6525bfd2c7647e92aec46dcb4b76483e319585446d5cf2362ed422ad",
+    "dest": "patches/",
+    "dest-filename": "1852649-libwebp-fix.patch"
+  },
+  {
+    "type": "file",
     "url": "https://hg.mozilla.org/comm-central/raw-rev/0e11a569621a",
     "sha256": "d6af2e46dfb13e5cc2d8ddfcfa712a80aac3b92a72249a625a063db2a9fa6694",
     "dest": "patches/",
@@ -164,6 +171,34 @@
     "sha256": "c52197d297847bd543f350578235d16cb2aacd0cd7f7fd2fe10939d0f3df4c44",
     "dest": "patches/",
     "dest-filename": "1849919-fix-go-folder.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/28a5389aa264",
+    "sha256": "62047e53b9fc2546b5a4faebd48976f1ac489f1cfd92826375b9f16e301677f0",
+    "dest": "patches/",
+    "dest-filename": "1824889-fix-message-count-part1.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/c21caa5b4d1c",
+    "sha256": "5ad101478815b50b32b799593bb820eedb21c3fe2c7c1ed90fbd09024aab187f",
+    "dest": "patches/",
+    "dest-filename": "1824889-fix-message-count-part2.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/57adabcbe8c7",
+    "sha256": "7a694ce26a33cd599949c6fdfdef5eb83b578cc5707dbc984a7a8f9cac69fb79",
+    "dest": "patches/",
+    "dest-filename": "673703-fix-non-deletion-of-nsmail-9999-official.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/fd461cee4898",
+    "sha256": "da5f7cfe94e5656a8cea613e9fd3b5e028d54672ff7bab366d96f88749c8e4c8",
+    "dest": "patches/",
+    "dest-filename": "1801668-fix-smtp-timeout.patch"
   },
   {
     "type": "file",
