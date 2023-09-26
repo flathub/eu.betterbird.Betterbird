@@ -1,12 +1,12 @@
 {
   "id": "eu.betterbird.Betterbird",
   "runtime": "org.freedesktop.Platform",
-  "runtime-version": "22.08",
+  "runtime-version": "23.08",
   "sdk": "org.freedesktop.Sdk",
   "sdk-extensions": [
     "org.freedesktop.Sdk.Extension.rust-stable",
-    "org.freedesktop.Sdk.Extension.node16",
-    "org.freedesktop.Sdk.Extension.llvm15"
+    "org.freedesktop.Sdk.Extension.node18",
+    "org.freedesktop.Sdk.Extension.llvm16"
   ],
   "command": "betterbird",
   "finish-args": [
@@ -213,8 +213,8 @@
         {
           "type": "git",
           "url": "https://github.com/eqrion/cbindgen.git",
-          "tag": "v0.23.0",
-          "commit": "798cfab52bced65a749443faa16990ec3a8e0cfe"
+          "tag": "v0.24.3",
+          "commit": "f43ccfc047a1a160267f32355c5e5e7154a2665a"
         },
         "cbindgen-sources.json"
       ]
@@ -223,18 +223,18 @@
       "name": "betterbird",
       "buildsystem": "simple",
       "build-options": {
-        "append-path": "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/node16/bin:/usr/lib/sdk/llvm15/bin",
-        "prepend-ld-library-path": "/usr/lib/sdk/llvm15/lib",
+        "append-path": "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/node18/bin:/usr/lib/sdk/llvm16/bin",
+        "prepend-ld-library-path": "/usr/lib/sdk/llvm16/lib",
         "env": {
           "TERM": "linux",
           "CARGO_HOME": "/run/build/betterbird/cargo",
-          "npm_config_nodedir": "/usr/lib/sdk/node16"
+          "npm_config_nodedir": "/usr/lib/sdk/node18"
         }
       },
       "build-commands": [
-        "./make-mozconfig.sh 102",
+        "./make-mozconfig.sh 115",
         "chmod u+x apply-patches.sh",
-        "./apply-patches.sh 102",
+        "./apply-patches.sh 115",
         "sed -i 's#-I/usr/include#-I/app/include#g' comm/third_party/appindicator/moz.build",
         "export MOZ_BUILD_DATE=$(cat .build-date); ./mach configure; ./mach build -v -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install",
         "rm -rf /app/lib/thunderbird/chrome",
@@ -244,15 +244,15 @@
         "install -Dm644 policies.json /app/lib/betterbird/distribution/policies.json",
         "install -Dm644 distribution.ini /app/lib/betterbird/distribution/distribution.ini",
         "install -Dm644 default-preferences.js /app/lib/betterbird/defaults/pref/default-preferences.js",
-        "mkdir -p /app/lib/betterbird/distribution/extensions",
-        "for lang in langpacks/*.xpi;do export locale=$(basename -s .xpi $lang); install -Dm644 -t /app/share/runtime/locale/${locale:9:2}/ $lang; ln -sf /app/share/runtime/locale/${locale:9:2}/$(basename $lang) /app/lib/betterbird/distribution/extensions/$(basename $lang); done",
+        "mkdir -p /app/lib/betterbird/extensions",
+        "for lang in langpacks/*.xpi;do export locale=$(basename -s .xpi $lang); install -Dm644 -t /app/share/runtime/locale/${locale:9:2}/ $lang; ln -sf /app/share/runtime/locale/${locale:9:2}/$(basename $lang) /app/lib/betterbird/extensions/$(basename $lang); done",
         "for i in 16 22 24 32 48 64 128 256;do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/lib/betterbird/chrome/icons/default/default${i}.png;done",
         "install -Dm644 comm/mail/branding/betterbird/default.svg /app/lib/betterbird/chrome/icons/default/default.svg",
         "install -Dm644 comm/mail/branding/betterbird/newmail.svg /app/lib/betterbird/chrome/icons/default/newmail.svg",
         "for i in 16 22 24 32 48 64 128 256;do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png;done",
         "install -Dm644 thunderbird-patches/metadata/icons/betterbird.svg /app/share/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg",
         "install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop /app/share/applications/eu.betterbird.Betterbird.desktop",
-        "install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.appdata.xml /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml",
+        "install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.115.appdata.xml /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml",
         "install -Dm644 fonts.conf /app/etc/fonts/local.conf"
       ],
       "sources": [
@@ -280,13 +280,17 @@
         {
           "type": "git",
           "url": "https://github.com/Betterbird/thunderbird-patches.git",
-          "commit": "8b46bbf2fe7a949b82f65e01303aea6064aad347",
+          "commit": "176d0f21c56409ad0d8c5545b34fff8c21a11231",
           "dest": "thunderbird-patches",
-          "tag": "102.15.1-bb41"
+          "tag": "115.2.3-bb12-build2"
         },
         {
           "type": "file",
           "path": "mozconfig-flatpak"
+        },
+        {
+          "type": "file",
+          "path": "mozconfig-aarch64"
         },
         {
           "type": "file",
@@ -306,7 +310,7 @@
           "type": "script",
           "dest-filename": "make-mozconfig.sh",
           "commands": [
-            "cat thunderbird-patches/$1/mozconfig-Linux-aarch64 mozconfig-flatpak > mozconfig"
+            "cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak mozconfig-aarch64 > mozconfig"
           ],
           "only-arches": [
             "aarch64"

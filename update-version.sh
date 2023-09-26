@@ -15,7 +15,7 @@ BETTERBIRD_REPO="https://github.com/Betterbird/thunderbird-patches"
 PACKAGE=thunderbird
 PLATFORM=linux-x86_64
 SOURCES_FILE="$PACKAGE-sources.json"
-APPDATA_FILE="thunderbird-patches/metadata/eu.betterbird.Betterbird.appdata.xml"
+APPDATA_FILE="thunderbird-patches/metadata/eu.betterbird.Betterbird.115.appdata.xml"
 MANIFEST_FILE="eu.betterbird.Betterbird.json"
 DIST_FILE="distribution.ini"
 BUILD_DATE_FILE=".build-date"
@@ -45,11 +45,11 @@ if [[ "$source_spec" == "tag" ]]
 then
   # check if version from appdata.xml agrees with tag
   betterbird_version_appdata=$(cat $APPDATA_FILE | grep '<release version=' | sed -r 's@^\s+<release version="(([^"])+)(" date=")([^"]+)(">)$@\1@')
-  if [[ "$betterbird_version_appdata" != "$BETTERBIRD_VERSION" ]]
-  then
-    echo "Betterbird version given on command line ($BETTERBIRD_VERSION) and version according to $APPDATA_FILE ($betterbird_version_appdata) don't agree. Stopping."
-    exit 1
-  fi
+  #if [[ "$betterbird_version_appdata" != "$BETTERBIRD_VERSION" ]]
+  #then
+  #  echo "Betterbird version given on command line ($BETTERBIRD_VERSION) and version according to $APPDATA_FILE ($betterbird_version_appdata) don't agree. Stopping."
+  #  exit 1
+  #fi
 fi
 
 # save current date
@@ -121,26 +121,26 @@ sed -i 's/version=.*$/version='"$(git rev-parse --short $betterbird_commit)"'/' 
 while read -r line; do
   url=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
   name=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\1/')
-  wget $url -O $name
+  wget $url --max-redirect=20 -O $name
   sha256=$(sha256sum "$name" | cut -f1 -d' ')
   jq --arg url $url --arg name $name --arg sha256 $sha256 \
     '. += [{"type":"file","url":$url,"sha256":$sha256,"dest":"patches/","dest-filename":$name}]' \
     $SOURCES_FILE > $tmpfile
   mv $tmpfile $SOURCES_FILE
   rm -f $name
-done < <(grep " # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series-M-C)
+done < <(grep -E "^[^#].* # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series-M-C)
 # patch series for comm repo
 while read -r line; do
   url=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
   name=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\1/')
-  wget $url -O $name
+  wget $url --max-redirect=20 -O $name
   sha256=$(sha256sum "$name" | cut -f1 -d' ')
   jq --arg url $url --arg name $name --arg sha256 $sha256 \
     '. += [{"type":"file","url":$url,"sha256":$sha256,"dest":"patches/","dest-filename":$name}]' \
     $SOURCES_FILE > $tmpfile
   mv $tmpfile $SOURCES_FILE
   rm -f $name
-done < <(grep " # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series)
+done < <(grep -E "^[^#].* # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series)
 rm -rf thunderbird-patches
 
 cat <<EOT

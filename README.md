@@ -8,7 +8,8 @@ Betterbird is a fine-tuned version of [Mozilla Thunderbird](https://www.thunderb
 - [Flathub builds](https://buildbot.flathub.org/#/apps/eu.betterbird.Betterbird)
 - [Betterbird repo](https://github.com/Betterbird/thunderbird-patches)
 - [Thunderbird flathub repo](https://github.com/flathub/org.mozilla.Thunderbird)
-- [Thunderbird 102 builds](https://treeherder.mozilla.org/jobs?repo=comm-esr102)
+- [Thunderbird 115 builds](https://treeherder.mozilla.org/jobs?repo=comm-esr115)
+- [Mozilla Code Search](https://searchfox.org/)
 
 ## Migration from pre-exisiting installations
 
