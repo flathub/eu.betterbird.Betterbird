@@ -252,7 +252,7 @@
         "for i in 16 22 24 32 48 64 128 256;do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png;done",
         "install -Dm644 thunderbird-patches/metadata/icons/betterbird.svg /app/share/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg",
         "install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop /app/share/applications/eu.betterbird.Betterbird.desktop",
-        "install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.115.appdata.xml /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml",
+        "install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.appdata.xml /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml",
         "install -Dm644 fonts.conf /app/etc/fonts/local.conf"
       ],
       "sources": [
