@@ -247,7 +247,7 @@
         "install -Dm644 default-preferences.js /app/lib/betterbird/defaults/pref/default-preferences.js",
         "mkdir -p /app/lib/betterbird/extensions",
         "ls -la /app/share/runtime/locale/",
-        "for lang in langpacks/*.xpi;do export locale=$(basename -s .xpi $lang); install -Dm644 -t /app/share/runtime/locale/${locale:9:2}/ $lang; ln -sf /app/share/runtime/locale/${locale:9:2}/$(basename $lang) /app/lib/betterbird/extensions/$(basename $lang); done",
+        "for xpi in langpacks/*.xpi;do export locale=$(basename -s .xpi $xpi); install -Dm644 -t /app/share/runtime/locale/${locale:9:2}/ $xpi; ln -sf /app/share/runtime/locale/${locale:9:2}/$(basename $xpi) /app/lib/betterbird/extensions/$(basename $xpi); done",
         "ls -la /app/share/runtime/locale/",
         "ls -la /app/share/runtime/locale/de/",
         "for i in 16 22 24 32 48 64 128 256;do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/lib/betterbird/chrome/icons/default/default${i}.png;done",
