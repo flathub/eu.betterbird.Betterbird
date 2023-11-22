@@ -280,9 +280,9 @@
         {
           "type": "git",
           "url": "https://github.com/Betterbird/thunderbird-patches.git",
-          "commit": "61bc207ad768ce00df9c7ab71668b5005d99b4c7",
+          "commit": "a7eaa0a72f79ebe0ec94e61985e6d4fe6f39ad6c",
           "dest": "thunderbird-patches",
-          "tag": "115.4.2-bb17"
+          "tag": "115.5.0-bb18"
         },
         {
           "type": "file",
