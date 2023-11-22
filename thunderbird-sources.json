@@ -1,113 +1,113 @@
 [
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.4.2-candidates/build1/linux-x86_64/xpi/cs.xpi",
-    "sha256": "abd2d6eb0429c347e3fc582385e3944c9371ae4264fb093b04d9d75dc3868ed6",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.5.0-candidates/build1/linux-x86_64/xpi/cs.xpi",
+    "sha256": "5af68fafb5e94ddb85aec82b9021da6773930ab63408caa61092c20302565b64",
     "dest": "langpacks/",
     "dest-filename": "langpack-cs@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.4.2-candidates/build1/linux-x86_64/xpi/de.xpi",
-    "sha256": "6f612ec11f0b58d4df219d6e4bbca8adb7b0a45b316cb62312a1b8eaf4abbfe5",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.5.0-candidates/build1/linux-x86_64/xpi/de.xpi",
+    "sha256": "721cc4215b24206caa7c3eaf161a530841e95eaeda67f91ce943819c87bcfe0d",
     "dest": "langpacks/",
     "dest-filename": "langpack-de@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.4.2-candidates/build1/linux-x86_64/xpi/en-GB.xpi",
-    "sha256": "8fd693b0e08b63a9e8f03b0d242ef1048bdc7cb7ff19218ab6278f3f93910a44",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.5.0-candidates/build1/linux-x86_64/xpi/en-GB.xpi",
+    "sha256": "59c9907b64408df6a85d068450e585fb832c5a98a3cdd7859ffa9c892ec37e5b",
     "dest": "langpacks/",
     "dest-filename": "langpack-en-GB@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.4.2-candidates/build1/linux-x86_64/xpi/es-AR.xpi",
-    "sha256": "ddc2078f4034ea73a8391bbdd94aede3be817b4aef097b80b04f593fd3114084",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.5.0-candidates/build1/linux-x86_64/xpi/es-AR.xpi",
+    "sha256": "496aed9f5bec32fb934dc73bf0fcfb6622e54f5a8c53bce5b3adc002f17d6368",
     "dest": "langpacks/",
     "dest-filename": "langpack-es-AR@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.4.2-candidates/build1/linux-x86_64/xpi/fr.xpi",
-    "sha256": "38be7250b7c406f71350218ee4c0b50e04137d57c7e713764aec2ace87c7f159",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.5.0-candidates/build1/linux-x86_64/xpi/fr.xpi",
+    "sha256": "866d803496a7760d808520a23aa8f9a943a1aaea9b90c719a0fc13c2e2cf35c3",
     "dest": "langpacks/",
     "dest-filename": "langpack-fr@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.4.2-candidates/build1/linux-x86_64/xpi/it.xpi",
-    "sha256": "147e8c93963d0831aae85627b8398dcab5f16acb10b070ad302d2e6ac5c3a80d",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.5.0-candidates/build1/linux-x86_64/xpi/it.xpi",
+    "sha256": "f11516e2ec4905d58f69c9c475ba7cdd69ae419028621911f720b0f0c560697b",
     "dest": "langpacks/",
     "dest-filename": "langpack-it@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.4.2-candidates/build1/linux-x86_64/xpi/ja.xpi",
-    "sha256": "7bd87ce03166c0bb30effb641d62e136bf0fcf03e922458815a2524752464a84",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.5.0-candidates/build1/linux-x86_64/xpi/ja.xpi",
+    "sha256": "cd49f1d300c61723faefef53c30a5268d36359aa33cdfe94d310f376f627c37d",
     "dest": "langpacks/",
     "dest-filename": "langpack-ja@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.4.2-candidates/build1/linux-x86_64/xpi/nl.xpi",
-    "sha256": "b68052221cec47d80ce66bb39e5b299d5d7bdf5ccbe2f54ba3f8f3f8a4c04e00",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.5.0-candidates/build1/linux-x86_64/xpi/nl.xpi",
+    "sha256": "1b7dcf5b5bfd60edf9e64caf0aabb9fec63f759da622c92ede77ff01d98a6108",
     "dest": "langpacks/",
     "dest-filename": "langpack-nl@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.4.2-candidates/build1/linux-x86_64/xpi/pl.xpi",
-    "sha256": "91d227c8b1b5d821beddcd97c5080b527e4b1acffda25e1ac124b6de7ed495be",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.5.0-candidates/build1/linux-x86_64/xpi/pl.xpi",
+    "sha256": "1b4d6aa6db3cd4046380d0af6144e185c56bf916a2a33b23908bd72d87bedeb9",
     "dest": "langpacks/",
     "dest-filename": "langpack-pl@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.4.2-candidates/build1/linux-x86_64/xpi/pt-BR.xpi",
-    "sha256": "ed39c9fb0df0eef3fa42d16eade327b61d36760c6e4762ab108f7facdf5b73dd",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.5.0-candidates/build1/linux-x86_64/xpi/pt-BR.xpi",
+    "sha256": "d8344d6358b20bd4b81f378371e436d0cb2c610bb4084b58d3a5ae425c1d32e6",
     "dest": "langpacks/",
     "dest-filename": "langpack-pt-BR@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.4.2-candidates/build1/linux-x86_64/xpi/ru.xpi",
-    "sha256": "aec8efd98958db781ff2a821440f0dc5462fd33d6937490829e9c2fd36e9a704",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.5.0-candidates/build1/linux-x86_64/xpi/ru.xpi",
+    "sha256": "670692e011c1360244c42b4c8cfe93de7c5aef8b3204dee99254da1427c0d029",
     "dest": "langpacks/",
     "dest-filename": "langpack-ru@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.4.2-candidates/build1/linux-x86_64/xpi/sq.xpi",
-    "sha256": "d97c0b239736e3f02560f0e1d479590db190f5cee194b68d96935aa583c2a536",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.5.0-candidates/build1/linux-x86_64/xpi/sq.xpi",
+    "sha256": "db7cacde742248fd3f67f9b3da19409175a5b4e10999d016091400233364f79b",
     "dest": "langpacks/",
     "dest-filename": "langpack-sq@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.4.2-candidates/build1/linux-x86_64/xpi/zh-CN.xpi",
-    "sha256": "a3393580a89f269fd9daaf66f643145bf1d50fc0c319ee8c76100d79168dc490",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.5.0-candidates/build1/linux-x86_64/xpi/zh-CN.xpi",
+    "sha256": "bb5a815d6a25304fe915ec82d60bb4a5446577066ffb0f5553328a1ab60653f0",
     "dest": "langpacks/",
     "dest-filename": "langpack-zh-CN@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "archive",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.4.2-candidates/build1/source/thunderbird-115.4.2.source.tar.xz",
-    "sha256": "3c08e3ec5bc803bb81d329e090be0a60a668614d42176a904c5e7eb06d952ed2"
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/115.5.0-candidates/build1/source/thunderbird-115.5.0.source.tar.xz",
+    "sha256": "dc24886b2d2223d23141dbfb29855c0254de2603bd829d4cbc7dc4ea2ac711fa"
   },
   {
     "type": "file",
-    "url": "https://hg.mozilla.org/releases/comm-beta/raw-rev/f1cf5756ad16",
-    "sha256": "695bd7bc273b011b1c998ed40881c16e159b4cc6525bf289bb6d9dfe430b7391",
+    "url": "https://hg.mozilla.org/mozilla-central/raw-rev/9a15449ff274",
+    "sha256": "94c6471a36c827a7cd7af2cf2417e4bbc863419651527a40a34c06b86c084cc2",
     "dest": "patches/",
-    "dest-filename": "1827042-fix-scroll-open-folder-part1.patch"
+    "dest-filename": "1848232-build-notificationserver-dll-m-c.patch"
   },
   {
     "type": "file",
-    "url": "https://hg.mozilla.org/releases/comm-beta/raw-rev/099cd459f6e1",
-    "sha256": "2028d3607a1d15e196925f69ad0a244de2af434883cefd87054764220f72afa9",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/83daba9c6525",
+    "sha256": "d4c36f195e35efb7768e7b98ca58d0e243b297161d0edd57776bfce02c8f77ff",
     "dest": "patches/",
-    "dest-filename": "1827042-fix-scroll-open-folder-part2.patch"
+    "dest-filename": "1838139-build-notificationserver-dll.patch"
   },
   {
     "type": "file",
@@ -118,13 +118,6 @@
   },
   {
     "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/596ad9d8fa8e",
-    "sha256": "adbf7f656fc8ac49ddf28580f20980002ab79a21650be4ebd6c650a0771f4365",
-    "dest": "patches/",
-    "dest-filename": "1859938-fix-forward-multiple.patch"
-  },
-  {
-    "type": "file",
     "url": "https://hg.mozilla.org/comm-central/raw-rev/e05fe3292cea",
     "sha256": "100a83d978b39d6e403b3e0b2c0dcce4167996fa790f24acffeeeb4c1901cb86",
     "dest": "patches/",
@@ -132,52 +125,10 @@
   },
   {
     "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/5f4efc19ba13",
-    "sha256": "cafbb17420583d9c8140a2370f2688fc1e3f197d273d1005d02427bc8dc6e473",
-    "dest": "patches/",
-    "dest-filename": "1859050-unthreaded-search-results.patch"
-  },
-  {
-    "type": "file",
     "url": "https://hg.mozilla.org/comm-central/raw-rev/0d80c94d09db",
     "sha256": "d743482c461b0a65faf55c867ca6f470c8ef1be3a3d9549b7b098af3351a1a3b",
     "dest": "patches/",
     "dest-filename": "1858461-gloda-search-panel-close.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/19802b8ae450",
-    "sha256": "e55dca8b436147c6f85378a28ed4e97546493544910e7abed8326d0dfd829153",
-    "dest": "patches/",
-    "dest-filename": "1860539-disallow-open-in-conversation-multiple.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/a28fef71a044",
-    "sha256": "4221f7945f418830da96d0ce6c04093f500af87d0ffe0ea5f4b2497a1651b419",
-    "dest": "patches/",
-    "dest-filename": "1847792-cmd_nextUnreadMsg.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/61d9a952ae1e",
-    "sha256": "4922010d86de80e0522d8d26bdbed3430a83d6627a01992493faae98b782cd81",
-    "dest": "patches/",
-    "dest-filename": "1841256-indentation-grouped-by-sort.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/168ff8d9bb14",
-    "sha256": "7ca0b7edd43c8e7135d3c692447cf7d1fa5cdcbfa82c331b21e6c091ac9726ca",
-    "dest": "patches/",
-    "dest-filename": "1856266-gloda-select-original.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/c3785777362c",
-    "sha256": "9249eb9652bd1323ff16343a4f1fd3c37639c113ce39290cda7d7d8ad93d028d",
-    "dest": "patches/",
-    "dest-filename": "1839035-clean-dummy-row-official.patch"
   },
   {
     "type": "file",
@@ -202,16 +153,37 @@
   },
   {
     "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/b6b4e8a8c451",
-    "sha256": "ebc21ded56b412e471736dca81bd90699403ff3d041f8483df8312afeca55011",
-    "dest": "patches/",
-    "dest-filename": "1861355-event-cancellation-own.patch"
-  },
-  {
-    "type": "file",
     "url": "https://hg.mozilla.org/comm-central/raw-rev/1d7a6a7d6383",
     "sha256": "2d6dbd1bbbe3d827813dc31931fba942df2727c3583e53287bd07532723fefbb",
     "dest": "patches/",
     "dest-filename": "1862232-rely-to-list-customise-part2.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/28b920899440",
+    "sha256": "a2d73066786e37661c461755de3315bada0c874050bdcbdba587e73002b5624e",
+    "dest": "patches/",
+    "dest-filename": "1863449-fix-console-error-last-modified-json.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/e3f3d81287b6",
+    "sha256": "895b30e51364fe68591427da5c0abfef2bc572b2179bf225c98d868d53907a0d",
+    "dest": "patches/",
+    "dest-filename": "1852428-dont-mark-outbox-read.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/5a17899135c1",
+    "sha256": "3e34e84694b109d71bde3b597313b60de04a0910a4849179fea8ccf937791b56",
+    "dest": "patches/",
+    "dest-filename": "1858629-fix-attendee-click-add-twice.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/b527489c1bd2",
+    "sha256": "7e35b7c5935dbe669950be6f1d199ea65c9b45318ecc7fd8f1892354175d44bc",
+    "dest": "patches/",
+    "dest-filename": "1862247-qf-button-synth-view.patch"
   }
 ]
