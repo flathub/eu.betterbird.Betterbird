@@ -8,7 +8,7 @@
     "org.freedesktop.Sdk.Extension.node18",
     "org.freedesktop.Sdk.Extension.llvm16"
   ],
-  "command": "betterbird",
+  "command": "/app/lib/betterbird-wrapper",
   "finish-args": [
     "--share=ipc",
     "--socket=x11",
@@ -241,7 +241,7 @@
         "rm -rf /app/lib/thunderbird/chrome",
         "rm -f /app/bin/thunderbird",
         "mv /app/lib/thunderbird /app/lib/betterbird",
-        "install -Dm755 betterbird-wrapper /app/bin/betterbird",
+        "install -Dm755 betterbird-wrapper /app/lib/betterbird-wrapper",
         "install -Dm644 policies.json /app/lib/betterbird/distribution/policies.json",
         "install -Dm644 distribution.ini /app/lib/betterbird/distribution/distribution.ini",
         "install -Dm644 default-preferences.js /app/lib/betterbird/defaults/pref/default-preferences.js",
