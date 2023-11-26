@@ -18,6 +18,7 @@
     "--persist=.thunderbird",
     "--filesystem=xdg-download:rw",
     "--talk-name=org.a11y.Bus",
+    "--talk-name=org.kde.StatusNotifierWatcher",
     "--own-name=org.mozilla.betterbird.*",
     "--socket=pcsc",
     "--require-version=0.10.3",
