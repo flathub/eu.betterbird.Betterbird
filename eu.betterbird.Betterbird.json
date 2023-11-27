@@ -250,6 +250,8 @@
         "for i in 16 22 24 32 48 64 128 256;do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/lib/betterbird/chrome/icons/default/default${i}.png;done",
         "install -Dm644 comm/mail/branding/betterbird/default.svg /app/lib/betterbird/chrome/icons/default/default.svg",
         "install -Dm644 comm/mail/branding/betterbird/newmail.svg /app/lib/betterbird/chrome/icons/default/newmail.svg",
+        "install -Dm644 comm/mail/branding/betterbird/default.svg /app/share/icons/hicolor/scalable/status/eu.betterbird.Betterbird-default.svg",
+        "install -Dm644 comm/mail/branding/betterbird/newmail.svg /app/share/icons/hicolor/scalable/status/eu.betterbird.Betterbird-newmail.svg",
         "for i in 16 22 24 32 48 64 128 256;do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png;done",
         "install -Dm644 thunderbird-patches/metadata/icons/betterbird.svg /app/share/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg",
         "install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop /app/share/applications/eu.betterbird.Betterbird.desktop",
@@ -324,6 +326,11 @@
         {
           "type": "file",
           "path": "fonts.conf"
+        },
+        {
+          "type": "file",
+          "path": "99-linux-systray-flatpak.patch",
+          "dest": "patches"
         }
       ]
     }

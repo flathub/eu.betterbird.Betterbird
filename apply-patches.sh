@@ -30,6 +30,7 @@ echo
 echo "======================================================="
 echo "Applying patch series for comm repository"
 cd comm
+echo "99-linux-systray-flatpak.patch" >> ../thunderbird-patches/$VERSION/series
 while read -r line; do
         patch=$(echo $line | cut -f1 -d'#' | sed 's/ *$//')
         if [[ -n "${patch// }" ]]
