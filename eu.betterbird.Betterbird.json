@@ -18,6 +18,7 @@
     "--persist=.thunderbird",
     "--filesystem=xdg-download:rw",
     "--talk-name=org.a11y.Bus",
+    "--talk-name=org.kde.StatusNotifierWatcher",
     "--own-name=org.mozilla.betterbird.*",
     "--socket=pcsc",
     "--require-version=0.10.3",
@@ -247,8 +248,8 @@
         "mkdir -p /app/lib/betterbird/extensions",
         "for lang in langpacks/*.xpi;do export locale=$(basename -s .xpi $lang); install -Dm644 -t /app/share/runtime/locale/${locale:9:2}/ $lang; ln -sf /app/share/runtime/locale/${locale:9:2}/$(basename $lang) /app/lib/betterbird/extensions/$(basename $lang); done",
         "for i in 16 22 24 32 48 64 128 256;do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/lib/betterbird/chrome/icons/default/default${i}.png;done",
-        "install -Dm644 comm/mail/branding/betterbird/default.svg /app/lib/betterbird/chrome/icons/default/default.svg",
-        "install -Dm644 comm/mail/branding/betterbird/newmail.svg /app/lib/betterbird/chrome/icons/default/newmail.svg",
+        "install -Dm644 comm/mail/branding/betterbird/default.svg /app/share/icons/hicolor/scalable/status/eu.betterbird.Betterbird-default.svg",
+        "install -Dm644 comm/mail/branding/betterbird/newmail.svg /app/share/icons/hicolor/scalable/status/eu.betterbird.Betterbird-newmail.svg",
         "for i in 16 22 24 32 48 64 128 256;do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png;done",
         "install -Dm644 thunderbird-patches/metadata/icons/betterbird.svg /app/share/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg",
         "install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop /app/share/applications/eu.betterbird.Betterbird.desktop",
@@ -280,9 +281,9 @@
         {
           "type": "git",
           "url": "https://github.com/Betterbird/thunderbird-patches.git",
-          "commit": "a7eaa0a72f79ebe0ec94e61985e6d4fe6f39ad6c",
+          "commit": "5f1ac324504372c977930c574d6a4b85c5024ee9",
           "dest": "thunderbird-patches",
-          "tag": "115.5.0-bb18"
+          "tag": "115.5.1-bb19-build2"
         },
         {
           "type": "file",
@@ -323,6 +324,11 @@
         {
           "type": "file",
           "path": "fonts.conf"
+        },
+        {
+          "type": "file",
+          "path": "99-linux-systray-flatpak.patch",
+          "dest": "patches"
         }
       ]
     }

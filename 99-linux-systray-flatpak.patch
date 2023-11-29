@@ -1,0 +1,31 @@
+diff --git a/mailnews/base/src/nsMessengerUnixIntegration.cpp b/mailnews/base/src/nsMessengerUnixIntegration.cpp
+index 3ff30a2..dd3b14c 100644
+--- a/mailnews/base/src/nsMessengerUnixIntegration.cpp
++++ b/mailnews/base/src/nsMessengerUnixIntegration.cpp
+@@ -206,8 +206,8 @@ nsMessengerUnixIntegration::UpdateUnreadCount(uint32_t unreadCount,
+   if (!mozilla::Preferences::GetBool("mail.biff.show_tray_icon", false) &&
+       sHiddenWindows.Length() == 0) return NS_OK;
+ 
+-  static char icon_path0[PATH_MAX + 100];
+-  static char icon_pathN[PATH_MAX + 100];
++  static char icon_path0[] = "eu.betterbird.Betterbird-default";
++  static char icon_pathN[] = "eu.betterbird.Betterbird-newmail";
+ 
+   if (!ci) {
+     // Get the desktop.
+@@ -221,15 +221,6 @@ nsMessengerUnixIntegration::UpdateUnreadCount(uint32_t unreadCount,
+     fprintf(stderr, "=== Desktop is %s, %susing GtkWindowPresentWithTime\n", desktop.get(), useWithTime ? "" : "not ");
+ #endif
+ 
+-    // Find icon absolute path.
+-    size_t len = readlink("/proc/self/exe", icon_path0, PATH_MAX);
+-    char* q = icon_path0 + len - 1;
+-    while (*q != '/') q--;
+-    *q = 0;
+-    strcpy(icon_pathN, icon_path0);
+-    strcat(icon_path0, "/chrome/icons/default/default.svg");
+-    strcat(icon_pathN, "/chrome/icons/default/newmail.svg");
+-
+     ci = app_indicator_new("Betterbird-systray-icon",
+                            unreadCount > 0 ? icon_pathN : icon_path0,
+                            APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
