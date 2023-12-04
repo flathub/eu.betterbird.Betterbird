@@ -324,11 +324,6 @@
         {
           "type": "file",
           "path": "fonts.conf"
-        },
-        {
-          "type": "file",
-          "path": "99-linux-systray-flatpak.patch",
-          "dest": "patches"
         }
       ]
     }
