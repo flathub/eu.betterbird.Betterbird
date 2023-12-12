@@ -301,7 +301,7 @@
           "type": "script",
           "dest-filename": "make-mozconfig.sh",
           "commands": [
-            "cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak > mozconfig"
+            "cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak | sed -r 's/(mk_add_options MOZ_MAKE_FLAGS=\"-j[0-9]+\")/# \\1/' > mozconfig"
           ],
           "only-arches": [
             "x86_64"
@@ -311,7 +311,7 @@
           "type": "script",
           "dest-filename": "make-mozconfig.sh",
           "commands": [
-            "cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak mozconfig-aarch64 > mozconfig"
+            "cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak mozconfig-aarch64 | sed -r 's/(mk_add_options MOZ_MAKE_FLAGS=\"-j[0-9]+\")/# \\1/' > mozconfig"
           ],
           "only-arches": [
             "aarch64"
