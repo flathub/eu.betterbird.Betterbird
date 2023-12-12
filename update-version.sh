@@ -119,8 +119,8 @@ sed -i 's/version=.*$/version='"$(git rev-parse --short $betterbird_commit)"'/' 
 # add external patches to sources file
 # patch series for main repo
 while read -r line; do
-  url=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
-  name=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\1/')
+  url=$(echo $line | sed -r 's/(.*) # (http.*\/rev\/[0-9a-f]+).*/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
+  name=$(echo $line | sed -r 's/(.*) # (.*)/\1/')
   wget $url --max-redirect=20 -O $name
   sha256=$(sha256sum "$name" | cut -f1 -d' ')
   jq --arg url $url --arg name $name --arg sha256 $sha256 \
@@ -131,8 +131,8 @@ while read -r line; do
 done < <(grep -E "^[^#].* # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series-M-C)
 # patch series for comm repo
 while read -r line; do
-  url=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
-  name=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\1/')
+  url=$(echo $line | sed -r 's/(.*) # (http.*\/rev\/[0-9a-f]+).*/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
+  name=$(echo $line | sed -r 's/(.*) # (.*)/\1/')
   wget $url --max-redirect=20 -O $name
   sha256=$(sha256sum "$name" | cut -f1 -d' ')
   jq --arg url $url --arg name $name --arg sha256 $sha256 \
