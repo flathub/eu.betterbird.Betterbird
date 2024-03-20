@@ -25,6 +25,7 @@ then
     then
       echo " --- Updating to $target_tag ---"
       ./update-version.sh $target_tag \
+      && echo "${all_tags}" > .known-tags \
       || exit 1
       echo "version_updated=true" >> $GITHUB_ENV
       echo "new_version=$target_tag" >> $GITHUB_ENV
