@@ -168,6 +168,7 @@ rm -rf thunderbird-patches
 if [[ "$source_spec" == "tag" ]] && ! grep -Fxq "$BETTERBIRD_VERSION" "$KNOWN_TAGS_FILE"
 then
     echo "$BETTERBIRD_VERSION" >> "$KNOWN_TAGS_FILE"
+    sort -o "$KNOWN_TAGS_FILE" "$KNOWN_TAGS_FILE"
 fi
 
 cat <<EOT
