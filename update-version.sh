@@ -38,6 +38,7 @@ APPDATA_FILE="thunderbird-patches/metadata/eu.betterbird.Betterbird.appdata.xml"
 MANIFEST_FILE="eu.betterbird.Betterbird.json"
 DIST_FILE="distribution.ini"
 BUILD_DATE_FILE=".build-date"
+KNOWN_TAGS_FILE=".known-tags"
 
 # determine if the source revision was specified as a tag or as a commit hash 
 [[ "x$BETTERBIRD_COMMIT" != "x" ]] && source_spec=commit || source_spec=tag
@@ -163,9 +164,15 @@ while read -r line; do
 done < <(grep -E "^[^#].* # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series)
 rm -rf thunderbird-patches
 
+# add tag to .known-tags if it has not been added yet 
+if [[ "$source_spec" == "tag" ]] && ! grep -Fxq "$BETTERBIRD_VERSION" "$KNOWN_TAGS_FILE"
+then
+    echo "$BETTERBIRD_VERSION" >> "$KNOWN_TAGS_FILE"
+fi
+
 cat <<EOT
 The files were successfully updated to Betterbird $BETTERBIRD_VERSION.
 
 You can commit the result by executing the following command:
-git commit --message='Update to $BETTERBIRD_VERSION' -- '$SOURCES_FILE' '$MANIFEST_FILE' '$DIST_FILE' '$BUILD_DATE_FILE'
+git commit --message='Update to $BETTERBIRD_VERSION' -- '$SOURCES_FILE' '$MANIFEST_FILE' '$DIST_FILE' '$BUILD_DATE_FILE' '$KNOWN_TAGS_FILE'
 EOT
