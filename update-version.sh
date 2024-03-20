@@ -1,16 +1,35 @@
 #!/bin/bash
 set -eo pipefail
 
-if (($# < 1)); then
-  echo "Usage: $0 BETTERBIRD_VERSION [BETTERBIRD_COMMIT]"
+script_args=()
+force=false
+while [ $OPTIND -le "$#" ]
+do
+    if getopts f option
+    then
+        case $option
+        in
+            f) force=true;;
+        esac
+    else
+        script_args+=("${!OPTIND}")
+        ((OPTIND++))
+    fi
+done
+
+if ((${#script_args[@]} < 1)); then
+  echo "Usage: $0 [-f] BETTERBIRD_VERSION [BETTERBIRD_COMMIT]"
   echo ""
   echo "Example: $0 102.2.2-bb16"
   echo "         $0 102 4d587481bc7dbca1ffc99cce319f84425fab7852"
+  echo ""
+  echo "Options:"
+  echo "  -f : Skip the check that the version given as script input and the version specified in the appdata.xml agree."
   exit 1
 fi
 
-BETTERBIRD_VERSION="$1" # Betterbird version. Can either be a tag or a major version number. If it's a tag, the commit is identified automatically. In case only the major version number is given, a commit must be specified by passing its hash as 2nd argument. 
-BETTERBIRD_COMMIT="$2"
+BETTERBIRD_VERSION="${script_args[0]}" # Betterbird version. Can either be a tag or a major version number. If it's a tag, the commit is identified automatically. In case only the major version number is given, a commit must be specified by passing its hash as 2nd argument. 
+BETTERBIRD_COMMIT="${script_args[1]}"
 BETTERBIRD_REPO="https://github.com/Betterbird/thunderbird-patches"
 PACKAGE=thunderbird
 PLATFORM=linux-x86_64
@@ -41,13 +60,14 @@ fi
 git checkout $betterbird_commit
 cd ..
 
-if [[ "$source_spec" == "tag" ]]
+if [[ "$source_spec" == "tag" ]] && ! $force 
 then
   # check if version from appdata.xml agrees with tag
   betterbird_version_appdata=$(cat $APPDATA_FILE | grep '<release version=' | sed -r 's@^\s+<release version="(([^"])+)(" date=")([^"]+)(">)$@\1@')
   if [[ "$betterbird_version_appdata" != "$BETTERBIRD_VERSION" ]]
   then
     echo "Betterbird version given on command line ($BETTERBIRD_VERSION) and version according to $APPDATA_FILE ($betterbird_version_appdata) don't agree. Stopping."
+    echo "Hint: This check can be skipped by passing the -f flag."
     exit 1
   fi
 fi
