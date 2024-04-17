@@ -276,9 +276,9 @@
         {
           "type": "git",
           "url": "https://github.com/Betterbird/thunderbird-patches.git",
-          "commit": "3503dbf84c559930f8aa562e5c395ba31b63249e",
+          "commit": "c60309f9cf8fc2b6dc4eac0fda40ec7a5adb3514",
           "dest": "thunderbird-patches",
-          "tag": "115.10.0-bb27"
+          "tag": "115.10.0-bb27-hotfix"
         },
         {
           "type": "file",
