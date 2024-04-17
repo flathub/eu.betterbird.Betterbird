@@ -242,7 +242,6 @@
         "rm -f /app/bin/thunderbird",
         "mv /app/lib/thunderbird /app/lib/betterbird",
         "install -Dm755 betterbird-wrapper /app/bin/betterbird",
-        "install -Dm644 policies.json /app/lib/betterbird/distribution/policies.json",
         "install -Dm644 distribution.ini /app/lib/betterbird/distribution/distribution.ini",
         "install -Dm644 default-preferences.js /app/lib/betterbird/defaults/pref/default-preferences.js",
         "mkdir -p /app/lib/betterbird/extensions",
@@ -258,10 +257,6 @@
       ],
       "sources": [
         "thunderbird-sources.json",
-        {
-          "type": "file",
-          "path": "policies.json"
-        },
         {
           "type": "file",
           "path": "distribution.ini"
@@ -281,9 +276,9 @@
         {
           "type": "git",
           "url": "https://github.com/Betterbird/thunderbird-patches.git",
-          "commit": "48972a0f129ba5c188cf45d92cfcaf3944d3616d",
+          "commit": "3503dbf84c559930f8aa562e5c395ba31b63249e",
           "dest": "thunderbird-patches",
-          "tag": "115.9.0-bb26-build2"
+          "tag": "115.10.0-bb27"
         },
         {
           "type": "file",
