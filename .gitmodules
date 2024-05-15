@@ -4,3 +4,6 @@
 [submodule "flatpak-builder-tools"]
 	path = flatpak-builder-tools
 	url = https://github.com/flatpak/flatpak-builder-tools.git
+[submodule "rust-extension"]
+	path = rust-extension
+	url = https://github.com/flathub/org.freedesktop.Sdk.Extension.rust-stable.git
