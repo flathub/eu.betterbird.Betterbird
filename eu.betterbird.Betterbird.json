@@ -40,6 +40,7 @@
     "/share/gir-1.0",
     "/share/man",
     "/man",
+    "/app/lib/rust",
     "*.la",
     "*.a"
   ],
@@ -123,7 +124,7 @@
           }
       ],
       "build-options": {
-          "prefix": "/usr/lib/sdk/rust-stable",
+          "prefix": "/app/lib/rust",
           "arch": {
               "x86_64": {
                   "env": {
@@ -152,9 +153,9 @@
           }
       },
       "build-commands": [
-          "cd \"rust-$NATIVE_TARGET\" && ./install.sh --prefix=/usr/lib/sdk/rust-stable --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose",
-          "test -n \"$COMPAT_TARGET\" &&  cd \"rust-$COMPAT_TARGET\" && ./install.sh --prefix=/usr/lib/sdk/rust-stable --disable-ldconfig --verbose --components=rust-std-$COMPAT_TARGET,rust-analysis-$COMPAT_TARGET",
-          "cd rust-src && ./install.sh --prefix=/usr/lib/sdk/rust-stable --disable-ldconfig --verbose"
+          "cd \"rust-$NATIVE_TARGET\" && ./install.sh --prefix=/app/lib/rust --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose",
+          "test -n \"$COMPAT_TARGET\" &&  cd \"rust-$COMPAT_TARGET\" && ./install.sh --prefix=/app/lib/rust --disable-ldconfig --verbose --components=rust-std-$COMPAT_TARGET,rust-analysis-$COMPAT_TARGET",
+          "cd rust-src && ./install.sh --prefix=/app/lib/rust --disable-ldconfig --verbose"
       ]
     },
     {
@@ -311,7 +312,7 @@
         "install -Dm 755 target/release/cbindgen -t /app/bin"
       ],
       "build-options": {
-        "append-path": "/usr/lib/sdk/rust-stable/bin",
+        "append-path": "/app/lib/rust/bin",
         "env": {
           "CARGO_HOME": "/run/build/cbindgen/cargo"
         }
@@ -333,7 +334,7 @@
       "name": "betterbird",
       "buildsystem": "simple",
       "build-options": {
-        "append-path": "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/node18/bin:/usr/lib/sdk/llvm16/bin",
+        "append-path": "/app/lib/rust/bin:/usr/lib/sdk/node18/bin:/usr/lib/sdk/llvm16/bin",
         "prepend-ld-library-path": "/usr/lib/sdk/llvm16/lib",
         "env": {
           "TERM": "linux",
