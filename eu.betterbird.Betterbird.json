@@ -124,7 +124,6 @@
           }
       ],
       "build-options": {
-          "prefix": "/app/lib/rust",
           "arch": {
               "x86_64": {
                   "env": {
@@ -156,6 +155,101 @@
           "cd \"rust-$NATIVE_TARGET\" && ./install.sh --prefix=/app/lib/rust --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose",
           "test -n \"$COMPAT_TARGET\" &&  cd \"rust-$COMPAT_TARGET\" && ./install.sh --prefix=/app/lib/rust --disable-ldconfig --verbose --components=rust-std-$COMPAT_TARGET,rust-analysis-$COMPAT_TARGET",
           "cd rust-src && ./install.sh --prefix=/app/lib/rust --disable-ldconfig --verbose"
+      ]
+  },
+  {
+      "name": "rust-analyzer",
+      "sources": [
+          {
+              "type": "file",
+              "dest-filename": "rust-analyzer-linux.gz",
+              "only-arches": [
+                  "x86_64"
+              ],
+              "url": "https://github.com/rust-lang/rust-analyzer/releases/download/2023-04-24/rust-analyzer-x86_64-unknown-linux-gnu.gz",
+              "sha256": "04980e43ceef99f7e16393a43fb1f4044809e4b0847e025ec8859cd47c73f6fc",
+              "x-checker-data": {
+                  "type": "json",
+                  "url": "https://api.github.com/repos/rust-analyzer/rust-analyzer/releases/latest",
+                  "version-query": ".tag_name",
+                  "url-query": ".assets[] | select(.name==\"rust-analyzer-x86_64-unknown-linux-gnu.gz\") | .browser_download_url"
+              }
+          },
+          {
+              "type": "file",
+              "dest-filename": "rust-analyzer-linux.gz",
+              "only-arches": [
+                  "aarch64"
+              ],
+              "url": "https://github.com/rust-lang/rust-analyzer/releases/download/2023-04-24/rust-analyzer-aarch64-unknown-linux-gnu.gz",
+              "sha256": "eb89b24661352e80ffb0dcdb0461848dc14cc88dfbc5d314200aaa380e6c5bc2",
+              "x-checker-data": {
+                  "type": "json",
+                  "url": "https://api.github.com/repos/rust-analyzer/rust-analyzer/releases/latest",
+                  "version-query": ".tag_name",
+                  "url-query": ".assets[] | select(.name==\"rust-analyzer-aarch64-unknown-linux-gnu.gz\") | .browser_download_url"
+              }
+          }
+      ],
+      "buildsystem": "simple",
+      "build-commands": [
+          "gunzip rust-analyzer-linux.gz",
+          "install -m 755 rust-analyzer-linux /app/lib/rust/bin/rust-analyzer"
+      ]
+  },
+  {
+      "name": "mold",
+      "sources": [
+          {
+              "type": "archive",
+              "dest-filename": "mold-linux.tar.gz",
+              "only-arches": [
+                  "x86_64"
+              ],
+              "url": "https://github.com/rui314/mold/releases/download/v1.11.0/mold-1.11.0-x86_64-linux.tar.gz",
+              "sha256": "bf788940db4a9ac19e7745c821bf6ee18ff4d75441a803d84f86c9f3b0aa2a5e",
+              "x-checker-data": {
+                  "type": "anitya",
+                  "project-id": 241732,
+                  "stable-only": true,
+                  "url-template": "https://github.com/rui314/mold/releases/download/v$version/mold-$version-x86_64-linux.tar.gz"
+              }
+          },
+          {
+              "type": "archive",
+              "dest-filename": "mold-linux.tar.gz",
+              "only-arches": [
+                  "aarch64"
+              ],
+              "url": "https://github.com/rui314/mold/releases/download/v1.11.0/mold-1.11.0-aarch64-linux.tar.gz",
+              "sha256": "4d7f0cc976ed1dfde1ceeaadd16829427a477eba1b49ff82dd490395f32eb78c",
+              "x-checker-data": {
+                  "type": "anitya",
+                  "project-id": 241732,
+                  "stable-only": true,
+                  "url-template": "https://github.com/rui314/mold/releases/download/v$version/mold-$version-aarch64-linux.tar.gz"
+              }
+          }
+      ],
+      "buildsystem": "simple",
+      "build-commands": [
+          "install -m 755 bin/mold /app/lib/rust/bin/mold"
+      ]
+  },
+  {
+      "name": "scripts",
+      "sources": [
+          {
+              "type": "script",
+              "commands": [
+                  "export PATH=$PATH:/app/lib/rust/bin"
+              ],
+              "dest-filename": "enable.sh"
+          }
+      ],
+      "buildsystem": "simple",
+      "build-commands": [
+          "cp enable.sh /app/lib/rust/"
       ]
     },
     {
