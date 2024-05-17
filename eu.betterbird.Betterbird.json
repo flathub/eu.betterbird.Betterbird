@@ -40,7 +40,7 @@
     "/share/gir-1.0",
     "/share/man",
     "/man",
-    "/app/lib/rust",
+    "/lib/rust",
     "*.la",
     "*.a"
   ],
