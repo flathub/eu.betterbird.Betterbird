@@ -128,7 +128,7 @@
               "x86_64": {
                   "env": {
                       "NATIVE_TARGET": "x86_64-unknown-linux-gnu",
-                      "COMPAT_TARGET": "i686-unknown-linux-gnu"
+                      "COMPAT_TARGET": ""
                   }
               },
               "i386": {
