@@ -59,12 +59,7 @@
               ],
               "dest": "rust-aarch64-unknown-linux-gnu",
               "url": "https://static.rust-lang.org/dist/2023-06-01/rust-1.70.0-aarch64-unknown-linux-gnu.tar.xz",
-              "sha256": "a36e20a55e39c857f9ec69b146ae04572d5e666e76ff2dd6422cc8f575aed1c7",
-              "x-checker-data": {
-                  "type": "rust",
-                  "package": "rust",
-                  "target": "aarch64-unknown-linux-gnu"
-              }
+              "sha256": "a36e20a55e39c857f9ec69b146ae04572d5e666e76ff2dd6422cc8f575aed1c7"
           },
           {
               "type": "archive",
@@ -73,13 +68,7 @@
               ],
               "dest": "rust-x86_64-unknown-linux-gnu",
               "url": "https://static.rust-lang.org/dist/2023-06-01/rust-1.70.0-x86_64-unknown-linux-gnu.tar.xz",
-              "sha256": "991b59d1d0cd0dfcb2463bd79d2df1a235380f725557cdee831ee3c1d87a3122",
-              "x-checker-data": {
-                  "type": "rust",
-                  "package": "rust",
-                  "target": "x86_64-unknown-linux-gnu",
-                  "is-main-source": true
-              }
+              "sha256": "991b59d1d0cd0dfcb2463bd79d2df1a235380f725557cdee831ee3c1d87a3122"
           }
       ],
       "build-options": {
@@ -88,11 +77,13 @@
           "arch": {
               "x86_64": {
                   "env": {
-                      "NATIVE_TARGET": "x86_64-unknown-linux-gnu"                  }
+                      "NATIVE_TARGET": "x86_64-unknown-linux-gnu"
+                  }
               },
               "aarch64": {
                   "env": {
-                      "NATIVE_TARGET": "aarch64-unknown-linux-gnu"                  }
+                      "NATIVE_TARGET": "aarch64-unknown-linux-gnu"
+                  }
               }
           }
       },
