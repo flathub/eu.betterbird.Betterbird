@@ -80,20 +80,11 @@
                   "target": "x86_64-unknown-linux-gnu",
                   "is-main-source": true
               }
-          },
-          {
-              "type": "archive",
-              "dest": "rust-src",
-              "url": "https://static.rust-lang.org/dist/2023-06-01/rust-src-1.70.0.tar.xz",
-              "sha256": "5701a30520c6bc280b96a1b9c376d9e2db5e8442b5f8ed539554c362e1ea4075",
-              "x-checker-data": {
-                  "type": "rust",
-                  "package": "rust-src",
-                  "target": "*"
-              }
           }
       ],
       "build-options": {
+          "prefix": "/app/lib/rust",
+          "no-debuginfo": true,
           "arch": {
               "x86_64": {
                   "env": {
@@ -106,8 +97,7 @@
           }
       },
       "build-commands": [
-          "cd \"rust-$NATIVE_TARGET\" && ./install.sh --prefix=/app/lib/rust --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose",
-          "cd rust-src && ./install.sh --prefix=/app/lib/rust --disable-ldconfig --verbose"
+          "cd \"rust-$NATIVE_TARGET\" && ./install.sh --prefix=/app/lib/rust --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose"
       ]
     },
     {
