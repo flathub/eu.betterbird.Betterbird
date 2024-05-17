@@ -55,21 +55,6 @@
           {
               "type": "archive",
               "only-arches": [
-                  "arm",
-                  "aarch64"
-              ],
-              "dest": "rust-armv7-unknown-linux-gnueabihf",
-              "url": "https://static.rust-lang.org/dist/2023-06-01/rust-1.70.0-armv7-unknown-linux-gnueabihf.tar.xz",
-              "sha256": "f0209965ec561d79f076cd6d810188055a4ad68657e5e3c25be451753492864d",
-              "x-checker-data": {
-                  "type": "rust",
-                  "package": "rust",
-                  "target": "armv7-unknown-linux-gnueabihf"
-              }
-          },
-          {
-              "type": "archive",
-              "only-arches": [
                   "aarch64"
               ],
               "dest": "rust-aarch64-unknown-linux-gnu",
@@ -98,21 +83,6 @@
           },
           {
               "type": "archive",
-              "only-arches": [
-                  "i386",
-                  "x86_64"
-              ],
-              "dest": "rust-i686-unknown-linux-gnu",
-              "url": "https://static.rust-lang.org/dist/2023-06-01/rust-1.70.0-i686-unknown-linux-gnu.tar.xz",
-              "sha256": "e3fb7f9d825e1bd1720765a358361ba4517584f6d0c1a1d80b2230e2f97c9b88",
-              "x-checker-data": {
-                  "type": "rust",
-                  "package": "rust",
-                  "target": "i686-unknown-linux-gnu"
-              }
-          },
-          {
-              "type": "archive",
               "dest": "rust-src",
               "url": "https://static.rust-lang.org/dist/2023-06-01/rust-src-1.70.0.tar.xz",
               "sha256": "5701a30520c6bc280b96a1b9c376d9e2db5e8442b5f8ed539554c362e1ea4075",
@@ -127,33 +97,16 @@
           "arch": {
               "x86_64": {
                   "env": {
-                      "NATIVE_TARGET": "x86_64-unknown-linux-gnu",
-                      "COMPAT_TARGET": ""
-                  }
-              },
-              "i386": {
-                  "env": {
-                      "NATIVE_TARGET": "i686-unknown-linux-gnu",
-                      "COMPAT_TARGET": ""
-                  }
+                      "NATIVE_TARGET": "x86_64-unknown-linux-gnu"                  }
               },
               "aarch64": {
                   "env": {
-                      "NATIVE_TARGET": "aarch64-unknown-linux-gnu",
-                      "COMPAT_TARGET": "armv7-unknown-linux-gnueabihf"
-                  }
-              },
-              "arm": {
-                  "env": {
-                      "NATIVE_TARGET": "armv7-unknown-linux-gnueabihf",
-                      "COMPAT_TARGET": ""
-                  }
+                      "NATIVE_TARGET": "aarch64-unknown-linux-gnu"                  }
               }
           }
       },
       "build-commands": [
           "cd \"rust-$NATIVE_TARGET\" && ./install.sh --prefix=/app/lib/rust --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose",
-          "test -n \"$COMPAT_TARGET\" &&  cd \"rust-$COMPAT_TARGET\" && ./install.sh --prefix=/app/lib/rust --disable-ldconfig --verbose --components=rust-std-$COMPAT_TARGET,rust-analysis-$COMPAT_TARGET",
           "cd rust-src && ./install.sh --prefix=/app/lib/rust --disable-ldconfig --verbose"
       ]
     },
