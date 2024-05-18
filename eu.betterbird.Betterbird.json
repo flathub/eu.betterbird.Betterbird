@@ -4,7 +4,6 @@
   "runtime-version": "23.08",
   "sdk": "org.freedesktop.Sdk",
   "sdk-extensions": [
-    "org.freedesktop.Sdk.Extension.rust-stable",
     "org.freedesktop.Sdk.Extension.node18",
     "org.freedesktop.Sdk.Extension.llvm16"
   ],
@@ -33,6 +32,7 @@
     "/include",
     "/lib/pkgconfig",
     "/lib/girepository-1.0",
+    "/lib/rust",
     "/share/pkgconfig",
     "/share/aclocal",
     "/share/gtk-doc",
@@ -44,10 +44,55 @@
     "*.la",
     "*.a"
   ],
+  "build-options": {
+    "no-debuginfo": true
+  },
   "modules": [
     "shared-modules/dbus-glib/dbus-glib.json",
     "shared-modules/libcanberra/libcanberra.json",
     "shared-modules/intltool/intltool-0.51.json",
+    {
+      "name": "rust",
+      "buildsystem": "simple",
+      "sources": [
+          {
+              "type": "archive",
+              "only-arches": [
+                  "aarch64"
+              ],
+              "dest": "rust-aarch64-unknown-linux-gnu",
+              "url": "https://static.rust-lang.org/dist/2023-06-01/rust-1.70.0-aarch64-unknown-linux-gnu.tar.xz",
+              "sha256": "a36e20a55e39c857f9ec69b146ae04572d5e666e76ff2dd6422cc8f575aed1c7"
+          },
+          {
+              "type": "archive",
+              "only-arches": [
+                  "x86_64"
+              ],
+              "dest": "rust-x86_64-unknown-linux-gnu",
+              "url": "https://static.rust-lang.org/dist/2023-06-01/rust-1.70.0-x86_64-unknown-linux-gnu.tar.xz",
+              "sha256": "991b59d1d0cd0dfcb2463bd79d2df1a235380f725557cdee831ee3c1d87a3122"
+          }
+      ],
+      "build-options": {
+          "prefix": "/app/lib/rust",
+          "arch": {
+              "x86_64": {
+                  "env": {
+                      "NATIVE_TARGET": "x86_64-unknown-linux-gnu"
+                  }
+              },
+              "aarch64": {
+                  "env": {
+                      "NATIVE_TARGET": "aarch64-unknown-linux-gnu"
+                  }
+              }
+          }
+      },
+      "build-commands": [
+          "cd \"rust-$NATIVE_TARGET\" && ./install.sh --prefix=/app/lib/rust --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose"
+        ]
+    },
     {
       "name": "libdbusmenu",
       "build-options": {
@@ -202,7 +247,7 @@
         "install -Dm 755 target/release/cbindgen -t /app/bin"
       ],
       "build-options": {
-        "append-path": "/usr/lib/sdk/rust-stable/bin",
+        "append-path": "/app/lib/rust/bin",
         "env": {
           "CARGO_HOME": "/run/build/cbindgen/cargo"
         }
@@ -224,7 +269,7 @@
       "name": "betterbird",
       "buildsystem": "simple",
       "build-options": {
-        "append-path": "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/node18/bin:/usr/lib/sdk/llvm16/bin",
+        "append-path": "/app/lib/rust/bin:/usr/lib/sdk/node18/bin:/usr/lib/sdk/llvm16/bin",
         "prepend-ld-library-path": "/usr/lib/sdk/llvm16/lib",
         "env": {
           "TERM": "linux",
@@ -276,9 +321,9 @@
         {
           "type": "git",
           "url": "https://github.com/Betterbird/thunderbird-patches.git",
-          "commit": "c60309f9cf8fc2b6dc4eac0fda40ec7a5adb3514",
+          "commit": "3c1e0cba378564a505d6206775be1dd6556ed860",
           "dest": "thunderbird-patches",
-          "tag": "115.10.0-bb27-hotfix"
+          "tag": "115.11.0-bb28"
         },
         {
           "type": "file",
