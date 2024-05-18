@@ -88,7 +88,8 @@
           }
       },
       "build-commands": [
-          "cd \"rust-$NATIVE_TARGET\" && ./install.sh --prefix=/app/lib/rust --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose"
+          "cd \"rust-$NATIVE_TARGET\" && ./install.sh --prefix=/app/lib/rust --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose",
+          "/app/lib/rust/bin/rustc -V"
       ]
     },
     {
