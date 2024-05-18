@@ -7,6 +7,7 @@
     "org.freedesktop.Sdk.Extension.node18",
     "org.freedesktop.Sdk.Extension.llvm16"
   ],
+  "writable-sdk": true,
   "command": "betterbird",
   "finish-args": [
     "--share=ipc",
@@ -40,7 +41,6 @@
     "/share/gir-1.0",
     "/share/man",
     "/man",
-    "/lib/rust",
     "*.la",
     "*.a"
   ],
@@ -72,8 +72,7 @@
           }
       ],
       "build-options": {
-          "prefix": "/app/lib/rust",
-          "no-debuginfo": true,
+          "prefix": "/usr/lib/rust",
           "arch": {
               "x86_64": {
                   "env": {
@@ -88,8 +87,8 @@
           }
       },
       "build-commands": [
-          "cd \"rust-$NATIVE_TARGET\" && ./install.sh --prefix=/app/lib/rust --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose",
-          "/app/lib/rust/bin/rustc -V"
+          "cd \"rust-$NATIVE_TARGET\" && ./install.sh --prefix=/usr/lib/rust --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose",
+          "/usr/lib/rust/bin/rustc -V"
       ]
     },
     {
@@ -246,7 +245,7 @@
         "install -Dm 755 target/release/cbindgen -t /app/bin"
       ],
       "build-options": {
-        "append-path": "/app/lib/rust/bin",
+        "append-path": "/usr/lib/rust/bin",
         "env": {
           "CARGO_HOME": "/run/build/cbindgen/cargo"
         }
@@ -268,7 +267,7 @@
       "name": "betterbird",
       "buildsystem": "simple",
       "build-options": {
-        "append-path": "/app/lib/rust/bin:/usr/lib/sdk/node18/bin:/usr/lib/sdk/llvm16/bin",
+        "append-path": "/usr/lib/rust/bin:/usr/lib/sdk/node18/bin:/usr/lib/sdk/llvm16/bin",
         "prepend-ld-library-path": "/usr/lib/sdk/llvm16/lib",
         "env": {
           "TERM": "linux",
