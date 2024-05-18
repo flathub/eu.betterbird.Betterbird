@@ -73,6 +73,7 @@
       ],
       "build-options": {
           "prefix": "/usr/lib/rust",
+          "no-debuginfo": true,
           "arch": {
               "x86_64": {
                   "env": {
