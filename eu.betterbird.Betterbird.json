@@ -269,7 +269,6 @@
       "name": "betterbird",
       "buildsystem": "simple",
       "build-options": {
-        "strip": true,
         "append-path": "/app/lib/rust/bin:/usr/lib/sdk/node18/bin:/usr/lib/sdk/llvm16/bin",
         "prepend-ld-library-path": "/usr/lib/sdk/llvm16/lib",
         "env": {

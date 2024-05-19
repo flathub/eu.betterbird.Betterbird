@@ -30,8 +30,11 @@ ac_add_options --enable-system-pixman
 ac_add_options --enable-optimize
 
 # Retain debug symbols
-ac_add_options --disable-strip
-ac_add_options --disable-install-strip
+#ac_add_options --disable-strip
+#ac_add_options --disable-install-strip
+
+# disable debug symbols for now
+ac_add_options --disable-debug-symbols
 
 # disable less useful features and minimize dependencies
 ac_add_options --disable-debug
