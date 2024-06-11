@@ -55,43 +55,43 @@
       "name": "rust",
       "buildsystem": "simple",
       "sources": [
-          {
-              "type": "archive",
-              "only-arches": [
-                  "aarch64"
-              ],
-              "dest": "rust-aarch64-unknown-linux-gnu",
-              "url": "https://static.rust-lang.org/dist/2023-06-01/rust-1.70.0-aarch64-unknown-linux-gnu.tar.xz",
-              "sha256": "a36e20a55e39c857f9ec69b146ae04572d5e666e76ff2dd6422cc8f575aed1c7"
-          },
-          {
-              "type": "archive",
-              "only-arches": [
-                  "x86_64"
-              ],
-              "dest": "rust-x86_64-unknown-linux-gnu",
-              "url": "https://static.rust-lang.org/dist/2023-06-01/rust-1.70.0-x86_64-unknown-linux-gnu.tar.xz",
-              "sha256": "991b59d1d0cd0dfcb2463bd79d2df1a235380f725557cdee831ee3c1d87a3122"
-          }
+        {
+          "type": "archive",
+          "only-arches": [
+            "aarch64"
+          ],
+          "dest": "rust-aarch64-unknown-linux-gnu",
+          "url": "https://static.rust-lang.org/dist/2023-06-01/rust-1.70.0-aarch64-unknown-linux-gnu.tar.xz",
+          "sha256": "a36e20a55e39c857f9ec69b146ae04572d5e666e76ff2dd6422cc8f575aed1c7"
+        },
+        {
+          "type": "archive",
+          "only-arches": [
+            "x86_64"
+          ],
+          "dest": "rust-x86_64-unknown-linux-gnu",
+          "url": "https://static.rust-lang.org/dist/2023-06-01/rust-1.70.0-x86_64-unknown-linux-gnu.tar.xz",
+          "sha256": "991b59d1d0cd0dfcb2463bd79d2df1a235380f725557cdee831ee3c1d87a3122"
+        }
       ],
       "build-options": {
-          "prefix": "/app/lib/rust",
-          "arch": {
-              "x86_64": {
-                  "env": {
-                      "NATIVE_TARGET": "x86_64-unknown-linux-gnu"
-                  }
-              },
-              "aarch64": {
-                  "env": {
-                      "NATIVE_TARGET": "aarch64-unknown-linux-gnu"
-                  }
-              }
+        "prefix": "/app/lib/rust",
+        "arch": {
+          "x86_64": {
+            "env": {
+              "NATIVE_TARGET": "x86_64-unknown-linux-gnu"
+            }
+          },
+          "aarch64": {
+            "env": {
+              "NATIVE_TARGET": "aarch64-unknown-linux-gnu"
+            }
           }
+        }
       },
       "build-commands": [
-          "cd \"rust-$NATIVE_TARGET\" && ./install.sh --prefix=/app/lib/rust --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose"
-        ]
+        "cd \"rust-$NATIVE_TARGET\" && ./install.sh --prefix=/app/lib/rust --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose"
+      ]
     },
     {
       "name": "libdbusmenu",
@@ -321,9 +321,9 @@
         {
           "type": "git",
           "url": "https://github.com/Betterbird/thunderbird-patches.git",
-          "commit": "3c1e0cba378564a505d6206775be1dd6556ed860",
+          "commit": "df44ec23a59742755f2f109e1bfa5501129af0c8",
           "dest": "thunderbird-patches",
-          "tag": "115.11.0-bb28"
+          "tag": "115.12.0-bb29"
         },
         {
           "type": "file",
