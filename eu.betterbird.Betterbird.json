@@ -5,7 +5,7 @@
   "sdk": "org.freedesktop.Sdk",
   "sdk-extensions": [
     "org.freedesktop.Sdk.Extension.node18",
-    "org.freedesktop.Sdk.Extension.llvm16"
+    "org.freedesktop.Sdk.Extension.llvm18"
   ],
   "command": "betterbird",
   "finish-args": [
