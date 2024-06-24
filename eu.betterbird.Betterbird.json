@@ -61,8 +61,8 @@
             "aarch64"
           ],
           "dest": "rust-aarch64-unknown-linux-gnu",
-          "url": "https://static.rust-lang.org/dist/2023-06-01/rust-1.70.0-aarch64-unknown-linux-gnu.tar.xz",
-          "sha256": "a36e20a55e39c857f9ec69b146ae04572d5e666e76ff2dd6422cc8f575aed1c7"
+          "url": "https://static.rust-lang.org/dist/2024-05-02/rust-1.78.0-aarch64-unknown-linux-gnu.tar.xz",
+          "sha256": "e33789c7c32d89cbb939b2f58b7651c736cb9f37e42e11152cda7cc33df686a0"
         },
         {
           "type": "archive",
@@ -70,8 +70,8 @@
             "x86_64"
           ],
           "dest": "rust-x86_64-unknown-linux-gnu",
-          "url": "https://static.rust-lang.org/dist/2023-06-01/rust-1.70.0-x86_64-unknown-linux-gnu.tar.xz",
-          "sha256": "991b59d1d0cd0dfcb2463bd79d2df1a235380f725557cdee831ee3c1d87a3122"
+          "url": "https://static.rust-lang.org/dist/2024-05-02/rust-1.78.0-x86_64-unknown-linux-gnu.tar.xz",
+          "sha256": "ea144a052c0980dfbc6c84b3eda21e9f61b02b7b171787c7de80d7a8ad344ab3"
         }
       ],
       "build-options": {
@@ -278,9 +278,9 @@
         }
       },
       "build-commands": [
-        "./make-mozconfig.sh 115",
+        "./make-mozconfig.sh 128",
         "chmod u+x apply-patches.sh",
-        "./apply-patches.sh 115",
+        "./apply-patches.sh 128",
         "sed -i 's#-I/usr/include#-I/app/include#g' comm/third_party/appindicator/moz.build",
         "export MOZ_BUILD_DATE=$(cat .build-date); ./mach configure; ./mach build -v -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install",
         "rm -rf /app/lib/thunderbird/chrome",
@@ -297,7 +297,7 @@
         "for i in 16 22 24 32 48 64 128 256;do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png;done",
         "install -Dm644 thunderbird-patches/metadata/icons/betterbird.svg /app/share/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg",
         "install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop /app/share/applications/eu.betterbird.Betterbird.desktop",
-        "install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.appdata.xml /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml",
+        "install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.128.appdata.xml /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml",
         "install -Dm644 fonts.conf /app/etc/fonts/local.conf"
       ],
       "sources": [
@@ -321,9 +321,9 @@
         {
           "type": "git",
           "url": "https://github.com/Betterbird/thunderbird-patches.git",
-          "commit": "df44ec23a59742755f2f109e1bfa5501129af0c8",
+          "commit": "7e322af981c2e6350ccf3d7e8b284c0e8e97051c",
           "dest": "thunderbird-patches",
-          "tag": "115.12.0-bb29"
+          "tag": "128.0b3-bb1"
         },
         {
           "type": "file",

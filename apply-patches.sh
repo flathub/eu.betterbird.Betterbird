@@ -24,7 +24,7 @@ while read -r line; do
                 exit 1
             fi
         fi
-done < <(grep -E "^[^#].*" thunderbird-patches/$VERSION/series-M-C)
+done < <(grep -E "^[^#].*" thunderbird-patches/$VERSION/series-moz)
 
 echo
 echo "======================================================="
