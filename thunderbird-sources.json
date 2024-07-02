@@ -1,14 +1,7 @@
 [
-  {
-    "type": "archive",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/128.0b3-candidates/build1/source/thunderbird-128.0b3.source.tar.xz",
-    "sha256": "4a39d9c68d56b8fcc181fc9659483c3e14ebcc624f9033102951391d43c20039"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/434347757157",
-    "sha256": "40b158df3aebaaadb77a81dc3e42a191da0ef6c34597ef474d4729e5a9dcb85a",
-    "dest": "patches/",
-    "dest-filename": "1900172-fix-compact-display.patch"
-  }
+    {
+        "type": "archive",
+        "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/128.0b3-candidates/build1/source/thunderbird-128.0b3.source.tar.xz",
+        "sha256": "4a39d9c68d56b8fcc181fc9659483c3e14ebcc624f9033102951391d43c20039"
+    }
 ]
