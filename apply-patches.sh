@@ -6,7 +6,9 @@ VERSION="$1"
 echo
 echo "======================================================="
 echo "Copying patches"
-find thunderbird-patches/$VERSION -type f -name *.patch -exec cp '{}' patches ';'
+rm -rf patches
+mkdir patches
+find thunderbird-patches/$VERSION -type f -name *.patch -exec cp '{}' patches/ ';'
 
 echo
 echo "======================================================="
