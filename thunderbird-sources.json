@@ -1,7 +1,14 @@
 [
-    {
-        "type": "archive",
-        "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/128.0b3-candidates/build1/source/thunderbird-128.0b3.source.tar.xz",
-        "sha256": "4a39d9c68d56b8fcc181fc9659483c3e14ebcc624f9033102951391d43c20039"
-    }
+  {
+    "type": "archive",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/128.0b3-candidates/build1/source/thunderbird-128.0b3.source.tar.xz",
+    "sha256": "4a39d9c68d56b8fcc181fc9659483c3e14ebcc624f9033102951391d43c20039"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/c0675b7b7afb",
+    "sha256": "5d6aa8ead715c1128344ba4fc9f1b477cc31aede42daefeb2d0c578f018dcb9d",
+    "dest": "patches/",
+    "dest-filename": "1902255-dummy-row-counts.patch"
+  }
 ]
