@@ -37,6 +37,13 @@ In case Betterbird opens a new profile instead of the existing one, run:<br>
 `flatpak run eu.betterbird.Betterbird -P`<br>
 then select the right profile and tick "*Use the selected profile without asking on startup*" box.
 
+## Customizing the icons
+In order to customize the app icon or the status icons:
+1. Check the value of the `$XDG_DATA_HOME` environment variable. If it is unset, it means that the default value of `~/.local/share` is effective.
+2. Save your custom app icon as `$XDG_DATA_HOME/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg`. Create any folders that may be inexistent.
+3. Custom status icons (shown in the systray) go into the `$XDG_DATA_HOME/icons/hicolor/scalable/status/` folder and must be named `eu.betterbird.Betterbird-default.svg` and `eu.betterbird.Betterbird-newmail.svg` respectively. 
+4. Reboot.
+
 ## Known issues
 #### Language support
 The Betterbird flatpak ships all language packs that are currently available for Betterbird. Flatpak installs a selection matching the user configuration that has been set with `flatpak config --set languages` and `flatpak config --set extra-languages`, defaulting to the system language. **Thunderbird language packs do not work with Betterbird**, so do not attempt to install them.
