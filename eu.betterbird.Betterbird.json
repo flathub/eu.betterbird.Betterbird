@@ -61,8 +61,8 @@
             "aarch64"
           ],
           "dest": "rust-aarch64-unknown-linux-gnu",
-          "url": "https://static.rust-lang.org/dist/2024-02-08/rust-1.76.0-aarch64-unknown-linux-gnu.tar.xz",
-          "sha256": "171e118a34ad6bbf12540a3f1644649b0a9623c3381449ec4639f68bf293dc4e"
+          "url": "https://static.rust-lang.org/dist/2024-06-13/rust-1.79.0-aarch64-unknown-linux-gnu.tar.xz",
+          "sha256": "8e7a2d514ee469325e5a7d0a2f0cad313aecb4c3da134f3bf84f7901a809d566"
         },
         {
           "type": "archive",
@@ -70,8 +70,8 @@
             "x86_64"
           ],
           "dest": "rust-x86_64-unknown-linux-gnu",
-          "url": "https://static.rust-lang.org/dist/2024-02-08/rust-1.76.0-x86_64-unknown-linux-gnu.tar.xz",
-          "sha256": "04fa0cf224ed36c9c7a5ea7a0ad7d31f5ad20dda5af0cc1e5991c703e01ef988"
+          "url": "https://static.rust-lang.org/dist/2024-06-13/rust-1.79.0-x86_64-unknown-linux-gnu.tar.xz",
+          "sha256": "ce552d6bf22a2544ea78647d98cb405d5089af58dbcaa4efea711bf8becd71c5"
         }
       ],
       "build-options": {
