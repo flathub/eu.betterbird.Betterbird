@@ -146,8 +146,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://pcsclite.apdu.fr/files/pcsc-lite-2.2.3.tar.xz",
-          "sha256": "cab1e62755713f62ce1b567954dbb0e9a7e668ffbc3bbad3ce85c53f8f4e00a4"
+          "url": "https://pcsclite.apdu.fr/files/pcsc-lite-1.9.9.tar.bz2",
+          "sha256": "cbcc3b34c61f53291cecc0d831423c94d437b188eb2b97b7febc08de1c914e8a"
         }
       ]
     },
