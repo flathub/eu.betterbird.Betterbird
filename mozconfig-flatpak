@@ -7,7 +7,7 @@ ac_add_options --enable-release
 export MOZ_NOSPAM=1
 
 # define FLATPAK_COMPILE to enable flatpak-specific patches
-export CXXFLAGS="$CXXFLAGS -DFLATPAK_COMPILE"
+export CXXFLAGS="$CXXFLAGS -DFLATPAK_COMPILE -fno-exceptions"
 
 # use system libs if possible
 ac_add_options --with-system-jpeg
