@@ -1,15 +1,15 @@
 [
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/128.0esr-candidates/build1/linux-x86_64/xpi/de.xpi",
-    "sha256": "964eb7c23b87e2c2e1dd3304b5a3f9f13efc9a0bdb9b6ffeb05325ec2c6f4871",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/128.0esr-candidates/build3/linux-x86_64/xpi/de.xpi",
+    "sha256": "23f4f8b27a48cde30f9eccad97ab56afff9905d71d6ddcdc249fd428d15fb659",
     "dest": "langpacks/",
     "dest-filename": "langpack-de@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "archive",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/128.0esr-candidates/build1/source/thunderbird-128.0esr.source.tar.xz",
-    "sha256": "7fa285f2556b74515165046c4387a1f480de3ef32f1bff727f6753efa8bf0a27"
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/128.0esr-candidates/build3/source/thunderbird-128.0esr.source.tar.xz",
+    "sha256": "a07eac3cff7e0f7222b2db497452c72c8e7e9c9891f2d174f501052ae1f695d8"
   },
   {
     "type": "file",
