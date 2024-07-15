@@ -1,15 +1,15 @@
 [
   {
+    "type": "file",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/128.0esr-candidates/build1/linux-x86_64/xpi/de.xpi",
+    "sha256": "964eb7c23b87e2c2e1dd3304b5a3f9f13efc9a0bdb9b6ffeb05325ec2c6f4871",
+    "dest": "langpacks/",
+    "dest-filename": "langpack-de@thunderbird.mozilla.org.xpi"
+  },
+  {
     "type": "archive",
     "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/128.0esr-candidates/build1/source/thunderbird-128.0esr.source.tar.xz",
     "sha256": "7fa285f2556b74515165046c4387a1f480de3ef32f1bff727f6753efa8bf0a27"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/c0675b7b7afb",
-    "sha256": "5d6aa8ead715c1128344ba4fc9f1b477cc31aede42daefeb2d0c578f018dcb9d",
-    "dest": "patches/",
-    "dest-filename": "1902255-dummy-row-counts.patch"
   },
   {
     "type": "file",
@@ -24,5 +24,19 @@
     "sha256": "934ef41237bb1de5e5306f03d36c38d35431963a96404f4555461fc30df3cbb7",
     "dest": "patches/",
     "dest-filename": "1905542-clear-count-on-folder-change-part2.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/4c17a6c15da2",
+    "sha256": "1d1952259026d649a104be11fcb8f1cac0cda03640c7bf4754804ba83a6ab496",
+    "dest": "patches/",
+    "dest-filename": "1906863-typo-junkCommands.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/0dd3a34992d1",
+    "sha256": "8d2ef20ace2e609bf681a2b5641fabb0f3f3a43fa500b49dc6af59998728e796",
+    "dest": "patches/",
+    "dest-filename": "1906835-close-backup-db.patch"
   }
 ]
