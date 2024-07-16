@@ -14,11 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           path: eu.betterbird.Betterbird
           ref: beta
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: Betterbird/thunderbird-patches
           path: thunderbird-patches

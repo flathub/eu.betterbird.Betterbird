@@ -1,24 +1,44 @@
 #!/bin/bash
 set -eo pipefail
 
-if (($# < 1)); then
-  echo "Usage: $0 BETTERBIRD_VERSION [BETTERBIRD_COMMIT]"
+script_args=()
+force=false
+while [ $OPTIND -le "$#" ]
+do
+    if getopts f option
+    then
+        case $option
+        in
+            f) force=true;;
+        esac
+    else
+        script_args+=("${!OPTIND}")
+        ((OPTIND++))
+    fi
+done
+
+if ((${#script_args[@]} < 1)); then
+  echo "Usage: $0 [-f] BETTERBIRD_VERSION [BETTERBIRD_COMMIT]"
   echo ""
   echo "Example: $0 102.2.2-bb16"
   echo "         $0 102 4d587481bc7dbca1ffc99cce319f84425fab7852"
+  echo ""
+  echo "Options:"
+  echo "  -f : Skip the check that the version given as script input and the version specified in the appdata.xml agree."
   exit 1
 fi
 
-BETTERBIRD_VERSION="$1" # Betterbird version. Can either be a tag or a major version number. If it's a tag, the commit is identified automatically. In case only the major version number is given, a commit must be specified by passing its hash as 2nd argument. 
-BETTERBIRD_COMMIT="$2"
+BETTERBIRD_VERSION="${script_args[0]}" # Betterbird version. Can either be a tag or a major version number. If it's a tag, the commit is identified automatically. In case only the major version number is given, a commit must be specified by passing its hash as 2nd argument. 
+BETTERBIRD_COMMIT="${script_args[1]}"
 BETTERBIRD_REPO="https://github.com/Betterbird/thunderbird-patches"
 PACKAGE=thunderbird
 PLATFORM=linux-x86_64
 SOURCES_FILE="$PACKAGE-sources.json"
-APPDATA_FILE="thunderbird-patches/metadata/eu.betterbird.Betterbird.115.appdata.xml"
+APPDATA_FILE="thunderbird-patches/metadata/eu.betterbird.Betterbird.128.appdata.xml"
 MANIFEST_FILE="eu.betterbird.Betterbird.json"
 DIST_FILE="distribution.ini"
 BUILD_DATE_FILE=".build-date"
+KNOWN_TAGS_FILE=".known-tags"
 
 # determine if the source revision was specified as a tag or as a commit hash 
 [[ "x$BETTERBIRD_COMMIT" != "x" ]] && source_spec=commit || source_spec=tag
@@ -41,15 +61,16 @@ fi
 git checkout $betterbird_commit
 cd ..
 
-if [[ "$source_spec" == "tag" ]]
+if [[ "$source_spec" == "tag" ]] && ! $force 
 then
   # check if version from appdata.xml agrees with tag
   betterbird_version_appdata=$(cat $APPDATA_FILE | grep '<release version=' | sed -r 's@^\s+<release version="(([^"])+)(" date=")([^"]+)(">)$@\1@')
-  #if [[ "$betterbird_version_appdata" != "$BETTERBIRD_VERSION" ]]
-  #then
-  #  echo "Betterbird version given on command line ($BETTERBIRD_VERSION) and version according to $APPDATA_FILE ($betterbird_version_appdata) don't agree. Stopping."
-  #  exit 1
-  #fi
+  if [[ "$betterbird_version_appdata" != "$BETTERBIRD_VERSION" ]]
+  then
+    echo "Betterbird version given on command line ($BETTERBIRD_VERSION) and version according to $APPDATA_FILE ($betterbird_version_appdata) don't agree. Stopping."
+    echo "Hint: This check can be skipped by passing the -f flag."
+    exit 1
+  fi
 fi
 
 # save current date
@@ -119,8 +140,8 @@ sed -i 's/version=.*$/version='"$(git rev-parse --short $betterbird_commit)"'/' 
 # add external patches to sources file
 # patch series for main repo
 while read -r line; do
-  url=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
-  name=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\1/')
+  url=$(echo $line | sed -r 's/(.*) # (http.*\/rev\/[0-9a-f]+).*/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
+  name=$(echo $line | sed -r 's/(.*) # (.*)/\1/')
   wget $url --max-redirect=20 -O $name
   sha256=$(sha256sum "$name" | cut -f1 -d' ')
   jq --arg url $url --arg name $name --arg sha256 $sha256 \
@@ -128,11 +149,11 @@ while read -r line; do
     $SOURCES_FILE > $tmpfile
   mv $tmpfile $SOURCES_FILE
   rm -f $name
-done < <(grep -E "^[^#].* # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series-M-C)
+done < <(grep -E "^[^#].* # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series-moz)
 # patch series for comm repo
 while read -r line; do
-  url=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
-  name=$(echo $line | sed -e 's/\(.*\) # \(.*\)/\1/')
+  url=$(echo $line | sed -r 's/(.*) # (http.*\/rev\/[0-9a-f]+).*/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
+  name=$(echo $line | sed -r 's/(.*) # (.*)/\1/')
   wget $url --max-redirect=20 -O $name
   sha256=$(sha256sum "$name" | cut -f1 -d' ')
   jq --arg url $url --arg name $name --arg sha256 $sha256 \
@@ -143,9 +164,16 @@ while read -r line; do
 done < <(grep -E "^[^#].* # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series)
 rm -rf thunderbird-patches
 
+# add tag to .known-tags if it has not been added yet 
+if [[ "$source_spec" == "tag" ]] && ! grep -Fxq "$BETTERBIRD_VERSION" "$KNOWN_TAGS_FILE"
+then
+    echo "$BETTERBIRD_VERSION" >> "$KNOWN_TAGS_FILE"
+    sort -o "$KNOWN_TAGS_FILE" "$KNOWN_TAGS_FILE"
+fi
+
 cat <<EOT
 The files were successfully updated to Betterbird $BETTERBIRD_VERSION.
 
 You can commit the result by executing the following command:
-git commit --message='Update to $BETTERBIRD_VERSION' -- '$SOURCES_FILE' '$MANIFEST_FILE' '$DIST_FILE' '$BUILD_DATE_FILE'
+git commit --message='Update to $BETTERBIRD_VERSION' -- '$SOURCES_FILE' '$MANIFEST_FILE' '$DIST_FILE' '$BUILD_DATE_FILE' '$KNOWN_TAGS_FILE'
 EOT

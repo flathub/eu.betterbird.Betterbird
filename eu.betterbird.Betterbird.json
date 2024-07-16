@@ -4,9 +4,8 @@
   "runtime-version": "23.08",
   "sdk": "org.freedesktop.Sdk",
   "sdk-extensions": [
-    "org.freedesktop.Sdk.Extension.rust-stable",
     "org.freedesktop.Sdk.Extension.node18",
-    "org.freedesktop.Sdk.Extension.llvm16"
+    "org.freedesktop.Sdk.Extension.llvm18"
   ],
   "command": "betterbird",
   "finish-args": [
@@ -18,6 +17,7 @@
     "--persist=.thunderbird",
     "--filesystem=xdg-download:rw",
     "--talk-name=org.a11y.Bus",
+    "--talk-name=org.kde.StatusNotifierWatcher",
     "--own-name=org.mozilla.betterbird.*",
     "--socket=pcsc",
     "--require-version=0.10.3",
@@ -26,14 +26,13 @@
     "--filesystem=/run/.heim_org.h5l.kcm-socket",
     "--filesystem=/var/mail",
     "--filesystem=/var/spool/mail",
-    "--filesystem=/usr/mail",
-    "--filesystem=/usr/spool/mail",
     "--socket=cups"
   ],
   "cleanup": [
     "/include",
     "/lib/pkgconfig",
     "/lib/girepository-1.0",
+    "/lib/rust",
     "/share/pkgconfig",
     "/share/aclocal",
     "/share/gtk-doc",
@@ -45,10 +44,55 @@
     "*.la",
     "*.a"
   ],
+  "build-options": {
+    "no-debuginfo": true
+  },
   "modules": [
     "shared-modules/dbus-glib/dbus-glib.json",
     "shared-modules/libcanberra/libcanberra.json",
     "shared-modules/intltool/intltool-0.51.json",
+    {
+      "name": "rust",
+      "buildsystem": "simple",
+      "sources": [
+        {
+          "type": "archive",
+          "only-arches": [
+            "aarch64"
+          ],
+          "dest": "rust-aarch64-unknown-linux-gnu",
+          "url": "https://static.rust-lang.org/dist/2024-06-13/rust-1.79.0-aarch64-unknown-linux-gnu.tar.xz",
+          "sha256": "8e7a2d514ee469325e5a7d0a2f0cad313aecb4c3da134f3bf84f7901a809d566"
+        },
+        {
+          "type": "archive",
+          "only-arches": [
+            "x86_64"
+          ],
+          "dest": "rust-x86_64-unknown-linux-gnu",
+          "url": "https://static.rust-lang.org/dist/2024-06-13/rust-1.79.0-x86_64-unknown-linux-gnu.tar.xz",
+          "sha256": "ce552d6bf22a2544ea78647d98cb405d5089af58dbcaa4efea711bf8becd71c5"
+        }
+      ],
+      "build-options": {
+        "prefix": "/app/lib/rust",
+        "arch": {
+          "x86_64": {
+            "env": {
+              "NATIVE_TARGET": "x86_64-unknown-linux-gnu"
+            }
+          },
+          "aarch64": {
+            "env": {
+              "NATIVE_TARGET": "aarch64-unknown-linux-gnu"
+            }
+          }
+        }
+      },
+      "build-commands": [
+        "cd \"rust-$NATIVE_TARGET\" && ./install.sh --prefix=/app/lib/rust --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose"
+      ]
+    },
     {
       "name": "libdbusmenu",
       "build-options": {
@@ -108,9 +152,9 @@
       ]
     },
     {
-      "name": "autoconf-2.13",
+      "name": "autoconf-2.72",
       "config-opts": [
-        "--program-suffix=2.13"
+        "--program-suffix=2.72"
       ],
       "cleanup": [
         "*"
@@ -118,8 +162,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://ftp.gnu.org/gnu/autoconf/autoconf-2.13.tar.gz",
-          "sha256": "f0611136bee505811e9ca11ca7ac188ef5323a8e2ef19cffd3edb3cf08fd791e"
+          "url": "https://ftp.gnu.org/gnu/autoconf/autoconf-2.72.tar.xz",
+          "sha256": "ba885c1319578d6c94d46e9b0dceb4014caafe2490e437a0dbca3f270a223f5a"
         }
       ]
     },
@@ -149,8 +193,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.1.tar.xz",
-          "sha256": "d033e6d4d6ccbf46a436c31628a4b661b36dca1f5d4174fe0173e274f4e62557"
+          "url": "https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.3.tar.xz",
+          "sha256": "ee8f3ef946156ad3406fdf45feedbdcd932dbd211ab4f16f75eba4f36fb2f6c0"
         }
       ]
     },
@@ -179,8 +223,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://kerberos.org/dist/krb5/1.20/krb5-1.20.tar.gz",
-          "sha256": "7e022bdd3c851830173f9faaa006a230a0e0fdad4c953e85bff4bf0da036e12f"
+          "url": "https://kerberos.org/dist/krb5/1.21/krb5-1.21.3.tar.gz",
+          "sha256": "b7a4cd5ead67fb08b980b21abd150ff7217e85ea320c9ed0c6dadd304840ad35"
         },
         {
           "type": "file",
@@ -203,7 +247,7 @@
         "install -Dm 755 target/release/cbindgen -t /app/bin"
       ],
       "build-options": {
-        "append-path": "/usr/lib/sdk/rust-stable/bin",
+        "append-path": "/app/lib/rust/bin",
         "env": {
           "CARGO_HOME": "/run/build/cbindgen/cargo"
         }
@@ -215,8 +259,8 @@
         {
           "type": "git",
           "url": "https://github.com/eqrion/cbindgen.git",
-          "tag": "v0.24.3",
-          "commit": "f43ccfc047a1a160267f32355c5e5e7154a2665a"
+          "tag": "v0.26.0",
+          "commit": "703b53c06f9fe2dbc0193d67626558cfa84a0f62"
         },
         "cbindgen-sources.json"
       ]
@@ -225,8 +269,8 @@
       "name": "betterbird",
       "buildsystem": "simple",
       "build-options": {
-        "append-path": "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/node18/bin:/usr/lib/sdk/llvm16/bin",
-        "prepend-ld-library-path": "/usr/lib/sdk/llvm16/lib",
+        "append-path": "/app/lib/rust/bin:/usr/lib/sdk/node18/bin:/usr/lib/sdk/llvm18/bin",
+        "prepend-ld-library-path": "/usr/lib/sdk/llvm18/lib",
         "env": {
           "TERM": "linux",
           "CARGO_HOME": "/run/build/betterbird/cargo",
@@ -234,35 +278,30 @@
         }
       },
       "build-commands": [
-        "./make-mozconfig.sh 115",
+        "./make-mozconfig.sh 128",
         "chmod u+x apply-patches.sh",
-        "./apply-patches.sh 115",
+        "./apply-patches.sh 128",
         "sed -i 's#-I/usr/include#-I/app/include#g' comm/third_party/appindicator/moz.build",
         "export MOZ_BUILD_DATE=$(cat .build-date); ./mach configure; ./mach build -v -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install",
         "rm -rf /app/lib/thunderbird/chrome",
         "rm -f /app/bin/thunderbird",
         "mv /app/lib/thunderbird /app/lib/betterbird",
         "install -Dm755 betterbird-wrapper /app/bin/betterbird",
-        "install -Dm644 policies.json /app/lib/betterbird/distribution/policies.json",
         "install -Dm644 distribution.ini /app/lib/betterbird/distribution/distribution.ini",
         "install -Dm644 default-preferences.js /app/lib/betterbird/defaults/pref/default-preferences.js",
         "mkdir -p /app/lib/betterbird/extensions",
-        "for lang in langpacks/*.xpi;do export locale=$(basename -s .xpi $lang); install -Dm644 -t /app/share/runtime/locale/${locale:9:2}/ $lang; ln -sf /app/share/runtime/locale/${locale:9:2}/$(basename $lang) /app/lib/betterbird/extensions/$(basename $lang); done",
+        "for xpi in langpacks/*.xpi;do export locale=$(basename -s .xpi $xpi); install -Dm644 -t /app/share/runtime/locale/${locale:9:2}/ $xpi; ln -sf /app/share/runtime/locale/${locale:9:2}/$(basename $xpi) /app/lib/betterbird/extensions/$(basename $xpi); done",
         "for i in 16 22 24 32 48 64 128 256;do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/lib/betterbird/chrome/icons/default/default${i}.png;done",
-        "install -Dm644 comm/mail/branding/betterbird/default.svg /app/lib/betterbird/chrome/icons/default/default.svg",
-        "install -Dm644 comm/mail/branding/betterbird/newmail.svg /app/lib/betterbird/chrome/icons/default/newmail.svg",
+        "install -Dm644 comm/mail/branding/betterbird/default.svg /app/share/icons/hicolor/scalable/status/eu.betterbird.Betterbird-default.svg",
+        "install -Dm644 comm/mail/branding/betterbird/newmail.svg /app/share/icons/hicolor/scalable/status/eu.betterbird.Betterbird-newmail.svg",
         "for i in 16 22 24 32 48 64 128 256;do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png;done",
         "install -Dm644 thunderbird-patches/metadata/icons/betterbird.svg /app/share/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg",
         "install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop /app/share/applications/eu.betterbird.Betterbird.desktop",
-        "install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.115.appdata.xml /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml",
+        "install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.128.appdata.xml /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml",
         "install -Dm644 fonts.conf /app/etc/fonts/local.conf"
       ],
       "sources": [
         "thunderbird-sources.json",
-        {
-          "type": "file",
-          "path": "policies.json"
-        },
         {
           "type": "file",
           "path": "distribution.ini"
@@ -282,9 +321,9 @@
         {
           "type": "git",
           "url": "https://github.com/Betterbird/thunderbird-patches.git",
-          "commit": "176d0f21c56409ad0d8c5545b34fff8c21a11231",
+          "commit": "990fc2453b6cab93bc96dfd6e9f0b047b77bcf79",
           "dest": "thunderbird-patches",
-          "tag": "115.2.3-bb12-build2"
+          "tag": "128.0esr-bb4-build3"
         },
         {
           "type": "file",
@@ -302,7 +341,7 @@
           "type": "script",
           "dest-filename": "make-mozconfig.sh",
           "commands": [
-            "cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak > mozconfig"
+            "cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak | sed -r 's/(mk_add_options MOZ_MAKE_FLAGS=\"-j[0-9]+\")/# \\1/' > mozconfig"
           ],
           "only-arches": [
             "x86_64"
@@ -312,7 +351,7 @@
           "type": "script",
           "dest-filename": "make-mozconfig.sh",
           "commands": [
-            "cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak mozconfig-aarch64 > mozconfig"
+            "cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak mozconfig-aarch64 | sed -r 's/(mk_add_options MOZ_MAKE_FLAGS=\"-j[0-9]+\")/# \\1/' > mozconfig"
           ],
           "only-arches": [
             "aarch64"

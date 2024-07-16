@@ -1,6 +1,4 @@
 pref("app.update.auto", false);
-pref("app.update.enabled", false);
-pref("app.update.autoInstallEnabled", false);
 pref("intl.locale.requested", "");
 pref("intl.locale.matchOS", true);
 pref("mail.shell.checkDefaultClient", false);
