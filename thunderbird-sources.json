@@ -8,7 +8,7 @@
   },
   {
     "type": "archive",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/128.0.1esr-candidates/build2/source/thunderbird-128.0.1esr.source.tar.xz",
+    "url": "https://dl.mfs.name/thunderbird-128.0.1esr.source.tar.xz",
     "sha256": "19d49f320c18450d80136b79bdd40d7ab6d3df1757404fbfd1052164a787db99"
   },
   {
