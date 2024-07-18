@@ -1,15 +1,22 @@
 [
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/128.0esr-candidates/build3/linux-x86_64/xpi/de.xpi",
-    "sha256": "23f4f8b27a48cde30f9eccad97ab56afff9905d71d6ddcdc249fd428d15fb659",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/128.0.1esr-candidates/build2/linux-x86_64/xpi/de.xpi",
+    "sha256": "5a6de993eee2d4683857b66ea01a2404201595e2a465ba4052b141917782b9bd",
     "dest": "langpacks/",
     "dest-filename": "langpack-de@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "archive",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/128.0esr-candidates/build3/source/thunderbird-128.0esr.source.tar.xz",
-    "sha256": "a07eac3cff7e0f7222b2db497452c72c8e7e9c9891f2d174f501052ae1f695d8"
+    "url": "https://dl.mfs.name/thunderbird-128.0.1esr.source.tar.xz",
+    "sha256": "19d49f320c18450d80136b79bdd40d7ab6d3df1757404fbfd1052164a787db99"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/163c80476e09",
+    "sha256": "87461d9e6ab6324a729dd4f7d753bcf71a56c1e97c8f1e30466e84562b3f15ec",
+    "dest": "patches/",
+    "dest-filename": "1898832-GPGME-part2-official.patch"
   },
   {
     "type": "file",
@@ -24,13 +31,6 @@
     "sha256": "934ef41237bb1de5e5306f03d36c38d35431963a96404f4555461fc30df3cbb7",
     "dest": "patches/",
     "dest-filename": "1905542-clear-count-on-folder-change-part2.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/4c17a6c15da2",
-    "sha256": "1d1952259026d649a104be11fcb8f1cac0cda03640c7bf4754804ba83a6ab496",
-    "dest": "patches/",
-    "dest-filename": "1906863-typo-junkCommands.patch"
   },
   {
     "type": "file",
