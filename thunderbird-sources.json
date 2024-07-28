@@ -8,7 +8,7 @@
   },
   {
     "type": "archive",
-    "url": "https://dl.mfs.name/thunderbird-128.0.1esr.source.tar.xz",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/128.0.1esr-candidates/build2/source/thunderbird-128.0.1esr.source.tar.xz",
     "sha256": "19d49f320c18450d80136b79bdd40d7ab6d3df1757404fbfd1052164a787db99"
   },
   {
@@ -38,5 +38,19 @@
     "sha256": "8d2ef20ace2e609bf681a2b5641fabb0f3f3a43fa500b49dc6af59998728e796",
     "dest": "patches/",
     "dest-filename": "1906835-close-backup-db.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/7534d3608f2e",
+    "sha256": "228c755b1d679d062a25c8bf0ca70cf142576ba6d7d0f6644a6cd79c8438d32c",
+    "dest": "patches/",
+    "dest-filename": "1899110-fix-encoding-issue-pgp.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/3f5427cedad6",
+    "sha256": "77b81fecbc28af7f14e591e699e1076ffe0a8d021cad5ead6c884b33d40b5126",
+    "dest": "patches/",
+    "dest-filename": "1908113-restore-base64-encoding.patch"
   }
 ]
