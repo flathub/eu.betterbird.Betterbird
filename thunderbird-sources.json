@@ -1,56 +1,42 @@
 [
   {
     "type": "file",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/128.0.1esr-candidates/build2/linux-x86_64/xpi/de.xpi",
-    "sha256": "5a6de993eee2d4683857b66ea01a2404201595e2a465ba4052b141917782b9bd",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.1.0esr-candidates/build1/linux-x86_64/xpi/de.xpi",
+    "sha256": "914f153d8d010aa20fd832c866cd4ff5aa0906eeb22cc3b60ad8af3ee15297d5",
     "dest": "langpacks/",
     "dest-filename": "langpack-de@thunderbird.mozilla.org.xpi"
   },
   {
+    "type": "file",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.1.0esr-candidates/build1/linux-x86_64/xpi/uk.xpi",
+    "sha256": "628ed412b262c22b65a279c6859adfcab0ec935d7e35190a5e53f84032d5b862",
+    "dest": "langpacks/",
+    "dest-filename": "langpack-uk@thunderbird.mozilla.org.xpi"
+  },
+  {
     "type": "archive",
-    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/128.0.1esr-candidates/build2/source/thunderbird-128.0.1esr.source.tar.xz",
-    "sha256": "19d49f320c18450d80136b79bdd40d7ab6d3df1757404fbfd1052164a787db99"
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.1.0esr-candidates/build1/source/thunderbird-128.1.0esr.source.tar.xz",
+    "sha256": "a61e21b93fd9c3f97fa73d52108ad0fcf9ab2e58e5ecaeefb9b6666e6ff8edf3"
   },
   {
     "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/163c80476e09",
-    "sha256": "87461d9e6ab6324a729dd4f7d753bcf71a56c1e97c8f1e30466e84562b3f15ec",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/a95985842f96",
+    "sha256": "13272675544f75d5b4e2dd05ea482059b8e91d4fca3b4ddf1d6c418b453c1ea9",
     "dest": "patches/",
-    "dest-filename": "1898832-GPGME-part2-official.patch"
+    "dest-filename": "1907788-remove-qfb-activeElement.patch"
   },
   {
     "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/fb419626d973",
-    "sha256": "744f08931026965189613833304e3694e4ca0869607d1fdfa175d07ad5b9a742",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/c5cada45c8a8",
+    "sha256": "f8c38baf9203d4c194a1516b10a675f899bacc6a7718fc075c37291d02bd0ff4",
     "dest": "patches/",
-    "dest-filename": "1905542-clear-count-on-folder-change-part1.patch"
+    "dest-filename": "1905912-persist-grouped-by-sort.patch"
   },
   {
     "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/f26adf697ffd",
-    "sha256": "934ef41237bb1de5e5306f03d36c38d35431963a96404f4555461fc30df3cbb7",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/cb5dead87b07",
+    "sha256": "761a425ab5ddaf16621531b4d8a43bb2790b3377cedb7a0e12bfac6a9a56a719",
     "dest": "patches/",
-    "dest-filename": "1905542-clear-count-on-folder-change-part2.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/0dd3a34992d1",
-    "sha256": "8d2ef20ace2e609bf681a2b5641fabb0f3f3a43fa500b49dc6af59998728e796",
-    "dest": "patches/",
-    "dest-filename": "1906835-close-backup-db.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/7534d3608f2e",
-    "sha256": "228c755b1d679d062a25c8bf0ca70cf142576ba6d7d0f6644a6cd79c8438d32c",
-    "dest": "patches/",
-    "dest-filename": "1899110-fix-encoding-issue-pgp.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/3f5427cedad6",
-    "sha256": "77b81fecbc28af7f14e591e699e1076ffe0a8d021cad5ead6c884b33d40b5126",
-    "dest": "patches/",
-    "dest-filename": "1908113-restore-base64-encoding.patch"
+    "dest-filename": "1908761-qf-speed-secondary-sort.patch"
   }
 ]
