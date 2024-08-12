@@ -77,7 +77,7 @@ fi
 TZ='Europe/Berlin' date '+%Y%m%d%H%M%S' > $BUILD_DATE_FILE
 
 # get base URL for sources from appdata.xml
-source_archive=$(cat $APPDATA_FILE | sed -rz 's@.+<artifact type="source">\s*<location>([^<]+)<\/location>.+@\1@' | sed 's@http://ftp.mozilla.org/@https://archive.mozilla.org/@')
+source_archive=$(cat $APPDATA_FILE | sed -rz 's@.+<artifact type="source">\s*<location>([^<]+)<\/location>.+@\1@')
 base_url="${source_archive%/source/*}"
 
 # write new sources file

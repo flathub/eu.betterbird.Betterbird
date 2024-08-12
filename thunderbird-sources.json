@@ -1,21 +1,21 @@
 [
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.1.0esr-candidates/build1/linux-x86_64/xpi/de.xpi",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/128.1.0esr-candidates/build1/linux-x86_64/xpi/de.xpi",
     "sha256": "914f153d8d010aa20fd832c866cd4ff5aa0906eeb22cc3b60ad8af3ee15297d5",
     "dest": "langpacks/",
     "dest-filename": "langpack-de@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.1.0esr-candidates/build1/linux-x86_64/xpi/uk.xpi",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/128.1.0esr-candidates/build1/linux-x86_64/xpi/uk.xpi",
     "sha256": "628ed412b262c22b65a279c6859adfcab0ec935d7e35190a5e53f84032d5b862",
     "dest": "langpacks/",
     "dest-filename": "langpack-uk@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "archive",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.1.0esr-candidates/build1/source/thunderbird-128.1.0esr.source.tar.xz",
+    "url": "http://ftp.mozilla.org/pub/thunderbird/candidates/128.1.0esr-candidates/build1/source/thunderbird-128.1.0esr.source.tar.xz",
     "sha256": "a61e21b93fd9c3f97fa73d52108ad0fcf9ab2e58e5ecaeefb9b6666e6ff8edf3"
   },
   {
