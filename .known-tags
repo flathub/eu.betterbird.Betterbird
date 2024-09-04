@@ -81,6 +81,7 @@
 115.13.0-bb30-build2
 115.13.0-bb30-build3
 115.14.0-bb31
+115.15.0-bb32
 115.2.0-bb10
 115.2.0-bb10-build2-aka-refresh
 115.2.0-bb10-build2a-aka-refresh
@@ -128,6 +129,11 @@
 128.1.0esr-bb6-build3
 128.1.0esr-bb6-build4
 128.1.0esr-bb6-build5
+128.1.0esr-bb6-build6
+128.1.0esr-bb6-build7
+128.1.0esr-bb6-build7-flatpak
+128.1.0esr-bb6-build8
+128.1.1esr-bb7
 91.0-bb8
 91.0.1-bb9
 91.0.2-bb10
