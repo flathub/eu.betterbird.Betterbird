@@ -321,9 +321,9 @@
         {
           "type": "git",
           "url": "https://github.com/Betterbird/thunderbird-patches.git",
-          "commit": "bfeba8dfcc378ab3df82e2777bd6c627d1711409",
+          "commit": "6c3e2c1e1cf1075ee54f6d67304cde0dcf9b2423",
           "dest": "thunderbird-patches",
-          "tag": "115.14.0-bb31"
+          "tag": "115.15.0-bb32"
         },
         {
           "type": "file",
