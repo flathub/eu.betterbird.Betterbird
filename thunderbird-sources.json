@@ -1,64 +1,71 @@
 [
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.1.1esr-candidates/build2/linux-x86_64/xpi/de.xpi",
-    "sha256": "8d0f95be21c806b42482cc7bac62f7f0d0de660ab608a0041280ecf2dfe4af6b",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.2.0esr-candidates/build1/linux-x86_64/xpi/de.xpi",
+    "sha256": "8a4ed50697922adee0ae0bd787e9629f9c3067a23f7a8b07570b600308bf12ff",
     "dest": "langpacks/",
     "dest-filename": "langpack-de@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.1.1esr-candidates/build2/linux-x86_64/xpi/en-GB.xpi",
-    "sha256": "2fdb9659d1f8e98b29ea64bd5f90604616ec54ce659af6ad8261b3f0b8ee7ad6",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.2.0esr-candidates/build1/linux-x86_64/xpi/en-GB.xpi",
+    "sha256": "d1f412e98b0201e2da9fedf1c9746a278959acfcdd551eee24cac9ee9beac591",
     "dest": "langpacks/",
     "dest-filename": "langpack-en-GB@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.1.1esr-candidates/build2/linux-x86_64/xpi/es-AR.xpi",
-    "sha256": "a3674ab642467d3279019cc8a90279b87a84244037aad558938d74e37c840023",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.2.0esr-candidates/build1/linux-x86_64/xpi/es-AR.xpi",
+    "sha256": "33a3f308f1b3a384a94fb930f92858f9dfcd8c0bf0cf38e71617158925fbb5a3",
     "dest": "langpacks/",
     "dest-filename": "langpack-es-AR@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.1.1esr-candidates/build2/linux-x86_64/xpi/fr.xpi",
-    "sha256": "f9e6b0f728f290fbe70ab430f1c57a242bff1ad36181fc3c45c319730cbc4751",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.2.0esr-candidates/build1/linux-x86_64/xpi/fr.xpi",
+    "sha256": "667e4e112e128820b95691e2ed79c035d0f44639f776f0e377f4e756fe85753d",
     "dest": "langpacks/",
     "dest-filename": "langpack-fr@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.1.1esr-candidates/build2/linux-x86_64/xpi/it.xpi",
-    "sha256": "e39107d2a98a77b49cda85799658a54e697f4cf07f13bebc26eb4e740ebfb10c",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.2.0esr-candidates/build1/linux-x86_64/xpi/it.xpi",
+    "sha256": "ca2f1803ea36936e479bb408babbeda399cbf306b2e266b0fddf81e47edca980",
     "dest": "langpacks/",
     "dest-filename": "langpack-it@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.1.1esr-candidates/build2/linux-x86_64/xpi/ja.xpi",
-    "sha256": "7e22990f2a6a968f7b580773afc1d4061108c654ada2caf9542475131e8b663f",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.2.0esr-candidates/build1/linux-x86_64/xpi/ja.xpi",
+    "sha256": "3b9539b5dcd2f907662e0dfdd6eb16970c4ca14e448a65aab85db8bf6e317b4f",
     "dest": "langpacks/",
     "dest-filename": "langpack-ja@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.1.1esr-candidates/build2/linux-x86_64/xpi/pt-BR.xpi",
-    "sha256": "4af626e769f63ada5da25ca7e0f2b48fd188178b800ea30218bb9d5577178269",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.2.0esr-candidates/build1/linux-x86_64/xpi/nl.xpi",
+    "sha256": "af89db43356f7cf285e5c0474819228daf68801cbd2a391ffab9615cea7e6e54",
+    "dest": "langpacks/",
+    "dest-filename": "langpack-nl@thunderbird.mozilla.org.xpi"
+  },
+  {
+    "type": "file",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.2.0esr-candidates/build1/linux-x86_64/xpi/pt-BR.xpi",
+    "sha256": "4022262547fc8af4868ee5baf8ba66f4aa6a040a679337642cdb6254ea093321",
     "dest": "langpacks/",
     "dest-filename": "langpack-pt-BR@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.1.1esr-candidates/build2/linux-x86_64/xpi/uk.xpi",
-    "sha256": "d22e91ff76ee75b824db8050aaa296eabf8d5c50b1f710a7a68edce642576ece",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.2.0esr-candidates/build1/linux-x86_64/xpi/uk.xpi",
+    "sha256": "0af25955d93692fe16bac98c0c1aebdc467ba06d4189a32080f27331ee6c0c4b",
     "dest": "langpacks/",
     "dest-filename": "langpack-uk@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "archive",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.1.1esr-candidates/build2/source/thunderbird-128.1.1esr.source.tar.xz",
-    "sha256": "178eb13d4841e842a542870589e7c13c388431892c110374aa41176079884632"
+    "url": "https://dl.mfs.name/thunderbird-128.2.0esr.source.tar.xz",
+    "sha256": "ca67c2b8648527548788848b94c80227be681f6262ca518114f787fb2180f6e1"
   },
   {
     "type": "file",
@@ -69,31 +76,10 @@
   },
   {
     "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/c5cada45c8a8",
-    "sha256": "f8c38baf9203d4c194a1516b10a675f899bacc6a7718fc075c37291d02bd0ff4",
-    "dest": "patches/",
-    "dest-filename": "1905912-persist-grouped-by-sort.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/cb5dead87b07",
-    "sha256": "761a425ab5ddaf16621531b4d8a43bb2790b3377cedb7a0e12bfac6a9a56a719",
-    "dest": "patches/",
-    "dest-filename": "1908761-qf-speed-secondary-sort.patch"
-  },
-  {
-    "type": "file",
     "url": "https://hg.mozilla.org/comm-central/raw-rev/2eb5c928804c",
     "sha256": "74b7c1d67d2122607a01caf6cb846ef3f307c5ca3639ce8606b67bc832611295",
     "dest": "patches/",
     "dest-filename": "1691301-fix-size-filter-log.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/52bfd3141632",
-    "sha256": "a16581ca19a02eda92f25f34fcb309761410573dc2a3b2b7b479e6a151ac0360",
-    "dest": "patches/",
-    "dest-filename": "1894214-mark-all-read-qf-virtual.patch"
   },
   {
     "type": "file",
@@ -129,5 +115,68 @@
     "sha256": "5665d452ba4afdb57f00160592181a986cf2d4a5155f09da9abdde25e9ca5865",
     "dest": "patches/",
     "dest-filename": "1912733-edit-draft-with-ng.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/160fb8d4126e",
+    "sha256": "8608cbc725cbe9d24516bd5cf4c7916f296af72a6009a11b8196bb01bc99eecb",
+    "dest": "patches/",
+    "dest-filename": "1913224-fix-counts-IMAP-repair.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/e8cbb1f0460f",
+    "sha256": "ef8627862941339cd78b4002358624c0453187e6ba09833e7bca6d4fdd481f50",
+    "dest": "patches/",
+    "dest-filename": "1907603-fix-aPart-is-null.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/f201b70ddd8c",
+    "sha256": "e352ceb44bf08583b22188b1b900e1bc7e1687a1d31130a565d794d6997bbb26",
+    "dest": "patches/",
+    "dest-filename": "1913889-fix-password-double-reveal.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/5bff57dca023",
+    "sha256": "76f271861de27644d32776cc51208c0abc227172dbb2b8eb7b4877a29afb040f",
+    "dest": "patches/",
+    "dest-filename": "1902742-fix-ispdb-strange-names.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/efcb0d156201",
+    "sha256": "db9064a55b6766651315773bee5f2d81f3bf60de51f57fe394f90219beb07f71",
+    "dest": "patches/",
+    "dest-filename": "1914250-fix-mailto.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/3d8e6492e7a3",
+    "sha256": "89bcfa858350e6e34a81e900fd3bb83172a4d8ebc569c7976646b8a224db6a5a",
+    "dest": "patches/",
+    "dest-filename": "1914887-fix-mailto-in-eml.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/5b6c7cf236ea",
+    "sha256": "7f798cbbb052e2d510eea05c29fb8e9fa7a4c377e50850395c828f6382d62776",
+    "dest": "patches/",
+    "dest-filename": "1774455-fix-qf-threaded-order-received.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/c9d1c761095f",
+    "sha256": "7a18e249c5fcea945904d4dc1acd5b81fe40434ab2cfc57af6e9d1de901b413c",
+    "dest": "patches/",
+    "dest-filename": "1912655-fix-sort-indicator-column-reorder.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/33e1b7d5d184",
+    "sha256": "985562ad95f0b730c45eba7ec5995eb8b60b9c5dd5bdb3669f4ec439bb598d88",
+    "dest": "patches/",
+    "dest-filename": "1915255-fix-double-delete-confirm.patch"
   }
 ]
