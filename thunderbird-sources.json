@@ -99,7 +99,7 @@
   },
   {
     "type": "archive",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/115.15.0-candidates/build1/source/thunderbird-115.15.0.source.tar.xz",
+    "url": "https://dl.mfs.name/thunderbird-115.15.0.source.tar.xz",
     "sha256": "eb04e62171586570e83ce538d4e2feca51c24b2def84fb5c1d0baa9269d41cc7"
   },
   {
