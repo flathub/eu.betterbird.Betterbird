@@ -13,15 +13,16 @@ export CXXFLAGS="$CXXFLAGS -DFLATPAK_COMPILE -fno-exceptions"
 ac_add_options --with-system-jpeg
 ac_add_options --with-system-zlib
 ac_add_options --with-system-libvpx
-# freedesktop runtime is missing bzip2.pc file
 ac_add_options --with-system-bz2=/usr/lib
 ac_add_options --with-system-icu
-# requires nss >=3.53.1
+# freedesktop runtime 24.08 does not provide libevent nor libwebp
+#ac_add_options --with-system-libevent
+#ac_add_options --with-system-webp
 #ac_add_options --with-system-nss
 #ac_add_options --with-system-nspr
 # png lib in freedesktop runtime 24.08 is missing APNG support
 #ac_add_options --with-system-png
-ac_add_options --enable-system-ffi
+ac_add_options --with-system-ffi
 ac_add_options --enable-system-pixman
 
 # build optimizations
