@@ -14,7 +14,8 @@ ac_add_options --with-system-jpeg
 ac_add_options --with-system-zlib
 ac_add_options --with-system-libvpx
 ac_add_options --with-system-bz2=/usr/lib
-ac_add_options --with-system-icu
+# libicu in freedesktop runtime 24.08 does not seem to work
+#ac_add_options --with-system-icu
 # freedesktop runtime 24.08 does not provide libevent nor libwebp
 #ac_add_options --with-system-libevent
 #ac_add_options --with-system-webp
