@@ -14,16 +14,17 @@ ac_add_options --with-system-jpeg
 ac_add_options --with-system-zlib
 ac_add_options --with-system-libvpx
 ac_add_options --with-system-bz2=/usr/lib
+ac_add_options --with-system-ffi
+ac_add_options --enable-system-pixman
 # libicu in freedesktop runtime 24.08 does not seem to work
 #ac_add_options --with-system-icu
 # freedesktop runtime 24.08 does not provide libevent nor libwebp
 #ac_add_options --with-system-libevent
 #ac_add_options --with-system-webp
-ac_add_options --with-system-nss
+# libnss in freedesktop runtime 24.08 is too old
+#ac_add_options --with-system-nss
 # png lib in freedesktop runtime 24.08 is missing APNG support
 #ac_add_options --with-system-png
-ac_add_options --with-system-ffi
-ac_add_options --enable-system-pixman
 
 # build optimizations
 ac_add_options --enable-optimize
