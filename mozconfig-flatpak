@@ -14,7 +14,7 @@ ac_add_options --with-system-jpeg
 ac_add_options --with-system-zlib
 ac_add_options --with-system-libvpx
 # freedesktop runtime is missing bzip2.pc file
-#ac_add_options --with-system-bz2
+ac_add_options --with-system-bz2=/usr/lib
 # requires icu-i18n >= 69.1
 #ac_add_options --with-system-icu
 # requires nss >=3.53.1
