@@ -20,7 +20,8 @@ ac_add_options --with-system-bz2=/usr/lib
 # requires nss >=3.53.1
 #ac_add_options --with-system-nss
 #ac_add_options --with-system-nspr
-ac_add_options --with-system-png
+# png lib in freedesktop runtime 24.08 is missing APNG support
+#ac_add_options --with-system-png
 ac_add_options --enable-system-ffi
 ac_add_options --enable-system-pixman
 
