@@ -19,8 +19,7 @@ ac_add_options --with-system-bz2=/usr/lib
 # freedesktop runtime 24.08 does not provide libevent nor libwebp
 #ac_add_options --with-system-libevent
 #ac_add_options --with-system-webp
-#ac_add_options --with-system-nss
-#ac_add_options --with-system-nspr
+ac_add_options --with-system-nss
 # png lib in freedesktop runtime 24.08 is missing APNG support
 #ac_add_options --with-system-png
 ac_add_options --with-system-ffi
