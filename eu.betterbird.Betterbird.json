@@ -1,10 +1,10 @@
 {
   "id": "eu.betterbird.Betterbird",
   "runtime": "org.freedesktop.Platform",
-  "runtime-version": "23.08",
+  "runtime-version": "24.08",
   "sdk": "org.freedesktop.Sdk",
   "sdk-extensions": [
-    "org.freedesktop.Sdk.Extension.node18",
+    "org.freedesktop.Sdk.Extension.node20",
     "org.freedesktop.Sdk.Extension.llvm18"
   ],
   "command": "betterbird",
@@ -269,12 +269,12 @@
       "name": "betterbird",
       "buildsystem": "simple",
       "build-options": {
-        "append-path": "/app/lib/rust/bin:/usr/lib/sdk/node18/bin:/usr/lib/sdk/llvm18/bin",
+        "append-path": "/app/lib/rust/bin:/usr/lib/sdk/node20/bin:/usr/lib/sdk/llvm18/bin",
         "prepend-ld-library-path": "/usr/lib/sdk/llvm18/lib",
         "env": {
           "TERM": "linux",
           "CARGO_HOME": "/run/build/betterbird/cargo",
-          "npm_config_nodedir": "/usr/lib/sdk/node18"
+          "npm_config_nodedir": "/usr/lib/sdk/node20"
         }
       },
       "build-commands": [
@@ -321,9 +321,9 @@
         {
           "type": "git",
           "url": "https://github.com/Betterbird/thunderbird-patches.git",
-          "commit": "762f64eb7d02425b1e3ceb49a77e71f8495bb3b5",
+          "commit": "3d988aa01036a1983b5919e05a16ba39c426875a",
           "dest": "thunderbird-patches",
-          "tag": "128.2.0esr-bb8-build2"
+          "tag": "128.2.2esr-bb10-build2"
         },
         {
           "type": "file",
