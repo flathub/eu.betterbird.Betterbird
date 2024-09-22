@@ -177,7 +177,7 @@ fi
 # download source tar to private mirror and replace download URLs
 if $private_mirror
 then
-  ssh srv5root curl --retry 5 --retry-all-errors -O --output-dir /srv/containers/dl $(cat thunderbird-sources.json | grep -Eo 'https://.*.source.tar.xz')
+  ssh srv5root curl -C - --retry 5 --retry-all-errors -O --output-dir /srv/containers/dl $(cat thunderbird-sources.json | grep -Eo 'https://.*.source.tar.xz')
   sed -E 's#https:\/\/archive\.mozilla\.org\/.*\/([^\/]+)\.source\.tar\.xz#https://dl.mfs.name/\1.source.tar.xz#' -i thunderbird-sources.json
 fi
 
