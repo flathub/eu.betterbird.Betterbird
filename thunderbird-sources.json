@@ -107,7 +107,8 @@
   {
     "type": "archive",
     "url": "https://www.betterbird.eu/source/thunderbird-115.15.0.source.tar",
-    "sha256": "ae7defcc5d796bdd64931fdb310f41574ebc47c57da38333e002bd57ccb7ac87"
+    "sha256": "ae7defcc5d796bdd64931fdb310f41574ebc47c57da38333e002bd57ccb7ac87",
+    "dest": "comm/"
   },
   {
     "type": "archive",
