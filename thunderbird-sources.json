@@ -85,6 +85,13 @@
   },
   {
     "type": "file",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/115.15.0-candidates/build1/linux-x86_64/xpi/tr.xpi",
+    "sha256": "aefa1cf564c3f09f17bab938d7923fda2fb619f2690f294f86507e0acd1c45a5",
+    "dest": "langpacks/",
+    "dest-filename": "langpack-tr@thunderbird.mozilla.org.xpi"
+  },
+  {
+    "type": "file",
     "url": "https://archive.mozilla.org/pub/thunderbird/candidates/115.15.0-candidates/build1/linux-x86_64/xpi/uk.xpi",
     "sha256": "e52beea74c5eeebb62ad52ef06ae2cf6bce8e1670e287e827f839389de4e768d",
     "dest": "langpacks/",
@@ -99,8 +106,13 @@
   },
   {
     "type": "archive",
-    "url": "https://dl.mfs.name/thunderbird-115.15.0.source.tar.xz",
-    "sha256": "eb04e62171586570e83ce538d4e2feca51c24b2def84fb5c1d0baa9269d41cc7"
+    "url": "https://www.betterbird.eu/source/thunderbird-115.15.0.source.tar",
+    "sha256": "ae7defcc5d796bdd64931fdb310f41574ebc47c57da38333e002bd57ccb7ac87"
+  },
+  {
+    "type": "archive",
+    "url": "https://dl.mfs.name/firefox-115.16.0esr.source.tar.xz",
+    "sha256": "d67f6611d55cdaa2e4e90a3eba332dcee2f6bf74a7842e928996db62e4aa801f"
   },
   {
     "type": "file",
@@ -241,5 +253,12 @@
     "sha256": "a0b916622b25ba706d3449afedf1fdb6853688579b6c300e8d7c65acfe961db5",
     "dest": "patches/",
     "dest-filename": "1891937-fix-crash-no-txnmgr.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/6f67031a84db",
+    "sha256": "5665d452ba4afdb57f00160592181a986cf2d4a5155f09da9abdde25e9ca5865",
+    "dest": "patches/",
+    "dest-filename": "1912733-edit-draft-with-ng.patch"
   }
 ]
