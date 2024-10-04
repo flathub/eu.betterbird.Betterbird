@@ -282,6 +282,7 @@
         "chmod u+x apply-patches.sh",
         "./apply-patches.sh 115",
         "sed -i 's#-I/usr/include#-I/app/include#g' comm/third_party/appindicator/moz.build",
+        "sed -i '1 ahttps://hg.mozilla.org/releases/comm-esr115/rev/aa5ac5425f0381ec6c3e3d9122b5b9d14cc7e60d' sourcestamp.txt",
         "export MOZ_BUILD_DATE=$(cat .build-date); ./mach configure; ./mach build -v -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install",
         "rm -rf /app/lib/thunderbird/chrome",
         "rm -f /app/bin/thunderbird",
