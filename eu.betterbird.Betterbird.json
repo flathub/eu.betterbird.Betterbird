@@ -282,6 +282,7 @@
         "chmod u+x apply-patches.sh",
         "./apply-patches.sh 115",
         "sed -i 's#-I/usr/include#-I/app/include#g' comm/third_party/appindicator/moz.build",
+        "sed -i '1 ahttps://hg.mozilla.org/releases/comm-esr115/rev/aa5ac5425f0381ec6c3e3d9122b5b9d14cc7e60d' sourcestamp.txt",
         "export MOZ_BUILD_DATE=$(cat .build-date); ./mach configure; ./mach build -v -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install",
         "rm -rf /app/lib/thunderbird/chrome",
         "rm -f /app/bin/thunderbird",
@@ -321,9 +322,9 @@
         {
           "type": "git",
           "url": "https://github.com/Betterbird/thunderbird-patches.git",
-          "commit": "762f64eb7d02425b1e3ceb49a77e71f8495bb3b5",
+          "commit": "032c62df0184a2746ec4c70617cd4aa0f51c3b8f",
           "dest": "thunderbird-patches",
-          "tag": "115.15.0-bb32-build2"
+          "tag": "115.16.0-bb33"
         },
         {
           "type": "file",
