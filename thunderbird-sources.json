@@ -83,6 +83,20 @@
   },
   {
     "type": "file",
+    "url": "https://hg.mozilla.org/releases/mozilla-esr128/raw-rev/e0c969a3bfc0",
+    "sha256": "4304252217e3429baaf1fdbced08dc5ff1dd3cf706ca9d78a8ced96adfa1cb86",
+    "dest": "patches/",
+    "dest-filename": "1923344-security-fix-moz.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/releases/mozilla-esr128/raw-rev/791c5a6d2b1b",
+    "sha256": "6804cefb274e8b7d275ce8c36ee4b69e4ac4e7ccdf9b7f821a8956f0d9f17ad8",
+    "dest": "patches/",
+    "dest-filename": "ff-128.3.1-moz.patch"
+  },
+  {
+    "type": "file",
     "url": "https://hg.mozilla.org/comm-central/raw-rev/a95985842f96",
     "sha256": "13272675544f75d5b4e2dd05ea482059b8e91d4fca3b4ddf1d6c418b453c1ea9",
     "dest": "patches/",
