@@ -187,6 +187,20 @@
   },
   {
     "type": "file",
+    "url": "https://hg.mozilla.org/releases/mozilla-esr115/raw-rev/9454a2277178",
+    "sha256": "71bfa585dd52eedb05fcdfdadfb9d13b500b76e07872d91deb9e7c0e012f2d0d",
+    "dest": "patches/",
+    "dest-filename": "1923344-security-fix-m-c.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/releases/mozilla-esr115/raw-rev/20d75b10249b",
+    "sha256": "d173af44f0168c4ae8ab410591a41bd70177a1d1d9e2f39fd360b4b2a3d3af0c",
+    "dest": "patches/",
+    "dest-filename": "ff-115.16.1-m-c.patch"
+  },
+  {
+    "type": "file",
     "url": "https://hg.mozilla.org/comm-central/raw-rev/83daba9c6525",
     "sha256": "d4c36f195e35efb7768e7b98ca58d0e243b297161d0edd57776bfce02c8f77ff",
     "dest": "patches/",
