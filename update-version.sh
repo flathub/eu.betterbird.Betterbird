@@ -38,7 +38,7 @@ PACKAGE=thunderbird
 PLATFORM=linux-x86_64
 SOURCES_FILE="$PACKAGE-sources.json"
 APPDATA_FILE="thunderbird-patches/metadata/eu.betterbird.Betterbird.128.appdata.xml"
-MANIFEST_FILE="eu.betterbird.Betterbird.json"
+MANIFEST_FILE="eu.betterbird.Betterbird.yml"
 DIST_FILE="distribution.ini"
 BUILD_DATE_FILE=".build-date"
 KNOWN_TAGS_FILE=".known-tags"
@@ -127,13 +127,13 @@ echo -e "$source_archive\n]" >>"$SOURCES_FILE"
 
 # update betterbird release tag and commit in manifest
 tmpfile="tmp.json"
-jq '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .commit) = "'$betterbird_commit'"' $MANIFEST_FILE > $tmpfile
+yq '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .commit) = "'$betterbird_commit'"' $MANIFEST_FILE > $tmpfile
 if [[ "$source_spec" == "tag" ]]
 then
-  jq '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .tag) = "'$BETTERBIRD_VERSION'"' $tmpfile > $MANIFEST_FILE
+  yq '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .tag) = "'$BETTERBIRD_VERSION'"' $tmpfile > $MANIFEST_FILE
 elif [[ "$source_spec" == "commit" ]]
 then
-  jq 'del((.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .tag))' $tmpfile > $MANIFEST_FILE
+  yq 'del((.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .tag))' $tmpfile > $MANIFEST_FILE
 fi
 rm -f $tmpfile
 
