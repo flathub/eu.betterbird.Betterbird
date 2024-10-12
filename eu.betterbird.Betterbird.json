@@ -282,7 +282,7 @@
         "chmod u+x apply-patches.sh",
         "./apply-patches.sh 128",
         "sed -i 's#-I/usr/include#-I/app/include#g' comm/third_party/appindicator/moz.build",
-        "sed -i 's#StartupWMClass=betterbird#StartupWMClass=eu.betterbird.Betterbird# thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop'",
+        "sed -i 's#StartupWMClass=betterbird#StartupWMClass=eu.betterbird.Betterbird#' thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop",
         "export MOZ_BUILD_DATE=$(cat .build-date); ./mach configure; ./mach build -v -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install",
         "rm -rf /app/lib/thunderbird/chrome",
         "rm -f /app/bin/thunderbird",
