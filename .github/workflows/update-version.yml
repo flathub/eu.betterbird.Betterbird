@@ -24,6 +24,10 @@ jobs:
           path: thunderbird-patches
           fetch-depth: 0
 
+      # Install yq
+      - name: yq - portable yaml processor
+        uses: mikefarah/yq@v4.44.3
+
       # Checks for new upstream tags and updates the manifest if new
       # tags are available
       - name: Auto-update to newest tag
