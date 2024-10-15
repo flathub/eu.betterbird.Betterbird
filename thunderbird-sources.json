@@ -78,7 +78,7 @@
   },
   {
     "type": "archive",
-    "url": "https://dl.mfs.name/thunderbird-128.3.0esr.source.tar.xz",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.3.0esr-candidates/build1/source/thunderbird-128.3.0esr.source.tar.xz",
     "sha256": "41585025b256982c2f372198acbfeec53009ed9cde5fdfc924e8bb50c1464470"
   },
   {

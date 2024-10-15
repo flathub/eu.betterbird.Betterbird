@@ -1,6 +1,6 @@
 TARGET_REPO = repo
 FLATPAK_BUILDER = $(shell which flatpak-builder)
-MANIFEST = eu.betterbird.Betterbird.json
+MANIFEST = eu.betterbird.Betterbird.yml
 
 all: build
 
