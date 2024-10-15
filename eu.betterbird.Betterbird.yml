@@ -315,7 +315,7 @@
           "dest-filename": "betterbird-wrapper",
           "commands": [
             "export TMPDIR=\"$XDG_RUNTIME_DIR/app/$FLATPAK_ID\"",
-            "exec /app/lib/betterbird/betterbird \"$@\""
+            "exec /app/lib/betterbird/betterbird --name org.mozilla.betterbird \"$@\""
           ]
         },
         {
