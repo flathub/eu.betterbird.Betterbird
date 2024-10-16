@@ -25,6 +25,7 @@ finish-args:
   - --filesystem=/var/mail
   - --filesystem=/var/spool/mail
   - --socket=cups
+  - --env=MOZ_DBUS_APP_NAME=betterbird
 cleanup:
   - /include
   - /lib/pkgconfig
