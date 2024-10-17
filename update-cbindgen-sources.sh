@@ -24,8 +24,8 @@ cd ..
 
 # update cbindgen release tag and commit in manifest
 tmpfile="tmp.json"
-yq '(.modules[] | objects | select(.name=="cbindgen") | .sources[] | objects | select(.type=="git") | .commit) = "'$cbindgen_commit'"' $MANIFEST_FILE > $tmpfile
-yq '(.modules[] | objects | select(.name=="cbindgen") | .sources[] | objects | select(.type=="git") | .tag) = "'$CBINDGEN_VERSION'"' $tmpfile > $MANIFEST_FILE
+yq -Y '(.modules[] | objects | select(.name=="cbindgen") | .sources[] | objects | select(.type=="git") | .commit) = "'$cbindgen_commit'"' $MANIFEST_FILE > $tmpfile
+yq -Y '(.modules[] | objects | select(.name=="cbindgen") | .sources[] | objects | select(.type=="git") | .tag) = "'$CBINDGEN_VERSION'"' $tmpfile > $MANIFEST_FILE
 rm -f $tmpfile
 
 # update cbindgen-sources.json
