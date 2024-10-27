@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eo pipefail
+set -xeo pipefail
 
 script_args=()
 force=false
@@ -127,13 +127,13 @@ echo -e "$source_archive\n]" >>"$SOURCES_FILE"
 
 # update betterbird release tag and commit in manifest
 tmpfile="tmp.json"
-yq -Y '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .commit) = "'$betterbird_commit'"' $MANIFEST_FILE > $tmpfile
+yq -Y '(.modules[] | objects | select(.name==\"betterbird\") | .sources[] | objects | select(.dest==\"thunderbird-patches\") | .commit) = \"'$betterbird_commit'\"' $MANIFEST_FILE > $tmpfile
 if [[ "$source_spec" == "tag" ]]
 then
-  yq -Y '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .tag) = "'$BETTERBIRD_VERSION'"' $tmpfile > $MANIFEST_FILE
+  yq -Y '(.modules[] | objects | select(.name==\"betterbird\") | .sources[] | objects | select(.dest==\"thunderbird-patches\") | .tag) = \"'$BETTERBIRD_VERSION'\"' $tmpfile > $MANIFEST_FILE
 elif [[ "$source_spec" == "commit" ]]
 then
-  yq -Y 'del((.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .tag))' $tmpfile > $MANIFEST_FILE
+  yq -Y 'del((.modules[] | objects | select(.name==\"betterbird\") | .sources[] | objects | select(.dest==\"thunderbird-patches\") | .tag))' $tmpfile > $MANIFEST_FILE
 fi
 rm -f $tmpfile
 
