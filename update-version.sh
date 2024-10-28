@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eo pipefail
+set -eo pipefail -x
 
 script_args=()
 force=false
@@ -77,8 +77,8 @@ fi
 TZ='Europe/Berlin' date '+%Y%m%d%H%M%S' > $BUILD_DATE_FILE
 
 # get base URL for sources from appdata.xml
-source_archive=$(cat $APPDATA_FILE | sed -rz 's@.+<artifact type="source">\s*<location>([^<]+)<\/location>.+@\1@')
-base_url="${source_archive%/source/*}"
+source_archive="https://archive.mozilla.org/pub/thunderbird/candidates/115.15.0-candidates/build1/source/thunderbird-115.15.0.source.tar.xz"
+base_url="https://archive.mozilla.org/pub/thunderbird/candidates/115.15.0-candidates/build1"
 
 # write new sources file
 echo '[' >"$SOURCES_FILE"
