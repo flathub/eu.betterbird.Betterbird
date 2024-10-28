@@ -112,8 +112,8 @@
   },
   {
     "type": "archive",
-    "url": "https://dl.mfs.name/firefox-115.16.0esr.source.tar.xz",
-    "sha256": "d67f6611d55cdaa2e4e90a3eba332dcee2f6bf74a7842e928996db62e4aa801f"
+    "url": "https://dl.mfs.name/firefox-115.17.0esr.source.tar.xz",
+    "sha256": "80f184a102a743ee75401e86dd86af0be5f1e5ebf07c81119d9ca77422d716c3"
   },
   {
     "type": "file",
@@ -184,20 +184,6 @@
     "sha256": "229c99396d5a5c6ff53f7aa74fbca6061be2be39ed75ef4e4cb5d8d0c21e0d41",
     "dest": "patches/",
     "dest-filename": "1896960-fix-colour-picker-m-c.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/releases/mozilla-esr115/raw-rev/9454a2277178",
-    "sha256": "71bfa585dd52eedb05fcdfdadfb9d13b500b76e07872d91deb9e7c0e012f2d0d",
-    "dest": "patches/",
-    "dest-filename": "1923344-security-fix-m-c.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/releases/mozilla-esr115/raw-rev/20d75b10249b",
-    "sha256": "d173af44f0168c4ae8ab410591a41bd70177a1d1d9e2f39fd360b4b2a3d3af0c",
-    "dest": "patches/",
-    "dest-filename": "ff-115.16.1-m-c.patch"
   },
   {
     "type": "file",
