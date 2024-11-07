@@ -1,15 +1,17 @@
 #!/bin/bash
-set -eo pipefail -x
+set -eo pipefail
 
 script_args=()
 force=false
+private_mirror=false
 while [ $OPTIND -le "$#" ]
 do
-    if getopts f option
+    if getopts fp option
     then
         case $option
         in
             f) force=true;;
+	    p) private_mirror=true;;
         esac
     else
         script_args+=("${!OPTIND}")
@@ -18,13 +20,14 @@ do
 done
 
 if ((${#script_args[@]} < 1)); then
-  echo "Usage: $0 [-f] BETTERBIRD_VERSION [BETTERBIRD_COMMIT]"
+  echo "Usage: $0 [-f] [-p] BETTERBIRD_VERSION [BETTERBIRD_COMMIT]"
   echo ""
   echo "Example: $0 102.2.2-bb16"
   echo "         $0 102 4d587481bc7dbca1ffc99cce319f84425fab7852"
   echo ""
   echo "Options:"
   echo "  -f : Skip the check that the version given as script input and the version specified in the appdata.xml agree."
+  echo "  -p : Replace upstream mirror of source tar.xz by private mirror."
   exit 1
 fi
 
@@ -34,8 +37,8 @@ BETTERBIRD_REPO="https://github.com/Betterbird/thunderbird-patches"
 PACKAGE=thunderbird
 PLATFORM=linux-x86_64
 SOURCES_FILE="$PACKAGE-sources.json"
-APPDATA_FILE="thunderbird-patches/metadata/eu.betterbird.Betterbird.appdata.xml"
-MANIFEST_FILE="eu.betterbird.Betterbird.json"
+APPDATA_FILE="thunderbird-patches/metadata/eu.betterbird.Betterbird.128.appdata.xml"
+MANIFEST_FILE="eu.betterbird.Betterbird.yml"
 DIST_FILE="distribution.ini"
 BUILD_DATE_FILE=".build-date"
 KNOWN_TAGS_FILE=".known-tags"
@@ -124,13 +127,13 @@ echo -e "$source_archive\n]" >>"$SOURCES_FILE"
 
 # update betterbird release tag and commit in manifest
 tmpfile="tmp.json"
-jq '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .commit) = "'$betterbird_commit'"' $MANIFEST_FILE > $tmpfile
+yq -Y '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .commit) = "'$betterbird_commit'"' $MANIFEST_FILE > $tmpfile
 if [[ "$source_spec" == "tag" ]]
 then
-  jq '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .tag) = "'$BETTERBIRD_VERSION'"' $tmpfile > $MANIFEST_FILE
+  yq -Y '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .tag) = "'$BETTERBIRD_VERSION'"' $tmpfile > $MANIFEST_FILE
 elif [[ "$source_spec" == "commit" ]]
 then
-  jq 'del((.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .tag))' $tmpfile > $MANIFEST_FILE
+  yq -Y 'del((.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .tag))' $tmpfile > $MANIFEST_FILE
 fi
 rm -f $tmpfile
 
@@ -149,7 +152,7 @@ while read -r line; do
     $SOURCES_FILE > $tmpfile
   mv $tmpfile $SOURCES_FILE
   rm -f $name
-done < <(grep -E "^[^#].* # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series-M-C)
+done < <(grep -E "^[^#].* # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series-moz)
 # patch series for comm repo
 while read -r line; do
   url=$(echo $line | sed -r 's/(.*) # (http.*\/rev\/[0-9a-f]+).*/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
@@ -167,8 +170,15 @@ rm -rf thunderbird-patches
 # add tag to .known-tags if it has not been added yet 
 if [[ "$source_spec" == "tag" ]] && ! grep -Fxq "$BETTERBIRD_VERSION" "$KNOWN_TAGS_FILE"
 then
-    echo "$BETTERBIRD_VERSION" >> "$KNOWN_TAGS_FILE"
-    sort -o "$KNOWN_TAGS_FILE" "$KNOWN_TAGS_FILE"
+  echo "$BETTERBIRD_VERSION" >> "$KNOWN_TAGS_FILE"
+  sort -o "$KNOWN_TAGS_FILE" "$KNOWN_TAGS_FILE"
+fi
+
+# download source tar to private mirror and replace download URLs
+if $private_mirror
+then
+  ssh srv5root curl -C - --retry 5 --retry-all-errors -O --output-dir /srv/containers/dl $(cat thunderbird-sources.json | grep -Eo 'https://.*.source.tar.xz')
+  sed -E 's#https:\/\/archive\.mozilla\.org\/.*\/([^\/]+)\.source\.tar\.xz#https://dl.mfs.name/\1.source.tar.xz#' -i thunderbird-sources.json
 fi
 
 cat <<EOT

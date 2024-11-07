@@ -12,7 +12,7 @@ CBINDGEN_VERSION="$1" # cbindgen version tag
 CBINDGEN_REPO="https://github.com/eqrion/cbindgen"
 PACKAGE=cbindgen
 SOURCES_FILE="$PACKAGE-sources.json"
-MANIFEST_FILE="eu.betterbird.Betterbird.json"
+MANIFEST_FILE="eu.betterbird.Betterbird.yml"
 
 # clone cbindgen repo
 [ -d cbindgen ] && rm -rf cbindgen
@@ -24,8 +24,8 @@ cd ..
 
 # update cbindgen release tag and commit in manifest
 tmpfile="tmp.json"
-jq '(.modules[] | objects | select(.name=="cbindgen") | .sources[] | objects | select(.type=="git") | .commit) = "'$cbindgen_commit'"' $MANIFEST_FILE > $tmpfile
-jq '(.modules[] | objects | select(.name=="cbindgen") | .sources[] | objects | select(.type=="git") | .tag) = "'$CBINDGEN_VERSION'"' $tmpfile > $MANIFEST_FILE
+yq -Y '(.modules[] | objects | select(.name=="cbindgen") | .sources[] | objects | select(.type=="git") | .commit) = "'$cbindgen_commit'"' $MANIFEST_FILE > $tmpfile
+yq -Y '(.modules[] | objects | select(.name=="cbindgen") | .sources[] | objects | select(.type=="git") | .tag) = "'$CBINDGEN_VERSION'"' $tmpfile > $MANIFEST_FILE
 rm -f $tmpfile
 
 # update cbindgen-sources.json
