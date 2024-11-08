@@ -52,7 +52,7 @@ echo " using Betterbird patches for Thunderbird ${BETTERBIRD_VERSION%%.*}"
 echo ""
 
 # clone Betterbird repo
-if [ -d thunderbird-patches/.git ]
+if [ -d thunderbird-patches ]
 then
     cd thunderbird-patches
     git reset --hard HEAD
@@ -183,7 +183,7 @@ fi
 # download source tar to private mirror and replace download URLs
 if $private_mirror
 then
-  ssh srv5root curl -C - --retry 5 --retry-all-errors -O --output-dir /srv/containers/dl $(cat thunderbird-sources.json | grep -Eo 'https://.*.source.tar.xz')
+  ssh srv5dl curl -C - --retry 5 --retry-all-errors -O --output-dir /srv/containers/dl $(cat thunderbird-sources.json | grep -Eo 'https://.*.source.tar.xz')
   sed -E 's#https:\/\/archive\.mozilla\.org\/.*\/([^\/]+)\.source\.tar\.xz#https://dl.mfs.name/\1.source.tar.xz#' -i thunderbird-sources.json
 fi
 
