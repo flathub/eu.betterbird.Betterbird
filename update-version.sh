@@ -52,9 +52,16 @@ echo " using Betterbird patches for Thunderbird ${BETTERBIRD_VERSION%%.*}"
 echo ""
 
 # clone Betterbird repo
-[ -d thunderbird-patches ] && rm -rf thunderbird-patches
-git clone -n $BETTERBIRD_REPO thunderbird-patches
-cd thunderbird-patches
+if [ -d thunderbird-patches/.git ]
+then
+    cd thunderbird-patches
+    git reset --hard HEAD
+    git fetch
+else
+    git clone -n $BETTERBIRD_REPO thunderbird-patches
+    cd thunderbird-patches
+fi
+
 if [[ "$source_spec" == "tag" ]]
 then
   betterbird_commit=$(git rev-list -1 $BETTERBIRD_VERSION)
@@ -165,7 +172,6 @@ while read -r line; do
   mv $tmpfile $SOURCES_FILE
   rm -f $name
 done < <(grep -E "^[^#].* # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series)
-rm -rf thunderbird-patches
 
 # add tag to .known-tags if it has not been added yet 
 if [[ "$source_spec" == "tag" ]] && ! grep -Fxq "$BETTERBIRD_VERSION" "$KNOWN_TAGS_FILE"
