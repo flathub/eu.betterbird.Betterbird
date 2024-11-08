@@ -10,8 +10,8 @@ do
     then
         case $option
         in
-            f) force=true;;
-	    p) private_mirror=true;;
+          f) force=true;;
+          p) private_mirror=true;;
         esac
     else
         script_args+=("${!OPTIND}")
