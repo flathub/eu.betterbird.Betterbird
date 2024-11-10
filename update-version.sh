@@ -73,9 +73,9 @@ cd ..
 
 if [[ "$source_spec" == "tag" ]] && ! $force 
 then
-  # check if version from appdata.xml agrees with tag
+  # check if version from appdata.xml agrees with tag 
   betterbird_version_appdata=$(cat $APPDATA_FILE | grep '<release version=' | sed -r 's@^\s+<release version="(([^"])+)(" date=")([^"]+)(">)$@\1@')
-  if [[ "$betterbird_version_appdata" != "$BETTERBIRD_VERSION" ]]
+  if [[ $BETTERBIRD_VERSION != $betterbird_version_appdata* ]]
   then
     echo "Betterbird version given on command line ($BETTERBIRD_VERSION) and version according to $APPDATA_FILE ($betterbird_version_appdata) don't agree. Stopping."
     echo "Hint: This check can be skipped by passing the -f flag."
