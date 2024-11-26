@@ -261,5 +261,19 @@
     "sha256": "5665d452ba4afdb57f00160592181a986cf2d4a5155f09da9abdde25e9ca5865",
     "dest": "patches/",
     "dest-filename": "1912733-edit-draft-with-ng.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/releases/comm-esr115/raw-rev/c2717f208fdd",
+    "sha256": "52687a0d728c426f0bc17c4988b05c9ff06e760190a0fc66384794dde6c0d184",
+    "dest": "patches/",
+    "dest-filename": "1902991-smime-status.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/54478afb4482",
+    "sha256": "61d73fb61019437db7bf9ec5c7bc392c247b9e233541a97f1adfd807375b662b",
+    "dest": "patches/",
+    "dest-filename": "1923585-performance-xfv-change-search.patch"
   }
 ]
