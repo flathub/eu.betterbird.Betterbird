@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eo pipefail
+set -exo pipefail
 
 script_args=()
 force=false
@@ -133,22 +133,21 @@ done < <(curl -Ss "$base_url/SHA256SUMS" | grep "^\S\+  \(source\|$PLATFORM/xpi\
 echo -e "$source_archive\n]" >>"$SOURCES_FILE"
 
 # update betterbird release tag and commit in manifest
-tmpfile="tmp.json"
-yq -Y '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .commit) = "'$betterbird_commit'"' $MANIFEST_FILE > $tmpfile
+yq -i '(.modules[] | select(.name=="betterbird") | .sources[] | select(.dest=="thunderbird-patches") | .commit) = "'$betterbird_commit'"' $MANIFEST_FILE
 if [[ "$source_spec" == "tag" ]]
 then
-  yq -Y '(.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .tag) = "'$BETTERBIRD_VERSION'"' $tmpfile > $MANIFEST_FILE
+  yq -i '(.modules[] | select(.name=="betterbird") | .sources[] | select(.dest=="thunderbird-patches") | .tag) = "'$BETTERBIRD_VERSION'"' $MANIFEST_FILE
 elif [[ "$source_spec" == "commit" ]]
 then
-  yq -Y 'del((.modules[] | objects | select(.name=="betterbird") | .sources[] | objects | select(.dest=="thunderbird-patches") | .tag))' $tmpfile > $MANIFEST_FILE
+  yq -i 'del((.modules[] | select(.name=="betterbird") | .sources[] | select(.dest=="thunderbird-patches") | .tag))' $MANIFEST_FILE
 fi
-rm -f $tmpfile
 
 # update version in distribution.ini
 sed -i 's/version=.*$/version='"$(git rev-parse --short $betterbird_commit)"'/' "$DIST_FILE"
 
 # add external patches to sources file
 # patch series for main repo
+tmpfile="tmp.json"
 while read -r line; do
   url=$(echo $line | sed -r 's/(.*) # (http.*\/rev\/[0-9a-f]+).*/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
   name=$(echo $line | sed -r 's/(.*) # (.*)/\1/')
