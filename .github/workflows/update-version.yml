@@ -5,8 +5,8 @@
 name: update-version
 
 on:
-  schedule:
-    - cron: "0 */6 * * *"
+  #schedule:
+  #  - cron: "0 */6 * * *"
   workflow_dispatch:
 
 jobs:
@@ -23,6 +23,10 @@ jobs:
           repository: Betterbird/thunderbird-patches
           path: thunderbird-patches
           fetch-depth: 0
+
+      # Install yq
+      - name: yq - portable yaml processor
+        uses: mikefarah/yq@v4.44.3
 
       # Checks for new upstream tags and updates the manifest if new
       # tags are available

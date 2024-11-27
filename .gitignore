@@ -10,3 +10,5 @@ build/
 builddir/
 
 .env/
+
+thunderbird-patches

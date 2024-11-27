@@ -12,7 +12,7 @@ CBINDGEN_VERSION="$1" # cbindgen version tag
 CBINDGEN_REPO="https://github.com/eqrion/cbindgen"
 PACKAGE=cbindgen
 SOURCES_FILE="$PACKAGE-sources.json"
-MANIFEST_FILE="eu.betterbird.Betterbird.json"
+MANIFEST_FILE="eu.betterbird.Betterbird.yml"
 
 # clone cbindgen repo
 [ -d cbindgen ] && rm -rf cbindgen
@@ -23,10 +23,8 @@ git checkout $cbindgen_commit
 cd ..
 
 # update cbindgen release tag and commit in manifest
-tmpfile="tmp.json"
-jq '(.modules[] | objects | select(.name=="cbindgen") | .sources[] | objects | select(.type=="git") | .commit) = "'$cbindgen_commit'"' $MANIFEST_FILE > $tmpfile
-jq '(.modules[] | objects | select(.name=="cbindgen") | .sources[] | objects | select(.type=="git") | .tag) = "'$CBINDGEN_VERSION'"' $tmpfile > $MANIFEST_FILE
-rm -f $tmpfile
+yq -i '(.modules[] | select(.name=="cbindgen") | .sources[] | select(.type=="git") | .commit) = "'$cbindgen_commit'"' $MANIFEST_FILE
+yq -i '(.modules[] | select(.name=="cbindgen") | .sources[] | select(.type=="git") | .tag) = "'$CBINDGEN_VERSION'"' $MANIFEST_FILE
 
 # update cbindgen-sources.json
 flatpak-builder-tools/cargo/flatpak-cargo-generator.py cbindgen/Cargo.lock -o cbindgen-sources.json
