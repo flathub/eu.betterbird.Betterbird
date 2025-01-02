@@ -189,6 +189,7 @@ modules:
       - -DENABLE_GTK_DOC=OFF
       - -DENABLE_EXAMPLES=OFF
       - -DENABLE_OAUTH2_WEBKITGTK4=OFF
+      - -DENABLE_OAUTH2_WEBKITGTK=OFF
     sources:
       - type: git
         url: https://gitlab.gnome.org/GNOME/evolution-data-server.git
