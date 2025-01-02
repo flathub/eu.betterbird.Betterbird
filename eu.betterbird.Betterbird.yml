@@ -158,7 +158,7 @@ modules:
       - -DENABLE_DOT_LOCKING=OFF
       - -DENABLE_FILE_LOCKING=fcntl
       - -DENABLE_GTK=OFF
-      - -DENABLE_GTK4=ON
+      - -DENABLE_GTK4=OFF
       - -DENABLE_GOOGLE=OFF
       - -DENABLE_VALA_BINDINGS=OFF
       - -DENABLE_WEATHER=OFF
@@ -172,6 +172,7 @@ modules:
     sources:
       - type: git
         url: https://gitlab.gnome.org/GNOME/evolution-data-server.git
+        tag: 3.54.1
   - name: krb5
     subdir: src
     config-opts:
