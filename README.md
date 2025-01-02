@@ -44,7 +44,7 @@ In order to customize the app icon or the status icons:
 1. Check the value of the `$XDG_DATA_HOME` environment variable. If it is unset, it means that the default value of `~/.local/share` is effective.
 2. Save your custom app icon as `$XDG_DATA_HOME/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg`. Create any folders that may be inexistent.
 3. Custom status icons (shown in the systray) go into the `$XDG_DATA_HOME/icons/hicolor/scalable/status/` folder and must be named `eu.betterbird.Betterbird-default.svg` and `eu.betterbird.Betterbird-newmail.svg` respectively. 
-4. Reboot.
+4. Reboot. 
 
 ## Known issues
 #### Language support
