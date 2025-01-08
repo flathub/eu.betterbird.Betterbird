@@ -16,6 +16,8 @@ finish-args:
   - --filesystem=xdg-download:rw
   - --talk-name=org.a11y.Bus
   - --talk-name=org.kde.StatusNotifierWatcher
+  - --talk-name=org.gnome.evolution.dataserver.Calendar8
+  - --talk-name=org.gnome.evolution.dataserver.Sources5
   - --own-name=org.mozilla.betterbird.*
   - --socket=pcsc
   - --require-version=0.10.3
