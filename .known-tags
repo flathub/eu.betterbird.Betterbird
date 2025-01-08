@@ -88,6 +88,7 @@
 115.17.0-bb35
 115.18.0-bb36
 115.18.0-bb36-build2
+115.19.0-bb37
 115.2.0-bb10
 115.2.0-bb10-build2-aka-refresh
 115.2.0-bb10-build2a-aka-refresh
@@ -162,6 +163,7 @@
 128.4.3esr-bb17-build2
 128.5.0esr-bb18
 128.5.2esr-bb19
+128.6.0esr-bb20
 91.0-bb8
 91.0.1-bb9
 91.0.2-bb10

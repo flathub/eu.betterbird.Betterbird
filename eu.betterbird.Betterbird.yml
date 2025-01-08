@@ -16,6 +16,8 @@ finish-args:
   - --filesystem=xdg-download:rw
   - --talk-name=org.a11y.Bus
   - --talk-name=org.kde.StatusNotifierWatcher
+  - --talk-name=org.gnome.evolution.dataserver.Calendar8
+  - --talk-name=org.gnome.evolution.dataserver.Sources5
   - --own-name=org.mozilla.betterbird.*
   - --socket=pcsc
   - --require-version=0.10.3
@@ -47,6 +49,7 @@ modules:
   - shared-modules/dbus-glib/dbus-glib.json
   - shared-modules/libcanberra/libcanberra.json
   - shared-modules/intltool/intltool-0.51.json
+  - shared-modules/libsecret/libsecret.json
   - name: rust
     buildsystem: simple
     sources:
@@ -168,6 +171,45 @@ modules:
       - /share/et
       - /share/examples
       - /share/man
+  - name: libical
+    cleanup:
+      - /lib/cmake
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_INSTALL_LIBDIR:PATH=/app/lib
+      - -DBUILD_SHARED_LIBS=On
+      - -DICAL_BUILD_DOCS=False
+      - -DWITH_CXX_BINDINGS=False
+    sources:
+      - type: archive
+        url: https://github.com/libical/libical/releases/download/v3.0.16/libical-3.0.16.tar.gz
+        sha256: b44705dd71ca4538c86fb16248483ab4b48978524fb1da5097bd76aa2e0f0c33
+  - name: evolution-data-server
+    cleanup:
+      - /share/GConf
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DENABLE_CANBERRA=OFF
+      - -DENABLE_GOA=OFF
+      - -DENABLE_DOT_LOCKING=OFF
+      - -DENABLE_FILE_LOCKING=fcntl
+      - -DENABLE_GTK=ON
+      - -DENABLE_GTK4=OFF
+      - -DENABLE_GOOGLE=OFF
+      - -DENABLE_VALA_BINDINGS=OFF
+      - -DENABLE_WEATHER=OFF
+      - -DWITH_OPENLDAP=OFF
+      - -DWITH_LIBDB=OFF
+      - -DENABLE_INTROSPECTION=OFF
+      - -DENABLE_INSTALLED_TESTS=OFF
+      - -DENABLE_GTK_DOC=OFF
+      - -DENABLE_EXAMPLES=OFF
+      - -DENABLE_OAUTH2_WEBKITGTK4=OFF
+      - -DENABLE_OAUTH2_WEBKITGTK=OFF
+    sources:
+      - type: git
+        url: https://gitlab.gnome.org/GNOME/evolution-data-server.git
+        tag: 3.54.1
   - name: cbindgen
     buildsystem: simple
     build-commands:
@@ -230,9 +272,9 @@ modules:
           - exec /app/lib/betterbird/betterbird "$@"
       - type: git
         url: https://github.com/Betterbird/thunderbird-patches.git
-        commit: b1dd501268e4bffc2f8d1fb24521175dd936cb84
+        commit: a0aa9dc2bbe0348d174de1fe09f64a0fd2ed4581
         dest: thunderbird-patches
-        tag: 128.5.2esr-bb19
+        tag: 128.6.0esr-bb20
       - type: file
         path: mozconfig-flatpak
       - type: file
