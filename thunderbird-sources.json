@@ -78,8 +78,8 @@
   },
   {
     "type": "archive",
-    "url": "https://dl.mfs.name/thunderbird-128.6.0esr.source.tar.xz",
-    "sha256": "1ab6155cd756f905d9b3a85b47b106e5a32626a3eec006c263b811772c4682f3"
+    "url": "https://dl.mfs.name/thunderbird-128.6.1esr.source.tar.xz",
+    "sha256": "5556f59c2d0d4702b4a1f72a622aac089ffd4055a8050488f8cf0266c7218864"
   },
   {
     "type": "file",
