@@ -78,8 +78,8 @@
   },
   {
     "type": "archive",
-    "url": "https://dl.mfs.name/thunderbird-128.6.0esr.source.tar.xz",
-    "sha256": "1ab6155cd756f905d9b3a85b47b106e5a32626a3eec006c263b811772c4682f3"
+    "url": "https://dl.mfs.name/thunderbird-128.6.1esr.source.tar.xz",
+    "sha256": "5556f59c2d0d4702b4a1f72a622aac089ffd4055a8050488f8cf0266c7218864"
   },
   {
     "type": "file",
@@ -132,20 +132,6 @@
   },
   {
     "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/c07bdf47c1a0",
-    "sha256": "a96ea34160b357662aae6aa915b6276771fde27f9c62369fbe585928b9630072",
-    "dest": "patches/",
-    "dest-filename": "1935073-sort-indicator-search.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/57ec5226d02b",
-    "sha256": "2067aff15dc4bcf2d82d6da841091f30f820423260fcfdb78d77a8bb999a5785",
-    "dest": "patches/",
-    "dest-filename": "1935401-spellcheck-enter2.patch"
-  },
-  {
-    "type": "file",
     "url": "https://hg.mozilla.org/comm-central/raw-rev/e07340388af6",
     "sha256": "e8b8a0fdc246c772e86b27ce543815385a3a47313aaa556cd797387c66352eb2",
     "dest": "patches/",
@@ -167,13 +153,6 @@
   },
   {
     "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/3ec356ddf682",
-    "sha256": "63687ee76f07fa5f3f494e0a8a4f2b6a16e8d9792906c9f90f59a711867f5a77",
-    "dest": "patches/",
-    "dest-filename": "1937642-fix-online-search-checkbox.patch"
-  },
-  {
-    "type": "file",
     "url": "https://hg.mozilla.org/comm-central/raw-rev/27e24e99bc18",
     "sha256": "7d8d4bc01e24fe64a737abb86a25dc25000e01a0a3e994a79e57dc64998351dc",
     "dest": "patches/",
@@ -181,16 +160,58 @@
   },
   {
     "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/3c3ca8ea292b",
-    "sha256": "f43aa011be9bcbb2432e6097a7b7097e6c7e340d944bd57b15073417d053cb82",
-    "dest": "patches/",
-    "dest-filename": "1875325-fix-image-overflow.patch"
-  },
-  {
-    "type": "file",
     "url": "https://hg.mozilla.org/comm-central/raw-rev/228823c6b976",
     "sha256": "e6aef15cd1c66c10a7e90773112e8575d02d81ca814cce65661e06c79288350e",
     "dest": "patches/",
     "dest-filename": "1917278-fix-image-overflow-links.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/0e3a91824c05",
+    "sha256": "e1389d24b8615118b5bcf8be97966d64062e770a29f2b4933d5b833bfead45ec",
+    "dest": "patches/",
+    "dest-filename": "1939725-fix-typo-cross-folder-threading-official.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/578b25792b7f",
+    "sha256": "c8208a0d4e4df1c235fecafa5d84859095bb7b438b5b1e95f83d08ea4d70b8a2",
+    "dest": "patches/",
+    "dest-filename": "1941911-fix-multiple-notifications-official.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/2696afd03dc1",
+    "sha256": "dc27a34e9e35b9b2f2e9d8fa2f5d1ce159e6bfccd36cbc50e97ae2cab1c1ba66",
+    "dest": "patches/",
+    "dest-filename": "1927048-fix-typo-regenerate.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/00a9a43ff6ca",
+    "sha256": "cd135bd1b29b384b3183be8563595eeecaeb83fec86640e78e6265c57adc1204",
+    "dest": "patches/",
+    "dest-filename": "1935124-fix-compact-empty.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/0af9a5539f57",
+    "sha256": "a0dd607bad8ceab41d5311e6e66f00d5738b2ef1913d5aa0d9d5d3f31e297e37",
+    "dest": "patches/",
+    "dest-filename": "1939852-fix-sort-partial-message.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/326fe6ab7c19",
+    "sha256": "6524720c20eb9f99c887040b5230562f0e3e1592a9ddb7c44099af960aa8abe9",
+    "dest": "patches/",
+    "dest-filename": "1938281-fix-double-click-AB-added-twice.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/5794c08dfcdd",
+    "sha256": "0eb25359cf3d889d731ebf33499c87e518245f89dd9c95a31613b3110889efe4",
+    "dest": "patches/",
+    "dest-filename": "1942348-fix-select-starred-messages.patch"
   }
 ]
