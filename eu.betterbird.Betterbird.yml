@@ -44,7 +44,7 @@ cleanup:
   - '*.la'
   - '*.a'
 build-options:
-  no-debuginfo: true
+  no-debuginfo: false
 modules:
   - shared-modules/dbus-glib/dbus-glib.json
   - shared-modules/libcanberra/libcanberra.json
