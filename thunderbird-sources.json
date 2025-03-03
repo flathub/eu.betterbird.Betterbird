@@ -1,92 +1,92 @@
 [
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.7.0esr-candidates/build1/linux-x86_64/xpi/cs.xpi",
-    "sha256": "0f3ddf5347d11106502504ff1e008f46a745fa56f9a68ff5cde05f997f0297f6",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.8.0esr-candidates/build1/linux-x86_64/xpi/cs.xpi",
+    "sha256": "6b1d211b94323fdcc39be809156da5a0e31b45c47f1153ab33f11c23ba407bbd",
     "dest": "langpacks/",
     "dest-filename": "langpack-cs@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.7.0esr-candidates/build1/linux-x86_64/xpi/de.xpi",
-    "sha256": "78acddab319ecf0acf96af8a9cafa9ad378e02cd8a4743888e1d08db727fd9eb",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.8.0esr-candidates/build1/linux-x86_64/xpi/de.xpi",
+    "sha256": "a6da839e1eda9e6a641e95a8d8b1bf539433fcd7e47d9c8cc34567583ca7fa1b",
     "dest": "langpacks/",
     "dest-filename": "langpack-de@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.7.0esr-candidates/build1/linux-x86_64/xpi/en-GB.xpi",
-    "sha256": "135353db21dcee43beb5494c340ec02aaf0ac10b02b1ce52c64a8ab2bc108557",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.8.0esr-candidates/build1/linux-x86_64/xpi/en-GB.xpi",
+    "sha256": "181f41d6eda1f9fb43f1f6cf83909a4e962f66bd35c5b61d1e97400971cd9e6d",
     "dest": "langpacks/",
     "dest-filename": "langpack-en-GB@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.7.0esr-candidates/build1/linux-x86_64/xpi/es-AR.xpi",
-    "sha256": "aa83d60eee2b68b99cb68d657a8b1de0e0ae06b6d6ae09ab543c61734ab7deb2",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.8.0esr-candidates/build1/linux-x86_64/xpi/es-AR.xpi",
+    "sha256": "e0c7c40a7bb7bcc44285916e34a92c09dbe52c88274a7b08917b669ba66e13c6",
     "dest": "langpacks/",
     "dest-filename": "langpack-es-AR@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.7.0esr-candidates/build1/linux-x86_64/xpi/fr.xpi",
-    "sha256": "d68fa290e34f67885d5a6f108360985aa99b3cb2dd724d92113e9f28cea229ce",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.8.0esr-candidates/build1/linux-x86_64/xpi/fr.xpi",
+    "sha256": "fe0d957d47ddd224bbd17e8ab5fe88d943a3abd73b0f65a01f8e7df7a4633214",
     "dest": "langpacks/",
     "dest-filename": "langpack-fr@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.7.0esr-candidates/build1/linux-x86_64/xpi/it.xpi",
-    "sha256": "dae1294d4ab2986db4f517c0b7919a90e75f1185bc367187ae0a0eef7e8b1352",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.8.0esr-candidates/build1/linux-x86_64/xpi/it.xpi",
+    "sha256": "e41e7ba5e486456f5ff91fc565602218a01cff7ec34b04ec7749c509d8a9d42a",
     "dest": "langpacks/",
     "dest-filename": "langpack-it@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.7.0esr-candidates/build1/linux-x86_64/xpi/ja.xpi",
-    "sha256": "3524f98d47885d29bcfbc38b0d0bb6b2077c111afa102cf953275d520cda33d9",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.8.0esr-candidates/build1/linux-x86_64/xpi/ja.xpi",
+    "sha256": "8cc2e3ea777400c000f80174594f2a3b661eca4bb6aed3ac3a7e88fb15242b09",
     "dest": "langpacks/",
     "dest-filename": "langpack-ja@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.7.0esr-candidates/build1/linux-x86_64/xpi/nl.xpi",
-    "sha256": "e4bbacdd0a5caf82d511acf5170450f087b1ac76cc1ae300d73aac9c9d69cd44",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.8.0esr-candidates/build1/linux-x86_64/xpi/nl.xpi",
+    "sha256": "ecb44592db56002bfef022a50db5f20f5ab41a59c1c61446f84d905b5391180e",
     "dest": "langpacks/",
     "dest-filename": "langpack-nl@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.7.0esr-candidates/build1/linux-x86_64/xpi/pl.xpi",
-    "sha256": "2f648501f129e9d134e0e980719e771553401ec1f2bdc34e20cb0204667777af",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.8.0esr-candidates/build1/linux-x86_64/xpi/pl.xpi",
+    "sha256": "5f5f022dbb41841df6c6dda994f9248c0a55b5c59ecbcb5d6d41866443528835",
     "dest": "langpacks/",
     "dest-filename": "langpack-pl@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.7.0esr-candidates/build1/linux-x86_64/xpi/pt-BR.xpi",
-    "sha256": "f4f7d128daf27e9eeb9ce5b2bc8e02e76537e65399dbcfaee9b1e3680f8ab3b7",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.8.0esr-candidates/build1/linux-x86_64/xpi/pt-BR.xpi",
+    "sha256": "c6f5476a09bdafdd4ce1317565a30257f7931b3496966310f16feb12f0e1a8e2",
     "dest": "langpacks/",
     "dest-filename": "langpack-pt-BR@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.7.0esr-candidates/build1/linux-x86_64/xpi/tr.xpi",
-    "sha256": "d974a7390cb37b1c5978f5c6f015364b7bc4a0f850ed0b91f004a0a462073e6f",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.8.0esr-candidates/build1/linux-x86_64/xpi/tr.xpi",
+    "sha256": "d7a83f32ae2265c0889a78b45ddfe49bf3f912bcffe19f4e0f13ad288450d05c",
     "dest": "langpacks/",
     "dest-filename": "langpack-tr@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.7.0esr-candidates/build1/linux-x86_64/xpi/uk.xpi",
-    "sha256": "7bab3374ef43070923950a91346c3478c140d02575b0d2fd9b9046394e880aee",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.8.0esr-candidates/build1/linux-x86_64/xpi/uk.xpi",
+    "sha256": "30c5d58cddae86febd6f121288405f9a3934c35c3ce0897fe3293a3111cda97f",
     "dest": "langpacks/",
     "dest-filename": "langpack-uk@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "archive",
-    "url": "https://dl.mfs.name/thunderbird-128.7.0esr.source.tar.xz",
-    "sha256": "40bd227a7d0e3d545be35b7cdddd3e78250488726d86c4ea014ae11a3eee3b5b"
+    "url": "https://dl.mfs.name/thunderbird-128.8.0esr.source.tar.xz",
+    "sha256": "07c91f03d31d95335c014a554c05721d29bea2aeadf3687bde8c9aca1b2747ce"
   },
   {
     "type": "file",
@@ -167,27 +167,6 @@
   },
   {
     "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/0e3a91824c05",
-    "sha256": "e1389d24b8615118b5bcf8be97966d64062e770a29f2b4933d5b833bfead45ec",
-    "dest": "patches/",
-    "dest-filename": "1939725-fix-typo-cross-folder-threading-official.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/578b25792b7f",
-    "sha256": "c8208a0d4e4df1c235fecafa5d84859095bb7b438b5b1e95f83d08ea4d70b8a2",
-    "dest": "patches/",
-    "dest-filename": "1941911-fix-multiple-notifications-official.patch"
-  },
-  {
-    "type": "file",
-    "url": "https://hg.mozilla.org/comm-central/raw-rev/2696afd03dc1",
-    "sha256": "dc27a34e9e35b9b2f2e9d8fa2f5d1ce159e6bfccd36cbc50e97ae2cab1c1ba66",
-    "dest": "patches/",
-    "dest-filename": "1927048-fix-typo-regenerate.patch"
-  },
-  {
-    "type": "file",
     "url": "https://hg.mozilla.org/comm-central/raw-rev/0af9a5539f57",
     "sha256": "a0dd607bad8ceab41d5311e6e66f00d5738b2ef1913d5aa0d9d5d3f31e297e37",
     "dest": "patches/",
@@ -206,5 +185,26 @@
     "sha256": "0eb25359cf3d889d731ebf33499c87e518245f89dd9c95a31613b3110889efe4",
     "dest": "patches/",
     "dest-filename": "1942348-fix-select-starred-messages.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/df010fa1e2a3",
+    "sha256": "0a0efe1a82982eab72c88cbc0c91836a219184244eb72df55d9a6445c98a72fb",
+    "dest": "patches/",
+    "dest-filename": "1929845-needless-ci-abbreviations.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/a9b4d4d4cd56",
+    "sha256": "fa60485b46a19750dc448e0486f87d47122486cf4a1ff203ee5a18ea7740c90f",
+    "dest": "patches/",
+    "dest-filename": "1948134-fix-comment-autocomplete.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/022d28b4be01",
+    "sha256": "d8f87d10025c97f5e2a92b68c64529570313b03367c55302cbb116f06ede513b",
+    "dest": "patches/",
+    "dest-filename": "1257826-fix-unified-threaded-by-received.patch"
   }
 ]
