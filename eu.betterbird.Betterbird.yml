@@ -28,7 +28,7 @@ finish-args:
   - --device=all
   - --env=MOZ_DBUS_APP_NAME=betterbird
   - --own-name=org.mozilla.betterbird.*
-  - --talk-name="org.gtk.vfs.*" 
+  - --talk-name=org.gtk.vfs.*
   - --talk-name=org.a11y.Bus
   - --talk-name=org.kde.StatusNotifierWatcher
   - --talk-name=org.gnome.evolution.dataserver.Calendar8
