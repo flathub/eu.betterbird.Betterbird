@@ -8,26 +8,33 @@ sdk-extensions:
 command: betterbird
 finish-args:
   - --share=ipc
-  - --socket=x11
-  - --device=dri
   - --share=network
   - --socket=pulseaudio
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --socket=pcsc
+  - --socket=cups
+  - --require-version=0.10.3
   - --persist=.thunderbird
+  - --env=DICPATH=/usr/share/hunspell
+  - --env=TMPDIR=~/.var/app/org.mozilla.Thunderbird/cache/tmp
   - --filesystem=xdg-download:rw
+  - --filesystem=~/.gnupg
+  - --filesystem=xdg-run/gnupg:ro
+  - --filesystem=xdg-run/speech-dispatcher:ro
+  - --filesystem=/run/.heim_org.h5l.kcm-socket
+  - --filesystem=/var/mail
+  - --filesystem=/var/spool/mail
+  - --device=all
+  - --env=MOZ_DBUS_APP_NAME=betterbird
+  - --own-name=org.mozilla.betterbird.*
+  - --talk-name=org.gtk.vfs.*
   - --talk-name=org.a11y.Bus
   - --talk-name=org.kde.StatusNotifierWatcher
   - --talk-name=org.gnome.evolution.dataserver.Calendar8
   - --talk-name=org.gnome.evolution.dataserver.Sources5
-  - --own-name=org.mozilla.betterbird.*
-  - --socket=pcsc
-  - --require-version=0.10.3
-  - --filesystem=~/.gnupg
-  - --filesystem=xdg-run/gnupg:ro
-  - --filesystem=/run/.heim_org.h5l.kcm-socket
-  - --filesystem=/var/mail
-  - --filesystem=/var/spool/mail
-  - --socket=cups
-  - --env=MOZ_DBUS_APP_NAME=betterbird
+  - --system-talk-name=org.freedesktop.NetworkManager
+  
 cleanup:
   - /include
   - /lib/pkgconfig
