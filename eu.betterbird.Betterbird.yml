@@ -17,7 +17,6 @@ finish-args:
   - --require-version=0.10.3
   - --persist=.thunderbird
   - --env=DICPATH=/usr/share/hunspell
-  - --env=TMPDIR=~/.var/app/org.mozilla.Thunderbird/cache/tmp
   - --filesystem=xdg-download:rw
   - --filesystem=~/.gnupg
   - --filesystem=xdg-run/gnupg:ro
