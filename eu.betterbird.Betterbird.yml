@@ -33,7 +33,6 @@ finish-args:
   - --talk-name=org.gnome.evolution.dataserver.Calendar8
   - --talk-name=org.gnome.evolution.dataserver.Sources5
   - --system-talk-name=org.freedesktop.NetworkManager
-  
 cleanup:
   - /include
   - /lib/pkgconfig
@@ -278,9 +277,9 @@ modules:
           - exec /app/lib/betterbird/betterbird "$@"
       - type: git
         url: https://github.com/Betterbird/thunderbird-patches.git
-        commit: b685f737bd4561baf6d1c5b45b39f547f21b17ae
+        commit: c32ce086bf9e72b87e4f22059807d872ec7a9bbe
         dest: thunderbird-patches
-        tag: 128.9.0esr-bb24
+        tag: 128.9.2esr-bb25
       - type: file
         path: mozconfig-flatpak
       - type: file
