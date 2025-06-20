@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eo pipefail
+set -xeo pipefail
 
 script_args=()
 force=false

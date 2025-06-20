@@ -81,7 +81,7 @@
     "url": "https://archive.mozilla.org/pub/thunderbird/candidates/140.0b3-candidates/build1/linux-x86_64/xpi/ru.xpi",
     "sha256": "122ea36b8d6736f0316ebbe5270cb67c3bff1ea39cd6e06f22758c25a8d11dfa",
     "dest": "langpacks/",
-    "dest-filename": "langpack-ru@thunderbird.mozilla.org.xpi"
+    "dest-filename": "langpack-tr@thunderbird.mozilla.org.xpi"
   },
   {
     "type": "file",
@@ -89,6 +89,11 @@
     "sha256": "c8b428fd4fda4451f2ec6029853fe4c3c5ec16f5f8c391cc60cddbc634cbeb26",
     "dest": "langpacks/",
     "dest-filename": "langpack-sv-SE@thunderbird.mozilla.org.xpi"
+  },
+  {
+    "type": "archive",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.4.3esr-candidates/build1/source/thunderbird-128.4.3esr.source.tar.xz",
+    "sha256": "146edcfee47ebaa3fb6cf877a0747140dd011a3f6b674c98cdc61b9e98bbd61c"
   },
   {
     "type": "file",
