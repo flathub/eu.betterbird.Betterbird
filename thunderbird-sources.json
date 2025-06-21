@@ -92,8 +92,8 @@
   },
   {
     "type": "archive",
-    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/128.4.3esr-candidates/build1/source/thunderbird-128.4.3esr.source.tar.xz",
-    "sha256": "146edcfee47ebaa3fb6cf877a0747140dd011a3f6b674c98cdc61b9e98bbd61c"
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/140.0b3-candidates/build1/source/thunderbird-140.0b3.source.tar.xz",
+    "sha256": "420740eb307373a9379fdf6e28696894678c32e59c37e72416a011a18356c022"
   },
   {
     "type": "file",
