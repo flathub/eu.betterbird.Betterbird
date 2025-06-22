@@ -3,29 +3,36 @@ runtime: org.freedesktop.Platform
 runtime-version: '24.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.node20
-  - org.freedesktop.Sdk.Extension.llvm18
+  - org.freedesktop.Sdk.Extension.node22
+  - org.freedesktop.Sdk.Extension.llvm20
 command: betterbird
 finish-args:
   - --share=ipc
-  - --socket=x11
-  - --device=dri
   - --share=network
   - --socket=pulseaudio
-  - --persist=.thunderbird
-  - --filesystem=xdg-download:rw
-  - --talk-name=org.a11y.Bus
-  - --talk-name=org.kde.StatusNotifierWatcher
-  - --own-name=org.mozilla.betterbird.*
+  - --socket=wayland
+  - --socket=fallback-x11
   - --socket=pcsc
+  - --socket=cups
   - --require-version=0.10.3
+  - --persist=.thunderbird
+  - --env=DICPATH=/usr/share/hunspell
+  - --filesystem=xdg-download:rw
   - --filesystem=~/.gnupg
   - --filesystem=xdg-run/gnupg:ro
+  - --filesystem=xdg-run/speech-dispatcher:ro
   - --filesystem=/run/.heim_org.h5l.kcm-socket
   - --filesystem=/var/mail
   - --filesystem=/var/spool/mail
-  - --socket=cups
+  - --device=all
   - --env=MOZ_DBUS_APP_NAME=betterbird
+  - --own-name=org.mozilla.betterbird.*
+  - --talk-name=org.gtk.vfs.*
+  - --talk-name=org.a11y.Bus
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --talk-name=org.gnome.evolution.dataserver.Calendar8
+  - --talk-name=org.gnome.evolution.dataserver.Sources5
+  - --system-talk-name=org.freedesktop.NetworkManager
 cleanup:
   - /include
   - /lib/pkgconfig
@@ -47,6 +54,7 @@ modules:
   - shared-modules/dbus-glib/dbus-glib.json
   - shared-modules/libcanberra/libcanberra.json
   - shared-modules/intltool/intltool-0.51.json
+  - shared-modules/libsecret/libsecret.json
   - name: rust
     buildsystem: simple
     sources:
@@ -54,14 +62,14 @@ modules:
         only-arches:
           - aarch64
         dest: rust-aarch64-unknown-linux-gnu
-        url: https://static.rust-lang.org/dist/2024-06-13/rust-1.79.0-aarch64-unknown-linux-gnu.tar.xz
-        sha256: 8e7a2d514ee469325e5a7d0a2f0cad313aecb4c3da134f3bf84f7901a809d566
+        url: https://static.rust-lang.org/dist/rust-1.83.0-aarch64-unknown-linux-gnu.tar.xz
+        sha256: 5f02e00bca65f6eebafe2ac6b1bbdecb5f160f260a9c2231a51ed8d382f0ada0
       - type: archive
         only-arches:
           - x86_64
         dest: rust-x86_64-unknown-linux-gnu
-        url: https://static.rust-lang.org/dist/2024-06-13/rust-1.79.0-x86_64-unknown-linux-gnu.tar.xz
-        sha256: ce552d6bf22a2544ea78647d98cb405d5089af58dbcaa4efea711bf8becd71c5
+        url: https://static.rust-lang.org/dist/rust-1.83.0-x86_64-unknown-linux-gnu.tar.xz
+        sha256: b6467a0e8a6c5dca35269785c994e4d80d89754d6c600162cc9146f90c87ee08
     build-options:
       prefix: /app/lib/rust
       arch:
@@ -72,8 +80,7 @@ modules:
           env:
             NATIVE_TARGET: aarch64-unknown-linux-gnu
     build-commands:
-      - cd "rust-$NATIVE_TARGET" && ./install.sh --prefix=/app/lib/rust --without=rust-docs
-        --without=rust-docs-json-preview --disable-ldconfig --verbose
+      - cd "rust-$NATIVE_TARGET" && ./install.sh --prefix=/app/lib/rust --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose
   - name: libdbusmenu
     build-options:
       cflags: -Wno-error
@@ -169,6 +176,45 @@ modules:
       - /share/et
       - /share/examples
       - /share/man
+  - name: libical
+    cleanup:
+      - /lib/cmake
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_INSTALL_LIBDIR:PATH=/app/lib
+      - -DBUILD_SHARED_LIBS=On
+      - -DICAL_BUILD_DOCS=False
+      - -DWITH_CXX_BINDINGS=False
+    sources:
+      - type: archive
+        url: https://github.com/libical/libical/releases/download/v3.0.16/libical-3.0.16.tar.gz
+        sha256: b44705dd71ca4538c86fb16248483ab4b48978524fb1da5097bd76aa2e0f0c33
+  - name: evolution-data-server
+    cleanup:
+      - /share/GConf
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DENABLE_CANBERRA=OFF
+      - -DENABLE_GOA=OFF
+      - -DENABLE_DOT_LOCKING=OFF
+      - -DENABLE_FILE_LOCKING=fcntl
+      - -DENABLE_GTK=ON
+      - -DENABLE_GTK4=OFF
+      - -DENABLE_GOOGLE=OFF
+      - -DENABLE_VALA_BINDINGS=OFF
+      - -DENABLE_WEATHER=OFF
+      - -DWITH_OPENLDAP=OFF
+      - -DWITH_LIBDB=OFF
+      - -DENABLE_INTROSPECTION=OFF
+      - -DENABLE_INSTALLED_TESTS=OFF
+      - -DENABLE_GTK_DOC=OFF
+      - -DENABLE_EXAMPLES=OFF
+      - -DENABLE_OAUTH2_WEBKITGTK4=OFF
+      - -DENABLE_OAUTH2_WEBKITGTK=OFF
+    sources:
+      - type: git
+        url: https://gitlab.gnome.org/GNOME/evolution-data-server.git
+        tag: 3.54.1
   - name: cbindgen
     buildsystem: simple
     build-commands:
@@ -184,25 +230,24 @@ modules:
     sources:
       - type: git
         url: https://github.com/eqrion/cbindgen.git
-        tag: v0.26.0
-        commit: 703b53c06f9fe2dbc0193d67626558cfa84a0f62
+        tag: v0.27.0
+        commit: 58c6156b0d91e82abb03c26187b8d18fa4345ce0
       - cbindgen-sources.json
   - name: betterbird
     buildsystem: simple
     build-options:
-      append-path: /app/lib/rust/bin:/usr/lib/sdk/node20/bin:/usr/lib/sdk/llvm18/bin
-      prepend-ld-library-path: /usr/lib/sdk/llvm18/lib
+      append-path: /app/lib/rust/bin:/usr/lib/sdk/node22/bin:/usr/lib/sdk/llvm20/bin
+      prepend-ld-library-path: /usr/lib/sdk/llvm20/lib
       env:
         TERM: linux
         CARGO_HOME: /run/build/betterbird/cargo
-        npm_config_nodedir: /usr/lib/sdk/node20
+        npm_config_nodedir: /usr/lib/sdk/node22
     build-commands:
-      - ./make-mozconfig.sh 128
+      - ./make-mozconfig.sh 140
       - chmod u+x apply-patches.sh
-      - ./apply-patches.sh 128
+      - ./apply-patches.sh 140
       - sed -i 's#-I/usr/include#-I/app/include#g' comm/third_party/appindicator/moz.build
-      - export MOZ_BUILD_DATE=$(cat .build-date); ./mach configure; ./mach build -v
-        -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install
+      - export MOZ_BUILD_DATE=$(cat .build-date); ./mach configure; ./mach build -v -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install
       - rm -rf /app/lib/thunderbird/chrome
       - rm -f /app/bin/thunderbird
       - mv /app/lib/thunderbird /app/lib/betterbird
@@ -210,20 +255,14 @@ modules:
       - install -Dm644 distribution.ini /app/lib/betterbird/distribution/distribution.ini
       - install -Dm644 default-preferences.js /app/lib/betterbird/defaults/pref/default-preferences.js
       - mkdir -p /app/lib/betterbird/extensions
-      - for xpi in langpacks/*.xpi; do export locale=$(basename -s .xpi $xpi); install
-        -Dm644 -t /app/share/runtime/locale/${locale:9:2}/ $xpi; ln -sf /app/share/runtime/locale/${locale:9:2}/$(basename
-        $xpi) /app/lib/betterbird/extensions/$(basename $xpi); done
-      - for i in 16 22 24 32 48 64 128 256; do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png
-        /app/lib/betterbird/chrome/icons/default/default${i}.png; done
+      - for xpi in langpacks/*.xpi; do export locale=$(basename -s .xpi $xpi); install -Dm644 -t /app/share/runtime/locale/${locale:9:2}/ $xpi; ln -sf /app/share/runtime/locale/${locale:9:2}/$(basename $xpi) /app/lib/betterbird/extensions/$(basename $xpi); done
+      - for i in 16 22 24 32 48 64 128 256; do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/lib/betterbird/chrome/icons/default/default${i}.png; done
       - install -Dm644 comm/mail/branding/betterbird/default.svg /app/share/icons/hicolor/scalable/status/eu.betterbird.Betterbird-default.svg
       - install -Dm644 comm/mail/branding/betterbird/newmail.svg /app/share/icons/hicolor/scalable/status/eu.betterbird.Betterbird-newmail.svg
-      - for i in 16 22 24 32 48 64 128 256; do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png
-        /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png; done
+      - for i in 16 22 24 32 48 64 128 256; do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png; done
       - install -Dm644 thunderbird-patches/metadata/icons/betterbird.svg /app/share/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg
-      - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop
-        /app/share/applications/eu.betterbird.Betterbird.desktop
-      - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.128.appdata.xml
-        /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml
+      - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop /app/share/applications/eu.betterbird.Betterbird.desktop
+      - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.128.appdata.xml /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml
       - install -Dm644 fonts.conf /app/etc/fonts/local.conf
     sources:
       - thunderbird-sources.json
@@ -238,9 +277,9 @@ modules:
           - exec /app/lib/betterbird/betterbird "$@"
       - type: git
         url: https://github.com/Betterbird/thunderbird-patches.git
-        commit: d459a609fbe72533474ddd9469e1386bdc2300d4
+        commit: 8fc0502b274f769cc01f55a3b6718057a8040bad
         dest: thunderbird-patches
-        tag: 128.4.3esr-bb17-build2
+        tag: 140.0b3-bb3-build3
       - type: file
         path: mozconfig-flatpak
       - type: file
@@ -250,15 +289,13 @@ modules:
       - type: script
         dest-filename: make-mozconfig.sh
         commands:
-          - cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak | sed -r
-            's/(mk_add_options MOZ_MAKE_FLAGS="-j[0-9]+")/# \1/' > mozconfig
+          - cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak | sed -r 's/(mk_add_options MOZ_MAKE_FLAGS="-j[0-9]+")/# \1/' > mozconfig
         only-arches:
           - x86_64
       - type: script
         dest-filename: make-mozconfig.sh
         commands:
-          - cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak mozconfig-aarch64
-            | sed -r 's/(mk_add_options MOZ_MAKE_FLAGS="-j[0-9]+")/# \1/' > mozconfig
+          - cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak mozconfig-aarch64 | sed -r 's/(mk_add_options MOZ_MAKE_FLAGS="-j[0-9]+")/# \1/' > mozconfig
         only-arches:
           - aarch64
       - type: file

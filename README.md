@@ -8,8 +8,10 @@ Betterbird is a fine-tuned version of [Mozilla Thunderbird](https://www.thunderb
 - [Flathub builds](https://buildbot.flathub.org/#/apps/eu.betterbird.Betterbird)
 - [Betterbird repo](https://github.com/Betterbird/thunderbird-patches)
 - [Thunderbird flatpak build script](https://searchfox.org/comm-central/source/taskcluster/docker/tb-flatpak/repack.sh)
-- [Thunderbird 128 builds](https://treeherder.mozilla.org/jobs?repo=comm-esr128)
+- [Thunderbird 140 builds](https://treeherder.mozilla.org/jobs?repo=comm-esr140)
 - [Mozilla Code Search](https://searchfox.org/)
+- [Firefox ESR release schedule](https://whattrainisitnow.com/release/?version=esr)
+- [Firefox Rust version schedule](https://searchfox.org/mozilla-central/source/docs/writing-rust-code/update-policy.md#73)
 
 ## Migration from pre-exisiting installations
 
@@ -36,6 +38,13 @@ folder into<br>
 In case Betterbird opens a new profile instead of the existing one, run:<br>
 `flatpak run eu.betterbird.Betterbird -P`<br>
 then select the right profile and tick "*Use the selected profile without asking on startup*" box.
+
+## Customizing the icons
+In order to customize the app icon or the status icons:
+1. Check the value of the `$XDG_DATA_HOME` environment variable. If it is unset, it means that the default value of `~/.local/share` is effective.
+2. Save your custom app icon as `$XDG_DATA_HOME/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg`. Create any folders that may be inexistent.
+3. Custom status icons (shown in the systray) go into the `$XDG_DATA_HOME/icons/hicolor/scalable/status/` folder and must be named `eu.betterbird.Betterbird-default.svg` and `eu.betterbird.Betterbird-newmail.svg` respectively. 
+4. Reboot.
 
 ## Known issues
 #### Language support
