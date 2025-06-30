@@ -277,9 +277,9 @@ modules:
           - exec /app/lib/betterbird/betterbird "$@"
       - type: git
         url: https://github.com/Betterbird/thunderbird-patches.git
-        commit: 110eca293c7a4852db8b1046ebb7f76824804ea7
+        commit: 1c64f20b24111a7cb9be7320e734c20a775cf053
         dest: thunderbird-patches
-        tag: 140.0esr-bb4
+        tag: 140.0esr-bb5-build2-no-fuzz
       - type: file
         path: mozconfig-flatpak
       - type: file
