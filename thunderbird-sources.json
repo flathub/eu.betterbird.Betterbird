@@ -106,7 +106,7 @@
   },
   {
     "type": "archive",
-    "url": "https://dl.mfs.name/thunderbird-140.0esr.source.tar.xz",
+    "url": "https://archive.mozilla.org/pub/thunderbird/candidates/140.0esr-candidates/build5/source/thunderbird-140.0esr.source.tar.xz",
     "sha256": "8f9d9afb1b6394695d9617f9ec62e80bb1d8cca8dc174ca914a1d81b1583dbd6"
   },
   {
@@ -143,5 +143,12 @@
     "sha256": "35267c84826185917f69cfd695b38ff817264c3ca6b636b34cfd25cc52ca0903",
     "dest": "patches/",
     "dest-filename": "1947026-links-status-bar.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/63c6e74363f0",
+    "sha256": "7c8e56b5811a2b3350dd238e751b88226bc67c03edbaf1c477aead25438b38f3",
+    "dest": "patches/",
+    "dest-filename": "1959858-ForceFolderDBClosed-in-compaction.patch"
   }
 ]
