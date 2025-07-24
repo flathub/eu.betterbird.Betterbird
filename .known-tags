@@ -147,6 +147,7 @@
 128.10.1esr-bb27-build2
 128.11.0esr-bb28
 128.12.0esr-bb30
+128.13.0esr-bb31
 128.2.0esr-bb8
 128.2.0esr-bb8-build2
 128.2.1esr-bb9
@@ -175,6 +176,7 @@
 128.8.0esr-bb23
 128.9.0esr-bb24
 128.9.2esr-bb25
+140.0.1esr-bb6
 140.0b1-bb1
 140.0b2-bb2
 140.0b3-bb3
@@ -183,6 +185,10 @@
 140.0esr-bb4
 140.0esr-bb5
 140.0esr-bb5-build2
+140.0esr-bb5-build2-no-fuzz
+140.0esr-bb5-build3
+140.0esr-bb5-build4
+140.1.0esr-bb7
 91.0-bb8
 91.0.1-bb9
 91.0.2-bb10
