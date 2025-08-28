@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eo pipefail
+set -xeo pipefail
 
 script_args=()
 force=false
@@ -37,7 +37,7 @@ BETTERBIRD_REPO="https://github.com/Betterbird/thunderbird-patches"
 PACKAGE=thunderbird
 PLATFORM=linux-x86_64
 SOURCES_FILE="$PACKAGE-sources.json"
-APPDATA_FILE="thunderbird-patches/metadata/eu.betterbird.Betterbird.128.appdata.xml"
+APPDATA_FILE="thunderbird-patches/metadata/eu.betterbird.Betterbird.140.appdata.xml"
 MANIFEST_FILE="eu.betterbird.Betterbird.yml"
 DIST_FILE="distribution.ini"
 BUILD_DATE_FILE=".build-date"
@@ -158,7 +158,7 @@ while read -r line; do
     $SOURCES_FILE > $tmpfile
   mv $tmpfile $SOURCES_FILE
   rm -f $name
-done < <(grep -E "^[^#].* # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series-moz)
+done < <(grep -E "^[^#].* # +http" thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series-moz)
 # patch series for comm repo
 while read -r line; do
   url=$(echo $line | sed -r 's/(.*) # (http.*\/rev\/[0-9a-f]+).*/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
@@ -170,7 +170,8 @@ while read -r line; do
     $SOURCES_FILE > $tmpfile
   mv $tmpfile $SOURCES_FILE
   rm -f $name
-done < <(grep -E "^[^#].* # " thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series)
+done < <(grep -E "^[^#].* # +http" thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series)
+rm -rf thunderbird-patches
 
 # add tag to .known-tags if it has not been added yet 
 if [[ "$source_spec" == "tag" ]] && ! grep -Fxq "$BETTERBIRD_VERSION" "$KNOWN_TAGS_FILE"
