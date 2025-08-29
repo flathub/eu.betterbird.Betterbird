@@ -9,7 +9,7 @@ if (($# < 1)); then
 fi
 
 CBINDGEN_VERSION="$1" # cbindgen version tag
-CBINDGEN_REPO="https://github.com/eqrion/cbindgen"
+CBINDGEN_REPO="https://github.com/mozilla/cbindgen"
 PACKAGE=cbindgen
 SOURCES_FILE="$PACKAGE-sources.json"
 MANIFEST_FILE="eu.betterbird.Betterbird.yml"
@@ -27,7 +27,7 @@ yq -i '(.modules[] | select(.name=="cbindgen") | .sources[] | select(.type=="git
 yq -i '(.modules[] | select(.name=="cbindgen") | .sources[] | select(.type=="git") | .tag) = "'$CBINDGEN_VERSION'"' $MANIFEST_FILE
 
 # update cbindgen-sources.json
-flatpak-builder-tools/cargo/flatpak-cargo-generator.py cbindgen/Cargo.lock -o cbindgen-sources.json
+.env/bin/python flatpak-builder-tools/cargo/flatpak-cargo-generator.py cbindgen/Cargo.lock -o cbindgen-sources.json
 
 rm -rf cbindgen
 

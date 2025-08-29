@@ -3,8 +3,8 @@ runtime: org.freedesktop.Platform
 runtime-version: '24.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.node20
-  - org.freedesktop.Sdk.Extension.llvm18
+  - org.freedesktop.Sdk.Extension.node22
+  - org.freedesktop.Sdk.Extension.llvm20
 command: betterbird
 finish-args:
   - --share=ipc
@@ -62,14 +62,14 @@ modules:
         only-arches:
           - aarch64
         dest: rust-aarch64-unknown-linux-gnu
-        url: https://static.rust-lang.org/dist/2024-06-13/rust-1.79.0-aarch64-unknown-linux-gnu.tar.xz
-        sha256: 8e7a2d514ee469325e5a7d0a2f0cad313aecb4c3da134f3bf84f7901a809d566
+        url: https://static.rust-lang.org/dist/rust-1.83.0-aarch64-unknown-linux-gnu.tar.xz
+        sha256: 5f02e00bca65f6eebafe2ac6b1bbdecb5f160f260a9c2231a51ed8d382f0ada0
       - type: archive
         only-arches:
           - x86_64
         dest: rust-x86_64-unknown-linux-gnu
-        url: https://static.rust-lang.org/dist/2024-06-13/rust-1.79.0-x86_64-unknown-linux-gnu.tar.xz
-        sha256: ce552d6bf22a2544ea78647d98cb405d5089af58dbcaa4efea711bf8becd71c5
+        url: https://static.rust-lang.org/dist/rust-1.83.0-x86_64-unknown-linux-gnu.tar.xz
+        sha256: b6467a0e8a6c5dca35269785c994e4d80d89754d6c600162cc9146f90c87ee08
     build-options:
       prefix: /app/lib/rust
       arch:
@@ -230,22 +230,22 @@ modules:
     sources:
       - type: git
         url: https://github.com/eqrion/cbindgen.git
-        tag: v0.26.0
-        commit: 703b53c06f9fe2dbc0193d67626558cfa84a0f62
+        tag: v0.27.0
+        commit: 58c6156b0d91e82abb03c26187b8d18fa4345ce0
       - cbindgen-sources.json
   - name: betterbird
     buildsystem: simple
     build-options:
-      append-path: /app/lib/rust/bin:/usr/lib/sdk/node20/bin:/usr/lib/sdk/llvm18/bin
-      prepend-ld-library-path: /usr/lib/sdk/llvm18/lib
+      append-path: /app/lib/rust/bin:/usr/lib/sdk/node22/bin:/usr/lib/sdk/llvm20/bin
+      prepend-ld-library-path: /usr/lib/sdk/llvm20/lib
       env:
         TERM: linux
         CARGO_HOME: /run/build/betterbird/cargo
-        npm_config_nodedir: /usr/lib/sdk/node20
+        npm_config_nodedir: /usr/lib/sdk/node22
     build-commands:
-      - ./make-mozconfig.sh 128
+      - ./make-mozconfig.sh 140
       - chmod u+x apply-patches.sh
-      - ./apply-patches.sh 128
+      - ./apply-patches.sh 140
       - sed -i 's#-I/usr/include#-I/app/include#g' comm/third_party/appindicator/moz.build
       - export MOZ_BUILD_DATE=$(cat .build-date); ./mach configure; ./mach build -v -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install
       - rm -rf /app/lib/thunderbird/chrome
@@ -262,7 +262,7 @@ modules:
       - for i in 16 22 24 32 48 64 128 256; do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png; done
       - install -Dm644 thunderbird-patches/metadata/icons/betterbird.svg /app/share/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg
       - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop /app/share/applications/eu.betterbird.Betterbird.desktop
-      - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.128.appdata.xml /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml
+      - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.140.appdata.xml /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml
       - install -Dm644 fonts.conf /app/etc/fonts/local.conf
     sources:
       - thunderbird-sources.json
@@ -277,9 +277,9 @@ modules:
           - exec /app/lib/betterbird/betterbird "$@"
       - type: git
         url: https://github.com/Betterbird/thunderbird-patches.git
-        commit: 3567dddad50c880fb06f52ba6ac3b1b66ce245a6
+        commit: ed8f83295136682c0c49d98cc37423f490f9003e
         dest: thunderbird-patches
-        tag: 128.14.0esr-bb32
+        tag: 140.2.0esr-bb9
       - type: file
         path: mozconfig-flatpak
       - type: file
