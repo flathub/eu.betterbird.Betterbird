@@ -62,8 +62,8 @@ modules:
         only-arches:
           - aarch64
         dest: rust-aarch64-unknown-linux-gnu
-        url: https://static.rust-lang.org/dist/rust-1.83.0-aarch64-unknown-linux-gnu.tar.xz
-        sha256: 5f02e00bca65f6eebafe2ac6b1bbdecb5f160f260a9c2231a51ed8d382f0ada0
+        url: https://static.rust-lang.org/dist/2025-08-07/rust-1.89.0-aarch64-unknown-linux-gnu.tar.xz
+        sha256: ae6f35b027cb32339fa4ac94dab37a21194e9a5c680491d01e54aa61e9da4de7
         x-checker-data:
           type: rust
           package: rust
@@ -73,8 +73,8 @@ modules:
         only-arches:
           - x86_64
         dest: rust-x86_64-unknown-linux-gnu
-        url: https://static.rust-lang.org/dist/rust-1.83.0-x86_64-unknown-linux-gnu.tar.xz
-        sha256: b6467a0e8a6c5dca35269785c994e4d80d89754d6c600162cc9146f90c87ee08
+        url: https://static.rust-lang.org/dist/2025-08-07/rust-1.89.0-x86_64-unknown-linux-gnu.tar.xz
+        sha256: c4f2796b10ee886001f0799bc40caea38746403a33c379d77878c4f4683f9b51
         x-checker-data:
           type: rust
           package: rust
@@ -137,10 +137,11 @@ modules:
     sources:
       - type: git
         url: https://github.com/LudovicRousseau/PCSC.git
-        tag: 1.9.9
+        tag: 2.3.3
         x-checker-data:
           type: git
           tag-pattern: ^([\d.]+)$
+        commit: 3ef55e02979de6834015b380c1d21671eeb4e9f5
   - name: autoconf-2.72
     config-opts:
       - --program-suffix=2.72
@@ -177,8 +178,8 @@ modules:
       - -Ddocbook_docs=disabled
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.3.tar.xz
-        sha256: ee8f3ef946156ad3406fdf45feedbdcd932dbd211ab4f16f75eba4f36fb2f6c0
+        url: https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.6.tar.xz
+        sha256: c5540aaefb60e1d63b1c587c05f2284ebe72ece7d0c0e5e4a778cfd5844b6b58
         x-checker-data:
           type: gnome
           name: libnotify
@@ -190,6 +191,7 @@ modules:
         x-checker-data:
           type: git
           tag-pattern: ^upstream/([\d.]+)$
+        commit: 3a91d7a2742e5b591badc3443eab9ea5bd7826e5
   - name: krb5
     subdir: src
     config-opts:
@@ -201,8 +203,8 @@ modules:
       - install -Dm644 ../krb5.conf -t ${FLATPAK_DEST}/etc/
     sources:
       - type: archive
-        url: https://kerberos.org/dist/krb5/1.21/krb5-1.21.3.tar.gz
-        sha256: b7a4cd5ead67fb08b980b21abd150ff7217e85ea320c9ed0c6dadd304840ad35
+        url: https://kerberos.org/dist/krb5/1.22/krb5-1.22.tar.gz
+        sha256: 652be617b4647f3c5dcac21547d47c7097101aad4e306f1778fb48e17b220ba3
         x-checker-data:
           type: html
           url: https://kerberos.org/dist/krb5/
@@ -226,8 +228,8 @@ modules:
       - -DWITH_CXX_BINDINGS=False
     sources:
       - type: archive
-        url: https://github.com/libical/libical/releases/download/v3.0.16/libical-3.0.16.tar.gz
-        sha256: b44705dd71ca4538c86fb16248483ab4b48978524fb1da5097bd76aa2e0f0c33
+        url: https://github.com/libical/libical/releases/download/v3.0.20/libical-3.0.20.tar.gz
+        sha256: e73de92f5a6ce84c1b00306446b290a2b08cdf0a80988eca0a2c9d5c3510b4c2
         x-checker-data:
           type: json
           url: https://api.github.com/repos/libical/libical/releases/latest
@@ -258,10 +260,11 @@ modules:
     sources:
       - type: git
         url: https://gitlab.gnome.org/GNOME/evolution-data-server.git
-        tag: 3.54.1
+        tag: 3.58.0
         x-checker-data:
           type: git
           tag-pattern: ^([\d.]+)$
+        commit: aed3962e7d0914f4c5c04c6b6445cab1d935492e
   - name: cbindgen
     buildsystem: simple
     build-commands:
@@ -277,11 +280,11 @@ modules:
     sources:
       - type: git
         url: https://github.com/mozilla/cbindgen.git
-        tag: v0.27.0
+        tag: v0.29.0
         x-checker-data:
           type: git
           tag-pattern: ^v([\d.]+)$
-        commit: 58c6156b0d91e82abb03c26187b8d18fa4345ce0
+        commit: 802154245edebe6bd031e473737da4c2fbdea8a3
       - cbindgen-sources.json
   - name: betterbird
     buildsystem: simple
