@@ -135,14 +135,12 @@ modules:
       - rm /app/sbin/pcscd
       - rmdir /app/sbin || true
     sources:
-      - type: archive
-        url: https://pcsclite.apdu.fr/files/pcsc-lite-1.9.9.tar.bz2
-        sha256: cbcc3b34c61f53291cecc0d831423c94d437b188eb2b97b7febc08de1c914e8a
+      - type: git
+        url: https://github.com/LudovicRousseau/PCSC.git
+        tag: 1.9.9
         x-checker-data:
-          type: html
-          url: https://pcsclite.apdu.fr/
-          version-pattern: pcsc-lite-([\d\.]+)\.tar\.bz2
-          url-template: https://pcsclite.apdu.fr/files/pcsc-lite-$version.tar.bz2
+          type: git
+          tag-pattern: ^([\d.]+)$
   - name: autoconf-2.72
     config-opts:
       - --program-suffix=2.72
