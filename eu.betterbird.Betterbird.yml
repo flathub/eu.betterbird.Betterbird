@@ -121,8 +121,8 @@ modules:
         x-checker-data:
           type: html
           url: https://launchpad.net/libdbusmenu/+download
-          version-pattern: libdbusmenu-([\d\.]+)\.tar\.gz
-          url-template: https://launchpad.net/libdbusmenu/+download/libdbusmenu-$version.tar.gz
+          version-pattern: libdbusmenu-16.04.([\d\.]+)\.tar\.gz
+          url-template: https://launchpad.net/libdbusmenu/16.04/16.04.$version/+download/libdbusmenu-16.04.$version.tar.gz
   - name: pcsc-lite
     config-opts:
       - --disable-libudev
