@@ -278,7 +278,7 @@ modules:
       - '*'
     sources:
       - type: git
-        url: https://github.com/eqrion/cbindgen.git
+        url: https://github.com/mozilla/cbindgen.git
         tag: v0.27.0
         x-checker-data:
           type: git
