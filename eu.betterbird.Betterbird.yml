@@ -62,8 +62,8 @@ modules:
         only-arches:
           - aarch64
         dest: rust-aarch64-unknown-linux-gnu
-        url: https://static.rust-lang.org/dist/2025-08-07/rust-1.89.0-aarch64-unknown-linux-gnu.tar.xz
-        sha256: ae6f35b027cb32339fa4ac94dab37a21194e9a5c680491d01e54aa61e9da4de7
+        url: https://static.rust-lang.org/dist/rust-1.83.0-aarch64-unknown-linux-gnu.tar.xz
+        sha256: 5f02e00bca65f6eebafe2ac6b1bbdecb5f160f260a9c2231a51ed8d382f0ada0
         x-checker-data:
           type: rust
           package: rust
@@ -73,8 +73,8 @@ modules:
         only-arches:
           - x86_64
         dest: rust-x86_64-unknown-linux-gnu
-        url: https://static.rust-lang.org/dist/2025-08-07/rust-1.89.0-x86_64-unknown-linux-gnu.tar.xz
-        sha256: c4f2796b10ee886001f0799bc40caea38746403a33c379d77878c4f4683f9b51
+        url: https://static.rust-lang.org/dist/rust-1.83.0-x86_64-unknown-linux-gnu.tar.xz
+        sha256: b6467a0e8a6c5dca35269785c994e4d80d89754d6c600162cc9146f90c87ee08
         x-checker-data:
           type: rust
           package: rust
