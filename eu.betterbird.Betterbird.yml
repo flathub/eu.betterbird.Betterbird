@@ -131,6 +131,7 @@ modules:
       - --disable-serial
       - --disable-usb
       - --disable-documentation
+      - --disable-polkit
     post-install:
       - rm /app/sbin/pcscd
       - rmdir /app/sbin || true
