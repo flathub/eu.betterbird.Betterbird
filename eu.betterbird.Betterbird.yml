@@ -169,8 +169,8 @@ modules:
       - -Ddocbook_docs=disabled
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.6.tar.xz
-        sha256: c5540aaefb60e1d63b1c587c05f2284ebe72ece7d0c0e5e4a778cfd5844b6b58
+        url: https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.7.tar.xz
+        sha256: 4be15202ec4184fce1ac15997ece5530d2be32fe9573875aeb10e3b573858748
         x-checker-data:
           type: gnome
           name: libnotify
@@ -251,11 +251,11 @@ modules:
     sources:
       - type: git
         url: https://gitlab.gnome.org/GNOME/evolution-data-server.git
-        tag: 3.58.0
+        tag: 3.58.1
         x-checker-data:
           type: git
           tag-pattern: ^([\d.]+)$
-        commit: aed3962e7d0914f4c5c04c6b6445cab1d935492e
+        commit: 85f8acbdc1abfb3a3f2cf24c75836ec02016618e
   - name: cbindgen
     buildsystem: simple
     build-commands:
@@ -321,9 +321,9 @@ modules:
           - exec /app/lib/betterbird/betterbird "$@"
       - type: git
         url: https://github.com/Betterbird/thunderbird-patches.git
-        commit: e62ba846d7888ad3d3663e04af47a7bfe061932c
+        commit: 39b1a4206c4c92936156039023fbf00eda2c64eb
         dest: thunderbird-patches
-        tag: 140.3.1esr-bb12-build2
+        tag: 140.4.0esr-bb13-build2
       - type: file
         path: mozconfig-flatpak
       - type: file
