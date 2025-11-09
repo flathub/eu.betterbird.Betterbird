@@ -128,11 +128,11 @@ modules:
     sources:
       - type: git
         url: https://github.com/LudovicRousseau/PCSC.git
-        tag: 2.3.3
+        tag: 2.4.0
         x-checker-data:
           type: git
           tag-pattern: ^([\d.]+)$
-        commit: 3ef55e02979de6834015b380c1d21671eeb4e9f5
+        commit: 4c8fce0c70a8c61c1a5db5566f9ffb20dacef347
   - name: autoconf-2.72
     config-opts:
       - --program-suffix=2.72
@@ -271,11 +271,11 @@ modules:
     sources:
       - type: git
         url: https://github.com/mozilla/cbindgen.git
-        tag: v0.29.0
+        tag: v0.29.2
         x-checker-data:
           type: git
           tag-pattern: ^v([\d.]+)$
-        commit: 802154245edebe6bd031e473737da4c2fbdea8a3
+        commit: 76f41c090c0587d940a0ef81a41c8b995f074926
       - cbindgen-sources.json
   - name: betterbird
     buildsystem: simple
@@ -321,9 +321,9 @@ modules:
           - exec /app/lib/betterbird/betterbird "$@"
       - type: git
         url: https://github.com/Betterbird/thunderbird-patches.git
-        commit: 39b1a4206c4c92936156039023fbf00eda2c64eb
+        commit: 4a9c8d59e725141f4a40a32fc11c203e5880d1ab
         dest: thunderbird-patches
-        tag: 140.4.0esr-bb13-build2
+        tag: 140.5.0esr-bb14
       - type: file
         path: mozconfig-flatpak
       - type: file
