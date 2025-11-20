@@ -147,6 +147,8 @@ modules:
           version-pattern: autoconf-([\d\.]+)\.tar\.xz
           url-template: https://ftp.gnu.org/gnu/autoconf/autoconf-$version.tar.xz
   - name: yasm
+    build-options:
+      cflags: -std=c17
     cleanup:
       - '*'
     sources:
