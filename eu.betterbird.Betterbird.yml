@@ -1,9 +1,9 @@
 id: eu.betterbird.Betterbird
 runtime: org.freedesktop.Platform
-runtime-version: '24.08'
+runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.node22
+  - org.freedesktop.Sdk.Extension.node24
   - org.freedesktop.Sdk.Extension.llvm20
 command: betterbird
 finish-args:
@@ -54,7 +54,6 @@ modules:
   - shared-modules/dbus-glib/dbus-glib.json
   - shared-modules/libcanberra/libcanberra.json
   - shared-modules/intltool/intltool-0.51.json
-  - shared-modules/libsecret/libsecret.json
   - name: rust
     buildsystem: simple
     sources:
@@ -148,6 +147,8 @@ modules:
           version-pattern: autoconf-([\d\.]+)\.tar\.xz
           url-template: https://ftp.gnu.org/gnu/autoconf/autoconf-$version.tar.xz
   - name: yasm
+    build-options:
+      cflags: -std=c17
     cleanup:
       - '*'
     sources:
@@ -280,12 +281,12 @@ modules:
   - name: betterbird
     buildsystem: simple
     build-options:
-      append-path: /app/lib/rust/bin:/usr/lib/sdk/node22/bin:/usr/lib/sdk/llvm20/bin
+      append-path: /app/lib/rust/bin:/usr/lib/sdk/node24/bin:/usr/lib/sdk/llvm20/bin
       prepend-ld-library-path: /usr/lib/sdk/llvm20/lib
       env:
         TERM: linux
         CARGO_HOME: /run/build/betterbird/cargo
-        npm_config_nodedir: /usr/lib/sdk/node22
+        npm_config_nodedir: /usr/lib/sdk/node24
     build-commands:
       - ./make-mozconfig.sh 140
       - chmod u+x apply-patches.sh
