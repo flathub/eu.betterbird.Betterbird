@@ -451,5 +451,40 @@
     "sha256": "fcd8fe913cecc435b0c3dc37a1a5ea668e3c235c98b8df8f0762bb235687d16c",
     "dest": "patches/",
     "dest-filename": "2003145-clear-link-in-status.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/6d976af71db8",
+    "sha256": "7606e5f8740e50caaa663dc9f7698e42d80ad1a082d06ea13376cc26c47ded24",
+    "dest": "patches/",
+    "dest-filename": "1877646-saved-searches-unified-folders.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/107dcb12b088",
+    "sha256": "5ec61504055f247ae1e473cd02b0d5bf5430e4aecd8c6881de37977c834c3a5e",
+    "dest": "patches/",
+    "dest-filename": "2004103-calendar-displayed-input-title.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/5a81c1541639",
+    "sha256": "b74fde4c38f330263aa40233d47d85182890247e5ab035117baeea5bb9861ceb",
+    "dest": "patches/",
+    "dest-filename": "1901089-date-picker-disable.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/1c503c5aa0f6",
+    "sha256": "dbb7950f5b1a5515536919344d7aa3a549355fb5e070143101123ebb41c481f0",
+    "dest": "patches/",
+    "dest-filename": "2005957-fix-regression-from-1901089.patch"
+  },
+  {
+    "type": "file",
+    "url": "https://hg.mozilla.org/comm-central/raw-rev/b418552d0dab",
+    "sha256": "6f43f464738c0e46c57cfda372684b92de71f646f2825bd33f697af6d773c489",
+    "dest": "patches/",
+    "dest-filename": "341266-remove-read-folders-from-unread.patch"
   }
 ]
