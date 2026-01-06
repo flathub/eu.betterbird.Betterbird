@@ -67,6 +67,37 @@ You can work around this issue by giving the Betterbird flatpak access to your c
 
 **Caveats**: Once Betterbird has access to your home directory, it will use the profile in `~/.thunderbird` instead of `~/.var/app/eu.betterbird.Betterbird/.thunderbird`. Meaning that in order to keep using your current profile, you will have to move it to `~/.thunderbird` after applying the work-around. Make sure that Betterbird is closed while moving the profile!
 
+#### Sending documents as mail attachments from LibreOffice
+Sending a document from LibreOffice using the flatpak-version of Betterbird does not work by default because of the isolation that the flatpak sandbox provides. There is, however, a way to work around this. The work-around depends on wether you are using the flatpak version of LibreOffice or a non-flatpak version of LibreOffice.
+
+##### Work-around for non-flatpak LibreOffice 
+1. Create a wrapper script at `~/.local/bin/betterbird` with the following content (add the `--user` flag to `flatpak run` in case you have installed Betterbird in your user installation).
+    ```bash
+    #!/bin/bash
+    flatpak run eu.betterbird.Betterbird "$@"
+    ```
+    While you are free to choose any folder to place the script in, the script file must be named `betterbird` (case-sensitive) because [LibreOffice uses the name to decide how it calls the e-mail client](https://github.com/Betterbird/thunderbird-patches/issues/85#issuecomment-1271865427).
+
+2. In any of the LibreOffice apps, configure `~/.local/bin/betterbird` as your e-mail program (setting at Extras -> Options -> Internet -> E-Mail).
+   
+3. Give Betterbird the `filesystem=/tmp` permission using the [Flatseal app](https://flathub.org/apps/details/com.github.tchx84.Flatseal) or by running `flatpak override --user --filesystem=/tmp eu.betterbird.Betterbird` (once is enough). This is needed because LibreOffice places the document to be attached in `/tmp` on the host.
+
+
+##### Work-around for flatpak-version of LibreOffice 
+1. Make sure you have `flatpak-spawn`. For Fedora, this comes as its own `dnf` package named `flatpak-spawn`.
+2. Create a wrapper script at `~/.local/bin/betterbird` with the following content (add the `--user` flag to `flatpak run` in case you have installed Betterbird in your user installation). 
+    ```bash
+    #!/bin/bash
+    flatpak-spawn --host flatpak run eu.betterbird.Betterbird "$@"
+    ```
+    While you are free to choose any folder to place the script in, the script file must be named `betterbird` (case-sensitive) because [LibreOffice uses the name to decide how it calls the e-mail client](https://github.com/Betterbird/thunderbird-patches/issues/85#issuecomment-1271865427).
+
+3. In any of the LibreOffice apps, configure `~/.local/bin/betterbird` as your e-mail program (setting at Extras -> Options -> Internet -> E-Mail).
+   
+4. Give Betterbird the `filesystem=/tmp` permission using the [Flatseal app](https://flathub.org/apps/details/com.github.tchx84.Flatseal) or by running `flatpak override --user --filesystem=/tmp eu.betterbird.Betterbird` (once is enough). This is needed because LibreOffice places the document to be attached in `/tmp` on the host.
+
+5. Give LibreOffice the `filesystem=/tmp` and `talk-name=org.freedesktop.Flatpak` permissions using the [Flatseal app](https://flathub.org/apps/details/com.github.tchx84.Flatseal) or by running `flatpak override --user --filesystem=/tmp --talk-name=org.freedesktop.Flatpak org.libreoffice.LibreOffice` (once is enough). This enables LibreOffice to run `flatpak-spawn` in the Betterbird wrapper script and gives it access to `/tmp` on the host, so it can place the document to be attached in a folder where Betterbird can see it.
+
 #### Other flatpak issues unresolved yet by upstream
 ([#123](https://github.com/flathub/org.mozilla.Thunderbird/issues/123)) Opening Profile Directory doesn't work: https://bugzilla.mozilla.org/show_bug.cgi?id=1625111
 
