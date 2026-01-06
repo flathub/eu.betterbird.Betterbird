@@ -51,11 +51,6 @@ In order to customize the app icon or the status icons:
 The Betterbird flatpak ships all language packs that are currently available for Betterbird. Flatpak installs a selection matching the user configuration that has been set with `flatpak config --set languages` and `flatpak config --set extra-languages`, defaulting to the system language. **Thunderbird language packs do not work with Betterbird**, so do not attempt to install them.
 In case the localization of your Betterbird is incomplete, check if a Thunderbird language pack is installed (e.g. after migrating your profile from Thunderbird to Betterbird) and remove it.
 
-#### Wayland
-([#75](https://github.com/flathub/org.mozilla.Thunderbird/issues/75)) To enable the experimental [Wayland](https://wayland.freedesktop.org/) backend (assuming the desktop session runs under a Wayland):<br>
-1. Give the `eu.betterbird.Betterbird` flatpak the `--socket=wayland` permission, e.g. by using [Flatseal](https://flathub.org/apps/details/com.github.tchx84.Flatseal).
-2. Run `flatpak override --env=MOZ_ENABLE_WAYLAND=1 eu.betterbird.Betterbird` to enable the Wayland backend.
-
 #### Smartcard
 ([#51](https://github.com/flathub/org.mozilla.Thunderbird/issues/51)) For Smartcard support you need at least Flatpak 1.3.2.
 
