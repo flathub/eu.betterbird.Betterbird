@@ -128,11 +128,11 @@ modules:
     sources:
       - type: git
         url: https://github.com/LudovicRousseau/PCSC.git
-        tag: 2.4.0
+        tag: 2.4.1
         x-checker-data:
           type: git
           tag-pattern: ^([\d.]+)$
-        commit: 4c8fce0c70a8c61c1a5db5566f9ffb20dacef347
+        commit: 5a96d5b1c6a3658c581a793d01f6a00e1a44e360
   - name: autoconf-2.72
     config-opts:
       - --program-suffix=2.72
@@ -171,8 +171,8 @@ modules:
       - -Ddocbook_docs=disabled
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.7.tar.xz
-        sha256: 4be15202ec4184fce1ac15997ece5530d2be32fe9573875aeb10e3b573858748
+        url: https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.8.tar.xz
+        sha256: 23420ef619dc2cb5aebad613f4823a2fa41c07e5a1d05628d40f6ec4b35bfddd
         x-checker-data:
           type: gnome
           name: libnotify
