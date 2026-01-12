@@ -51,7 +51,6 @@ cleanup:
 build-options:
   no-debuginfo: true
 modules:
-  - shared-modules/dbus-glib/dbus-glib.json
   - shared-modules/libcanberra/libcanberra.json
   - shared-modules/intltool/intltool-0.51.json
   - name: rust
@@ -132,20 +131,6 @@ modules:
           type: git
           tag-pattern: ^([\d.]+)$
         commit: 4c8fce0c70a8c61c1a5db5566f9ffb20dacef347
-  - name: autoconf-2.72
-    config-opts:
-      - --program-suffix=2.72
-    cleanup:
-      - '*'
-    sources:
-      - type: archive
-        url: https://ftp.gnu.org/gnu/autoconf/autoconf-2.72.tar.xz
-        sha256: ba885c1319578d6c94d46e9b0dceb4014caafe2490e437a0dbca3f270a223f5a
-        x-checker-data:
-          type: html
-          url: https://ftp.gnu.org/gnu/autoconf/
-          version-pattern: autoconf-([\d\.]+)\.tar\.xz
-          url-template: https://ftp.gnu.org/gnu/autoconf/autoconf-$version.tar.xz
   - name: yasm
     build-options:
       cflags: -std=c17
@@ -160,21 +145,6 @@ modules:
           url: https://www.tortall.net/projects/yasm/releases/
           version-pattern: yasm-([\d\.]+)\.tar\.gz
           url-template: https://www.tortall.net/projects/yasm/releases/yasm-$version.tar.gz
-  - name: libnotify
-    buildsystem: meson
-    config-opts:
-      - -Dtests=false
-      - -Dintrospection=disabled
-      - -Dman=false
-      - -Dgtk_doc=false
-      - -Ddocbook_docs=disabled
-    sources:
-      - type: archive
-        url: https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.7.tar.xz
-        sha256: 4be15202ec4184fce1ac15997ece5530d2be32fe9573875aeb10e3b573858748
-        x-checker-data:
-          type: gnome
-          name: libnotify
   - name: sound-theme-freedesktop
     sources:
       - type: git
