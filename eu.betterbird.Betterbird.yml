@@ -51,7 +51,6 @@ cleanup:
 build-options:
   no-debuginfo: true
 modules:
-  - shared-modules/dbus-glib/dbus-glib.json
   - shared-modules/libcanberra/libcanberra.json
   - shared-modules/intltool/intltool-0.51.json
   - name: rust
@@ -127,25 +126,11 @@ modules:
     sources:
       - type: git
         url: https://github.com/LudovicRousseau/PCSC.git
-        tag: 2.4.0
+        tag: 2.4.1
         x-checker-data:
           type: git
           tag-pattern: ^([\d.]+)$
-        commit: 4c8fce0c70a8c61c1a5db5566f9ffb20dacef347
-  - name: autoconf-2.72
-    config-opts:
-      - --program-suffix=2.72
-    cleanup:
-      - '*'
-    sources:
-      - type: archive
-        url: https://ftp.gnu.org/gnu/autoconf/autoconf-2.72.tar.xz
-        sha256: ba885c1319578d6c94d46e9b0dceb4014caafe2490e437a0dbca3f270a223f5a
-        x-checker-data:
-          type: html
-          url: https://ftp.gnu.org/gnu/autoconf/
-          version-pattern: autoconf-([\d\.]+)\.tar\.xz
-          url-template: https://ftp.gnu.org/gnu/autoconf/autoconf-$version.tar.xz
+        commit: 5a96d5b1c6a3658c581a793d01f6a00e1a44e360
   - name: yasm
     build-options:
       cflags: -std=c17
@@ -160,21 +145,6 @@ modules:
           url: https://www.tortall.net/projects/yasm/releases/
           version-pattern: yasm-([\d\.]+)\.tar\.gz
           url-template: https://www.tortall.net/projects/yasm/releases/yasm-$version.tar.gz
-  - name: libnotify
-    buildsystem: meson
-    config-opts:
-      - -Dtests=false
-      - -Dintrospection=disabled
-      - -Dman=false
-      - -Dgtk_doc=false
-      - -Ddocbook_docs=disabled
-    sources:
-      - type: archive
-        url: https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.7.tar.xz
-        sha256: 4be15202ec4184fce1ac15997ece5530d2be32fe9573875aeb10e3b573858748
-        x-checker-data:
-          type: gnome
-          name: libnotify
   - name: sound-theme-freedesktop
     sources:
       - type: git
@@ -252,11 +222,11 @@ modules:
     sources:
       - type: git
         url: https://gitlab.gnome.org/GNOME/evolution-data-server.git
-        tag: 3.58.2
+        tag: 3.59.1
         x-checker-data:
           type: git
           tag-pattern: ^([\d.]+)$
-        commit: 9963c57f77a2ac305881d6b54b881c93118c3f84
+        commit: d0377a466d2ab1f7a11d00b30a430211a0cca72c
   - name: cbindgen
     buildsystem: simple
     build-commands:
@@ -322,9 +292,9 @@ modules:
           - exec /app/lib/betterbird/betterbird "$@"
       - type: git
         url: https://github.com/Betterbird/thunderbird-patches.git
-        commit: fb5c802860266c8a21587c2883b563d940903f1a
+        commit: 96955126409f1c1dc6b551b2cdc73342f8ac9243
         dest: thunderbird-patches
-        tag: 140.6.0esr-bb16-build2
+        tag: 140.7.0esr-bb17-vcs-browser
       - type: file
         path: mozconfig-flatpak
       - type: file
