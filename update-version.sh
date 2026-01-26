@@ -37,7 +37,6 @@ BETTERBIRD_REPO="https://github.com/Betterbird/thunderbird-patches"
 PACKAGE=thunderbird
 PLATFORM=linux-x86_64
 SOURCES_FILE="$PACKAGE-sources.json"
-PATCHES_FILE="$PACKAGE-patches.json"
 APPDATA_FILE="thunderbird-patches/metadata/eu.betterbird.Betterbird.140.appdata.xml"
 MANIFEST_FILE="eu.betterbird.Betterbird.yml"
 DIST_FILE="distribution.ini"
@@ -93,7 +92,6 @@ base_url="${source_archive%/source/*}"
 
 # write new sources file
 echo '[' >"$SOURCES_FILE"
-echo '[]' >"$PATCHES_FILE"
 
 # read files from SHA256SUMS file
 while read -r line; do
@@ -151,25 +149,16 @@ sed -i 's/version=.*$/version='"$(git rev-parse --short $betterbird_commit)"'/' 
 rm -rf patches
 mkdir -p patches
 # patch series for main repo
-tmpfile="tmp.json"
 while read -r line; do
   url=$(echo $line | sed -r 's/(.*) # (http.*\/rev\/[0-9a-f]+).*/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
   name=$(echo $line | sed -r 's/(.*) # (.*)/\1/')
   wget $url --max-redirect=20 -O patches/$name
-  jq --arg name "patches/$name" \
-    '. += [{"type":"file","path":$name}]' \
-    $PATCHES_FILE > $tmpfile
-  mv $tmpfile $PATCHES_FILE
 done < <(grep -E "^[^#].* # +http" thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series-moz)
 # patch series for comm repo
 while read -r line; do
   url=$(echo $line | sed -r 's/(.*) # (http.*\/rev\/[0-9a-f]+).*/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
   name=$(echo $line | sed -r 's/(.*) # (.*)/\1/')
   wget $url --max-redirect=20 -O patches/$name
-  jq --arg name "patches/$name" \
-    '. += [{"type":"file","path":$name}]' \
-    $PATCHES_FILE > $tmpfile
-  mv $tmpfile $PATCHES_FILE
 done < <(grep -E "^[^#].* # +http" thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series)
 rm -rf thunderbird-patches
 
@@ -191,5 +180,5 @@ cat <<EOT
 The files were successfully updated to Betterbird $BETTERBIRD_VERSION.
 
 You can commit the result by executing the following command:
-git add patches && git commit --message='Update to $BETTERBIRD_VERSION' -- '$SOURCES_FILE' '$PATCHES_FILE' '$MANIFEST_FILE' '$DIST_FILE' '$BUILD_DATE_FILE' '$KNOWN_TAGS_FILE' patches
+git add patches && git commit --message='Update to $BETTERBIRD_VERSION' -- '$SOURCES_FILE' '$MANIFEST_FILE' '$DIST_FILE' '$BUILD_DATE_FILE' '$KNOWN_TAGS_FILE' patches
 EOT

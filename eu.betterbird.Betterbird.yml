@@ -281,7 +281,9 @@ modules:
       - install -Dm644 fonts.conf /app/etc/fonts/local.conf
     sources:
       - thunderbird-sources.json
-      - thunderbird-patches.json
+      - type: dir
+        path: patches
+        dest: patches
       - type: file
         path: distribution.ini
       - type: file
