@@ -157,7 +157,7 @@ while read -r line; do
   name=$(echo $line | sed -r 's/(.*) # (.*)/\1/')
   wget $url --max-redirect=20 -O patches/$name
   jq --arg name "patches/$name" \
-    '. += [{"type":"file","path":$name,"dest-filename":$name}]' \
+    '. += [{"type":"file","path":$name,"dest":"patches"}]' \
     $PATCHES_FILE > $tmpfile
   mv $tmpfile $PATCHES_FILE
 done < <(grep -E "^[^#].* # +http" thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series-moz)
@@ -167,7 +167,7 @@ while read -r line; do
   name=$(echo $line | sed -r 's/(.*) # (.*)/\1/')
   wget $url --max-redirect=20 -O patches/$name
   jq --arg name "patches/$name" \
-    '. += [{"type":"file","path":$name,"dest-filename":$name}]' \
+    '. += [{"type":"file","path":$name,"dest":"patches"}]' \
     $PATCHES_FILE > $tmpfile
   mv $tmpfile $PATCHES_FILE
 done < <(grep -E "^[^#].* # +http" thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series)
