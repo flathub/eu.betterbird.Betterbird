@@ -221,7 +221,7 @@ modules:
       - -DENABLE_OAUTH2_WEBKITGTK=OFF
     sources:
       - type: git
-        url: https://gitlab.gnome.org/GNOME/evolution-data-server.git
+        url: https://github.com/GNOME/evolution-data-server.git
         tag: 3.59.1
         x-checker-data:
           type: git
