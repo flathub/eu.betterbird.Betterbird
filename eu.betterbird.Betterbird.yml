@@ -221,7 +221,7 @@ modules:
       - -DENABLE_OAUTH2_WEBKITGTK=OFF
     sources:
       - type: git
-        url: https://gitlab.gnome.org/GNOME/evolution-data-server.git
+        url: https://github.com/GNOME/evolution-data-server.git
         tag: 3.59.1
         x-checker-data:
           type: git
@@ -281,6 +281,7 @@ modules:
       - install -Dm644 fonts.conf /app/etc/fonts/local.conf
     sources:
       - thunderbird-sources.json
+      - thunderbird-patches.json
       - type: file
         path: distribution.ini
       - type: file
@@ -292,9 +293,9 @@ modules:
           - exec /app/lib/betterbird/betterbird "$@"
       - type: git
         url: https://github.com/Betterbird/thunderbird-patches.git
-        commit: 96955126409f1c1dc6b551b2cdc73342f8ac9243
+        commit: c1a2bb78552886e52aa5028ae224ec5f882b8012
         dest: thunderbird-patches
-        tag: 140.7.0esr-bb17-vcs-browser
+        tag: 140.7.1esr-bb18
       - type: file
         path: mozconfig-flatpak
       - type: file
