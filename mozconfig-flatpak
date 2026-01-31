@@ -4,8 +4,10 @@
 mk_add_options MOZ_CO_PROJECT=mail
 ac_add_options --prefix=/app
 ac_add_options --enable-release
-ac_add_options --with-ccache=sccache # add absolute path? 
-# mk_add_options 'export RUSTC_WRAPPER=sccache' # TODO: needed?
+ac_add_options --with-ccache=sccache
+mk_add_options 'export RUSTC_WRAPPER=/app/bin/sccache'
+mk_add_options 'export SCCACHE_DIR=/run/ccache/sccache'
+mk_add_options 'export SCCACHE_CONF=/run/ccache/sccache/config'
 export MOZ_NOSPAM=1
 
 # define FLATPAK_COMPILE to enable flatpak-specific patches
