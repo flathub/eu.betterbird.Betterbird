@@ -50,6 +50,10 @@ cleanup:
   - '*.a'
 build-options:
   no-debuginfo: true
+  env:
+    RUSTC_WRAPPER: /app/bin/sccache
+    SCCACHE_DIR: /run/ccache/sccache
+    SCCACHE_CONF: /run/ccache/sccache/config
 modules:
   - name: sccache
     buildsystem: simple
