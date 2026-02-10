@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/flatpak/flatpak-builder/main/data/flatpak-manifest.schema.json
 id: eu.betterbird.Betterbird
 runtime: org.freedesktop.Platform
-runtime-version: '25.08'
+runtime-version: "25.08"
 sdk: org.freedesktop.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.node24
@@ -46,8 +47,8 @@ cleanup:
   - /share/gir-1.0
   - /share/man
   - /man
-  - '*.la'
-  - '*.a'
+  - "*.la"
+  - "*.a"
 build-options:
   no-debuginfo: true
   env:
@@ -65,7 +66,7 @@ modules:
       - type: archive
         url: https://github.com/mozilla/sccache/releases/download/v0.13.0/sccache-v0.13.0-x86_64-unknown-linux-musl.tar.gz
         sha256: 0f57d80d0036967bc06b8391dcf4b527a6837187de454b55222ce4e0d5e19d0a
-        only-arches: [x86_64]
+        only-arches: ["x86_64"]
         x-checker-data:
           type: json
           url: https://api.github.com/repos/mozilla/sccache/releases/latest
@@ -74,7 +75,7 @@ modules:
       - type: archive
         url: https://github.com/mozilla/sccache/releases/download/v0.13.0/sccache-v0.13.0-aarch64-unknown-linux-musl.tar.gz
         sha256: 1bbbd570aa957db85c1e7c3fbc790f7766d4406347371b884515ed723ac03086
-        only-arches: [aarch64]
+        only-arches: ["aarch64"]
         x-checker-data:
           type: json
           url: https://api.github.com/repos/mozilla/sccache/releases/latest
@@ -97,6 +98,7 @@ modules:
         dest: rust-x86_64-unknown-linux-gnu
         url: https://static.rust-lang.org/dist/rust-1.86.0-x86_64-unknown-linux-gnu.tar.xz
         sha256: 6b448b3669e0c74f7f4b87da7da4868a552fcbba1f955032d8925ad2fffb3798
+
     build-options:
       prefix: /app/lib/rust
       arch:
@@ -107,14 +109,13 @@ modules:
           env:
             NATIVE_TARGET: aarch64-unknown-linux-gnu
     build-commands:
-      - cd "rust-$NATIVE_TARGET" && ./install.sh --prefix=/app/lib/rust --without=rust-docs
-        --without=rust-docs-json-preview --disable-ldconfig --verbose
+      - cd "rust-$NATIVE_TARGET" && ./install.sh --prefix=/app/lib/rust --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose
   - name: libdbusmenu
     build-options:
       cflags: -Wno-error
       env:
-        HAVE_VALGRIND_FALSE: '#'
-        HAVE_VALGRIND_TRUE: ''
+        HAVE_VALGRIND_FALSE: "#"
+        HAVE_VALGRIND_TRUE: ""
     cleanup:
       - /include
       - /libexec
@@ -165,7 +166,7 @@ modules:
     build-options:
       cflags: -std=c17
     cleanup:
-      - '*'
+      - "*"
     sources:
       - type: archive
         url: https://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz
@@ -226,8 +227,7 @@ modules:
           type: json
           url: https://api.github.com/repos/libical/libical/releases/latest
           version-query: .tag_name | sub("^v"; "")
-          url-query: .assets[] | select(.name=="libical-" + $version + ".tar.gz")
-            | .browser_download_url
+          url-query: .assets[] | select(.name=="libical-" + $version + ".tar.gz") | .browser_download_url
   - name: evolution-data-server
     cleanup:
       - /share/GConf
@@ -253,11 +253,11 @@ modules:
     sources:
       - type: git
         url: https://github.com/GNOME/evolution-data-server.git
-        tag: 3.59.2
+        tag: 3.59.1
         x-checker-data:
           type: git
           tag-pattern: ^([\d.]+)$
-        commit: ca78efe6f98c07227f51ce71b3c36cab05850e75
+        commit: d0377a466d2ab1f7a11d00b30a430211a0cca72c
   - name: cbindgen
     buildsystem: simple
     build-commands:
@@ -269,7 +269,7 @@ modules:
       env:
         CARGO_HOME: /run/build/cbindgen/cargo
     cleanup:
-      - '*'
+      - "*"
     sources:
       - type: git
         url: https://github.com/mozilla/cbindgen.git
@@ -293,8 +293,7 @@ modules:
       - chmod u+x apply-patches.sh
       - ./apply-patches.sh 140
       - sed -i 's#-I/usr/include#-I/app/include#g' comm/third_party/appindicator/moz.build
-      - export MOZ_BUILD_DATE=$(cat .build-date); ./mach configure; ./mach build -v
-        -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install
+      - export MOZ_BUILD_DATE=$(cat .build-date); ./mach configure; ./mach build -v -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install
       - rm -rf /app/lib/thunderbird/chrome
       - rm -f /app/bin/thunderbird
       - mv /app/lib/thunderbird /app/lib/betterbird
@@ -302,20 +301,14 @@ modules:
       - install -Dm644 distribution.ini /app/lib/betterbird/distribution/distribution.ini
       - install -Dm644 default-preferences.js /app/lib/betterbird/defaults/pref/default-preferences.js
       - mkdir -p /app/lib/betterbird/extensions
-      - for xpi in langpacks/*.xpi; do export locale=$(basename -s .xpi $xpi); install
-        -Dm644 -t /app/share/runtime/locale/${locale:9:2}/ $xpi; ln -sf /app/share/runtime/locale/${locale:9:2}/$(basename
-        $xpi) /app/lib/betterbird/extensions/$(basename $xpi); done
-      - for i in 16 22 24 32 48 64 128 256; do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png
-        /app/lib/betterbird/chrome/icons/default/default${i}.png; done
+      - for xpi in langpacks/*.xpi; do export locale=$(basename -s .xpi $xpi); install -Dm644 -t /app/share/runtime/locale/${locale:9:2}/ $xpi; ln -sf /app/share/runtime/locale/${locale:9:2}/$(basename $xpi) /app/lib/betterbird/extensions/$(basename $xpi); done
+      - for i in 16 22 24 32 48 64 128 256; do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/lib/betterbird/chrome/icons/default/default${i}.png; done
       - install -Dm644 comm/mail/branding/betterbird/default.svg /app/share/icons/hicolor/scalable/status/eu.betterbird.Betterbird-default.svg
       - install -Dm644 comm/mail/branding/betterbird/newmail.svg /app/share/icons/hicolor/scalable/status/eu.betterbird.Betterbird-newmail.svg
-      - for i in 16 22 24 32 48 64 128 256; do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png
-        /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png; done
+      - for i in 16 22 24 32 48 64 128 256; do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png; done
       - install -Dm644 thunderbird-patches/metadata/icons/betterbird.svg /app/share/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg
-      - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop
-        /app/share/applications/eu.betterbird.Betterbird.desktop
-      - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.140.appdata.xml
-        /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml
+      - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop /app/share/applications/eu.betterbird.Betterbird.desktop
+      - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.140.appdata.xml /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml
       - install -Dm644 fonts.conf /app/etc/fonts/local.conf
     sources:
       - thunderbird-sources.json
@@ -343,15 +336,13 @@ modules:
       - type: script
         dest-filename: make-mozconfig.sh
         commands:
-          - cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak | sed -r
-            's/(mk_add_options MOZ_MAKE_FLAGS="-j[0-9]+")/# \1/' > mozconfig
+          - cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak | sed -r 's/(mk_add_options MOZ_MAKE_FLAGS="-j[0-9]+")/# \1/' > mozconfig
         only-arches:
           - x86_64
       - type: script
         dest-filename: make-mozconfig.sh
         commands:
-          - cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak mozconfig-aarch64
-            | sed -r 's/(mk_add_options MOZ_MAKE_FLAGS="-j[0-9]+")/# \1/' > mozconfig
+          - cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak mozconfig-aarch64 | sed -r 's/(mk_add_options MOZ_MAKE_FLAGS="-j[0-9]+")/# \1/' > mozconfig
         only-arches:
           - aarch64
       - type: file
