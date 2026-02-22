@@ -71,8 +71,7 @@ modules:
           type: json
           url: https://api.github.com/repos/mozilla/sccache/releases/latest
           version-query: .tag_name
-          url-query: .assets[] | select(.name=="sccache-" + $version + "-x86_64-unknown-linux-musl.tar.gz")
-            | .browser_download_url
+          url-query: .assets[] | select(.name=="sccache-" + $version + "-x86_64-unknown-linux-musl.tar.gz") | .browser_download_url
           url-template: https://github.com/mozilla/sccache/releases/download/$version/sccache-$version-x86_64-unknown-linux-musl.tar.gz
       - type: archive
         url: https://github.com/mozilla/sccache/releases/download/v0.14.0/sccache-v0.14.0-aarch64-unknown-linux-musl.tar.gz
@@ -82,8 +81,7 @@ modules:
           type: json
           url: https://api.github.com/repos/mozilla/sccache/releases/latest
           version-query: .tag_name
-          url-query: .assets[] | select(.name=="sccache-" + $version + "-aarch64-unknown-linux-musl.tar.gz")
-            | .browser_download_url
+          url-query: .assets[] | select(.name=="sccache-" + $version + "-aarch64-unknown-linux-musl.tar.gz") | .browser_download_url
           url-template: https://github.com/mozilla/sccache/releases/download/$version/sccache-$version-aarch64-unknown-linux-musl.tar.gz
   - shared-modules/libcanberra/libcanberra.json
   - shared-modules/intltool/intltool-0.51.json
@@ -102,7 +100,6 @@ modules:
         dest: rust-x86_64-unknown-linux-gnu
         url: https://static.rust-lang.org/dist/rust-1.86.0-x86_64-unknown-linux-gnu.tar.xz
         sha256: 6b448b3669e0c74f7f4b87da7da4868a552fcbba1f955032d8925ad2fffb3798
-
     build-options:
       prefix: /app/lib/rust
       arch:
@@ -113,8 +110,7 @@ modules:
           env:
             NATIVE_TARGET: aarch64-unknown-linux-gnu
     build-commands:
-      - cd "rust-$NATIVE_TARGET" && ./install.sh --prefix=/app/lib/rust --without=rust-docs
-        --without=rust-docs-json-preview --disable-ldconfig --verbose
+      - cd "rust-$NATIVE_TARGET" && ./install.sh --prefix=/app/lib/rust --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose
   - name: libdbusmenu
     build-options:
       cflags: -Wno-error
@@ -232,8 +228,7 @@ modules:
           type: json
           url: https://api.github.com/repos/libical/libical/releases/latest
           version-query: .tag_name | sub("^v"; "")
-          url-query: .assets[] | select(.name=="libical-" + $version + ".tar.gz")
-            | .browser_download_url
+          url-query: .assets[] | select(.name=="libical-" + $version + ".tar.gz") | .browser_download_url
   - name: evolution-data-server
     cleanup:
       - /share/GConf
@@ -299,8 +294,7 @@ modules:
       - chmod u+x apply-patches.sh
       - ./apply-patches.sh 140
       - sed -i 's#-I/usr/include#-I/app/include#g' comm/third_party/appindicator/moz.build
-      - export MOZ_BUILD_DATE=$(cat .build-date); ./mach configure; ./mach build -v
-        -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install
+      - export MOZ_BUILD_DATE=$(cat .build-date); ./mach configure; ./mach build -v -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install
       - rm -rf /app/lib/thunderbird/chrome
       - rm -f /app/bin/thunderbird
       - mv /app/lib/thunderbird /app/lib/betterbird
@@ -308,20 +302,14 @@ modules:
       - install -Dm644 distribution.ini /app/lib/betterbird/distribution/distribution.ini
       - install -Dm644 default-preferences.js /app/lib/betterbird/defaults/pref/default-preferences.js
       - mkdir -p /app/lib/betterbird/extensions
-      - for xpi in langpacks/*.xpi; do export locale=$(basename -s .xpi $xpi); install
-        -Dm644 -t /app/share/runtime/locale/${locale:9:2}/ $xpi; ln -sf /app/share/runtime/locale/${locale:9:2}/$(basename
-        $xpi) /app/lib/betterbird/extensions/$(basename $xpi); done
-      - for i in 16 22 24 32 48 64 128 256; do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png
-        /app/lib/betterbird/chrome/icons/default/default${i}.png; done
+      - for xpi in langpacks/*.xpi; do export locale=$(basename -s .xpi $xpi); install -Dm644 -t /app/share/runtime/locale/${locale:9:2}/ $xpi; ln -sf /app/share/runtime/locale/${locale:9:2}/$(basename $xpi) /app/lib/betterbird/extensions/$(basename $xpi); done
+      - for i in 16 22 24 32 48 64 128 256; do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/lib/betterbird/chrome/icons/default/default${i}.png; done
       - install -Dm644 comm/mail/branding/betterbird/default.svg /app/share/icons/hicolor/scalable/status/eu.betterbird.Betterbird-default.svg
       - install -Dm644 comm/mail/branding/betterbird/newmail.svg /app/share/icons/hicolor/scalable/status/eu.betterbird.Betterbird-newmail.svg
-      - for i in 16 22 24 32 48 64 128 256; do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png
-        /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png; done
+      - for i in 16 22 24 32 48 64 128 256; do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png; done
       - install -Dm644 thunderbird-patches/metadata/icons/betterbird.svg /app/share/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg
-      - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop
-        /app/share/applications/eu.betterbird.Betterbird.desktop
-      - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.140.appdata.xml
-        /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml
+      - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop /app/share/applications/eu.betterbird.Betterbird.desktop
+      - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.140.appdata.xml /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml
       - install -Dm644 fonts.conf /app/etc/fonts/local.conf
     sources:
       - thunderbird-sources.json
@@ -337,9 +325,9 @@ modules:
           - exec /app/lib/betterbird/betterbird "$@"
       - type: git
         url: https://github.com/Betterbird/thunderbird-patches.git
-        commit: c1a2bb78552886e52aa5028ae224ec5f882b8012
+        commit: 610605bbac1b93633fc310c527d42343783e479d
         dest: thunderbird-patches
-        tag: 140.7.1esr-bb18
+        tag: 140.8.0esr-bb19
       - type: file
         path: mozconfig-flatpak
       - type: file
@@ -349,15 +337,13 @@ modules:
       - type: script
         dest-filename: make-mozconfig.sh
         commands:
-          - cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak | sed -r
-            's/(mk_add_options MOZ_MAKE_FLAGS="-j[0-9]+")/# \1/' > mozconfig
+          - cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak | sed -r 's/(mk_add_options MOZ_MAKE_FLAGS="-j[0-9]+")/# \1/' > mozconfig
         only-arches:
           - x86_64
       - type: script
         dest-filename: make-mozconfig.sh
         commands:
-          - cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak mozconfig-aarch64
-            | sed -r 's/(mk_add_options MOZ_MAKE_FLAGS="-j[0-9]+")/# \1/' > mozconfig
+          - cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak mozconfig-aarch64 | sed -r 's/(mk_add_options MOZ_MAKE_FLAGS="-j[0-9]+")/# \1/' > mozconfig
         only-arches:
           - aarch64
       - type: file
