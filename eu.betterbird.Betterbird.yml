@@ -51,38 +51,7 @@ cleanup:
   - '*.a'
 build-options:
   no-debuginfo: true
-  env:
-    RUSTC_WRAPPER: /app/bin/sccache
-    SCCACHE_DIR: /run/ccache/sccache
-    SCCACHE_CONF: /run/ccache/sccache/config
 modules:
-  - name: sccache
-    buildsystem: simple
-    build-commands:
-      - install -Dma+rwx sccache /app/bin/sccache
-    cleanup:
-      - /bin/sccache
-    sources:
-      - type: archive
-        url: https://github.com/mozilla/sccache/releases/download/v0.14.0/sccache-v0.14.0-x86_64-unknown-linux-musl.tar.gz
-        sha256: 8424b38cda4ecce616a1557d81328f3d7c96503a171eab79942fad618b42af44
-        only-arches: [x86_64]
-        x-checker-data:
-          type: json
-          url: https://api.github.com/repos/mozilla/sccache/releases/latest
-          version-query: .tag_name
-          url-query: .assets[] | select(.name=="sccache-" + $version + "-x86_64-unknown-linux-musl.tar.gz") | .browser_download_url
-          url-template: https://github.com/mozilla/sccache/releases/download/$version/sccache-$version-x86_64-unknown-linux-musl.tar.gz
-      - type: archive
-        url: https://github.com/mozilla/sccache/releases/download/v0.14.0/sccache-v0.14.0-aarch64-unknown-linux-musl.tar.gz
-        sha256: 62a6c942c47c93333bc0174704800cef7edfa0416d08e1356c1d3e39f0b462f2
-        only-arches: [aarch64]
-        x-checker-data:
-          type: json
-          url: https://api.github.com/repos/mozilla/sccache/releases/latest
-          version-query: .tag_name
-          url-query: .assets[] | select(.name=="sccache-" + $version + "-aarch64-unknown-linux-musl.tar.gz") | .browser_download_url
-          url-template: https://github.com/mozilla/sccache/releases/download/$version/sccache-$version-aarch64-unknown-linux-musl.tar.gz
   - shared-modules/libcanberra/libcanberra.json
   - shared-modules/intltool/intltool-0.51.json
   - name: rust
