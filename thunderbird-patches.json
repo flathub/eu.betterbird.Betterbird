@@ -6,11 +6,6 @@
   },
   {
     "type": "file",
-    "path": "patches/1977042-Mac-text-substitution-final-moz.patch",
-    "dest": "patches"
-  },
-  {
-    "type": "file",
     "path": "patches/1962868-phone-number-search.patch",
     "dest": "patches"
   },
@@ -307,21 +302,6 @@
   {
     "type": "file",
     "path": "patches/2010970-typo-access-key-part2.patch",
-    "dest": "patches"
-  },
-  {
-    "type": "file",
-    "path": "patches/2013486-filter-attribute-after-custom-header.patch",
-    "dest": "patches"
-  },
-  {
-    "type": "file",
-    "path": "patches/1921611-handle-snooze-dismiss-errors.patch",
-    "dest": "patches"
-  },
-  {
-    "type": "file",
-    "path": "patches/1392056-shift-click-edit-draft-button.patch",
     "dest": "patches"
   }
 ]
