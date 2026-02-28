@@ -7,7 +7,7 @@ echo
 echo "======================================================="
 echo "Copying patches"
 mkdir -p patches
-find thunderbird-patches/$VERSION -type f -name '*.patch' -exec cp '{}' patches/ ';'
+cp -r thunderbird-patches/$VERSION/* patches/
 
 echo
 echo "======================================================="
