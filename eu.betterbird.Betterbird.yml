@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/flatpak/flatpak-builder/main/data/flatpak-manifest.schema.json
 id: eu.betterbird.Betterbird
 runtime: org.freedesktop.Platform
 runtime-version: '25.08'
@@ -50,7 +51,38 @@ cleanup:
   - '*.a'
 build-options:
   no-debuginfo: true
+  env:
+    RUSTC_WRAPPER: /app/bin/sccache
+    SCCACHE_DIR: /run/ccache/sccache
+    SCCACHE_CONF: /run/ccache/sccache/config
 modules:
+  - name: sccache
+    buildsystem: simple
+    build-commands:
+      - install -Dma+rwx sccache /app/bin/sccache
+    cleanup:
+      - /bin/sccache
+    sources:
+      - type: archive
+        url: https://github.com/mozilla/sccache/releases/download/v0.14.0/sccache-v0.14.0-x86_64-unknown-linux-musl.tar.gz
+        sha256: 8424b38cda4ecce616a1557d81328f3d7c96503a171eab79942fad618b42af44
+        only-arches: [x86_64]
+        x-checker-data:
+          type: json
+          url: https://api.github.com/repos/mozilla/sccache/releases/latest
+          version-query: .tag_name
+          url-query: .assets[] | select(.name=="sccache-" + $version + "-x86_64-unknown-linux-musl.tar.gz") | .browser_download_url
+          url-template: https://github.com/mozilla/sccache/releases/download/$version/sccache-$version-x86_64-unknown-linux-musl.tar.gz
+      - type: archive
+        url: https://github.com/mozilla/sccache/releases/download/v0.14.0/sccache-v0.14.0-aarch64-unknown-linux-musl.tar.gz
+        sha256: 62a6c942c47c93333bc0174704800cef7edfa0416d08e1356c1d3e39f0b462f2
+        only-arches: [aarch64]
+        x-checker-data:
+          type: json
+          url: https://api.github.com/repos/mozilla/sccache/releases/latest
+          version-query: .tag_name
+          url-query: .assets[] | select(.name=="sccache-" + $version + "-aarch64-unknown-linux-musl.tar.gz") | .browser_download_url
+          url-template: https://github.com/mozilla/sccache/releases/download/$version/sccache-$version-aarch64-unknown-linux-musl.tar.gz
   - shared-modules/libcanberra/libcanberra.json
   - shared-modules/intltool/intltool-0.51.json
   - name: rust
@@ -222,11 +254,11 @@ modules:
     sources:
       - type: git
         url: https://github.com/GNOME/evolution-data-server.git
-        tag: 3.59.1
+        tag: 3.59.2
         x-checker-data:
           type: git
           tag-pattern: ^([\d.]+)$
-        commit: d0377a466d2ab1f7a11d00b30a430211a0cca72c
+        commit: ca78efe6f98c07227f51ce71b3c36cab05850e75
   - name: cbindgen
     buildsystem: simple
     build-commands:
@@ -293,9 +325,9 @@ modules:
           - exec /app/lib/betterbird/betterbird "$@"
       - type: git
         url: https://github.com/Betterbird/thunderbird-patches.git
-        commit: c1a2bb78552886e52aa5028ae224ec5f882b8012
+        commit: b1f375d5f15bcaa1bf2ddb11b45433a3bb0202a1
         dest: thunderbird-patches
-        tag: 140.7.1esr-bb18
+        tag: 140.8.0esr-bb19-gitmodules-fixed
       - type: file
         path: mozconfig-flatpak
       - type: file
