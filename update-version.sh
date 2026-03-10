@@ -114,7 +114,7 @@ while read -r line; do
     locale="${locale%.*}"
 
     # include langpack only if there is a Betterbird patch for it
-    if [[ -f "thunderbird-patches/${BETTERBIRD_VERSION%%.*}/scripts/$locale.cmd" ]]
+    if [[ -f "thunderbird-patches/${BETTERBIRD_VERSION%%.*}/scripts/$locale.sh" ]]
     then
       cat >>"$SOURCES_FILE" <<EOT
       {

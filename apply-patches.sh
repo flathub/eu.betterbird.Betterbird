@@ -77,12 +77,10 @@ do
     cp "$branding_source/brand.ftl" localization/$lang/branding/
       cp "$branding_source/brand.dtd" "$branding_source/brand.properties" chrome/$lang/locale/branding/ 
 
-    bb_string_patcher="../../thunderbird-patches/$VERSION/scripts/$lang.cmd"
+    bb_string_patcher="../../thunderbird-patches/$VERSION/scripts/$lang.sh"
     if [[ -f "$bb_string_patcher" ]]
     then
         echo "   * adding extra strings"
-          sed -ri 's/^(::|REM)/#/; s/%lecho%/lessecho/; s/\r$//; s/\$/\\\$/g; s/%%S/%S/g' "$bb_string_patcher"
-        perl -pi -e 's#\\(?=[^ ]+$)#/#g' "$bb_string_patcher"
         . "$bb_string_patcher"
     fi
 
