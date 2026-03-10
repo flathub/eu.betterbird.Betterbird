@@ -31,7 +31,7 @@ if ((${#script_args[@]} < 1)); then
   exit 1
 fi
 
-BETTERBIRD_VERSION="${script_args[0]}" # Betterbird version. Can either be a tag or a major version number. If it's a tag, the commit is identified automatically. In case only the major version number is given, a commit must be specified by passing its hash as 2nd argument. 
+BETTERBIRD_VERSION="${script_args[0]}" # Betterbird version. Can either be a tag or a major version number. If it's a tag, the commit is identified automatically. In case only the major version number is given, a commit must be specified by passing its hash as 2nd argument.
 BETTERBIRD_COMMIT="${script_args[1]}"
 BETTERBIRD_REPO="https://github.com/Betterbird/thunderbird-patches"
 PACKAGE=thunderbird
@@ -43,7 +43,7 @@ DIST_FILE="distribution.ini"
 BUILD_DATE_FILE=".build-date"
 KNOWN_TAGS_FILE=".known-tags"
 
-# determine if the source revision was specified as a tag or as a commit hash 
+# determine if the source revision was specified as a tag or as a commit hash
 [[ "x$BETTERBIRD_COMMIT" != "x" ]] && source_spec=commit || source_spec=tag
 echo ""
 [[ "$source_spec" == "tag" ]] && echo -n "Updating to TAG $BETTERBIRD_VERSION"
@@ -71,9 +71,9 @@ fi
 git checkout $betterbird_commit
 cd ..
 
-if [[ "$source_spec" == "tag" ]] && ! $force 
+if [[ "$source_spec" == "tag" ]] && ! $force
 then
-  # check if version from appdata.xml agrees with tag 
+  # check if version from appdata.xml agrees with tag
   betterbird_version_appdata=$(cat $APPDATA_FILE | grep '<release version=' | sed -r 's@^\s+<release version="(([^"])+)(" date=")([^"]+)(">)$@\1@')
   if [[ $BETTERBIRD_VERSION != $betterbird_version_appdata* ]]
   then
@@ -145,7 +145,7 @@ fi
 # update version in distribution.ini
 sed -i 's/version=.*$/version='"$(git rev-parse --short $betterbird_commit)"'/' "$DIST_FILE"
 
-# add tag to .known-tags if it has not been added yet 
+# add tag to .known-tags if it has not been added yet
 if [[ "$source_spec" == "tag" ]] && ! grep -Fxq "$BETTERBIRD_VERSION" "$KNOWN_TAGS_FILE"
 then
   echo "$BETTERBIRD_VERSION" >> "$KNOWN_TAGS_FILE"
