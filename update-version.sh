@@ -31,20 +31,19 @@ if ((${#script_args[@]} < 1)); then
   exit 1
 fi
 
-BETTERBIRD_VERSION="${script_args[0]}" # Betterbird version. Can either be a tag or a major version number. If it's a tag, the commit is identified automatically. In case only the major version number is given, a commit must be specified by passing its hash as 2nd argument. 
+BETTERBIRD_VERSION="${script_args[0]}" # Betterbird version. Can either be a tag or a major version number. If it's a tag, the commit is identified automatically. In case only the major version number is given, a commit must be specified by passing its hash as 2nd argument.
 BETTERBIRD_COMMIT="${script_args[1]}"
 BETTERBIRD_REPO="https://github.com/Betterbird/thunderbird-patches"
 PACKAGE=thunderbird
 PLATFORM=linux-x86_64
 SOURCES_FILE="$PACKAGE-sources.json"
-PATCHES_FILE="$PACKAGE-patches.json"
 APPDATA_FILE="thunderbird-patches/metadata/eu.betterbird.Betterbird.140.appdata.xml"
 MANIFEST_FILE="eu.betterbird.Betterbird.yml"
 DIST_FILE="distribution.ini"
 BUILD_DATE_FILE=".build-date"
 KNOWN_TAGS_FILE=".known-tags"
 
-# determine if the source revision was specified as a tag or as a commit hash 
+# determine if the source revision was specified as a tag or as a commit hash
 [[ "x$BETTERBIRD_COMMIT" != "x" ]] && source_spec=commit || source_spec=tag
 echo ""
 [[ "$source_spec" == "tag" ]] && echo -n "Updating to TAG $BETTERBIRD_VERSION"
@@ -72,9 +71,9 @@ fi
 git checkout $betterbird_commit
 cd ..
 
-if [[ "$source_spec" == "tag" ]] && ! $force 
+if [[ "$source_spec" == "tag" ]] && ! $force
 then
-  # check if version from appdata.xml agrees with tag 
+  # check if version from appdata.xml agrees with tag
   betterbird_version_appdata=$(cat $APPDATA_FILE | grep '<release version=' | sed -r 's@^\s+<release version="(([^"])+)(" date=")([^"]+)(">)$@\1@')
   if [[ $BETTERBIRD_VERSION != $betterbird_version_appdata* ]]
   then
@@ -93,7 +92,6 @@ base_url="${source_archive%/source/*}"
 
 # write new sources file
 echo '[' >"$SOURCES_FILE"
-echo '[]' >"$PATCHES_FILE"
 
 # read files from SHA256SUMS file
 while read -r line; do
@@ -116,7 +114,7 @@ while read -r line; do
     locale="${locale%.*}"
 
     # include langpack only if there is a Betterbird patch for it
-    if [[ -f "thunderbird-patches/${BETTERBIRD_VERSION%%.*}/scripts/$locale.cmd" ]]
+    if [[ -f "thunderbird-patches/${BETTERBIRD_VERSION%%.*}/scripts/$locale.sh" ]]
     then
       cat >>"$SOURCES_FILE" <<EOT
       {
@@ -147,33 +145,7 @@ fi
 # update version in distribution.ini
 sed -i 's/version=.*$/version='"$(git rev-parse --short $betterbird_commit)"'/' "$DIST_FILE"
 
-# add external patches to patches file
-rm -rf patches
-mkdir -p patches
-# patch series for main repo
-tmpfile="tmp.json"
-while read -r line; do
-  url=$(echo $line | sed -r 's/(.*) # (http.*\/rev\/[0-9a-f]+).*/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
-  name=$(echo $line | sed -r 's/(.*) # (.*)/\1/')
-  wget $url --max-redirect=20 -O patches/$name
-  jq --arg name "patches/$name" \
-    '. += [{"type":"file","path":$name,"dest":"patches"}]' \
-    $PATCHES_FILE > $tmpfile
-  mv $tmpfile $PATCHES_FILE
-done < <(grep -E "^[^#].* # +http" thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series-moz)
-# patch series for comm repo
-while read -r line; do
-  url=$(echo $line | sed -r 's/(.*) # (http.*\/rev\/[0-9a-f]+).*/\2/' | sed -e 's/\/rev\//\/raw-rev\//')
-  name=$(echo $line | sed -r 's/(.*) # (.*)/\1/')
-  wget $url --max-redirect=20 -O patches/$name
-  jq --arg name "patches/$name" \
-    '. += [{"type":"file","path":$name,"dest":"patches"}]' \
-    $PATCHES_FILE > $tmpfile
-  mv $tmpfile $PATCHES_FILE
-done < <(grep -E "^[^#].* # +http" thunderbird-patches/$(echo $BETTERBIRD_VERSION | cut -f1 -d'.')/series)
-rm -rf thunderbird-patches
-
-# add tag to .known-tags if it has not been added yet 
+# add tag to .known-tags if it has not been added yet
 if [[ "$source_spec" == "tag" ]] && ! grep -Fxq "$BETTERBIRD_VERSION" "$KNOWN_TAGS_FILE"
 then
   echo "$BETTERBIRD_VERSION" >> "$KNOWN_TAGS_FILE"
@@ -191,5 +163,5 @@ cat <<EOT
 The files were successfully updated to Betterbird $BETTERBIRD_VERSION.
 
 You can commit the result by executing the following command:
-git add patches && git commit --message='Update to $BETTERBIRD_VERSION' -- '$SOURCES_FILE' '$PATCHES_FILE' '$MANIFEST_FILE' '$DIST_FILE' '$BUILD_DATE_FILE' '$KNOWN_TAGS_FILE' patches
+git commit --message='Update to $BETTERBIRD_VERSION' -- '$SOURCES_FILE' '$MANIFEST_FILE' '$DIST_FILE' '$BUILD_DATE_FILE' '$KNOWN_TAGS_FILE'
 EOT

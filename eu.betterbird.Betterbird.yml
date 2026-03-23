@@ -254,11 +254,11 @@ modules:
     sources:
       - type: git
         url: https://github.com/GNOME/evolution-data-server.git
-        tag: 3.59.2
+        tag: 3.60.0
         x-checker-data:
           type: git
           tag-pattern: ^([\d.]+)$
-        commit: ca78efe6f98c07227f51ce71b3c36cab05850e75
+        commit: 9d0ce9fee8c88fb2f7c19b1df311f844bdab710f
   - name: cbindgen
     buildsystem: simple
     build-commands:
@@ -313,7 +313,6 @@ modules:
       - install -Dm644 fonts.conf /app/etc/fonts/local.conf
     sources:
       - thunderbird-sources.json
-      - thunderbird-patches.json
       - type: file
         path: distribution.ini
       - type: file
@@ -325,9 +324,9 @@ modules:
           - exec /app/lib/betterbird/betterbird "$@"
       - type: git
         url: https://github.com/Betterbird/thunderbird-patches.git
-        commit: b1f375d5f15bcaa1bf2ddb11b45433a3bb0202a1
+        commit: 2a129cda0168dc96ea704ad59db6dd585065adeb
         dest: thunderbird-patches
-        tag: 140.8.0esr-bb19-gitmodules-fixed
+        tag: 140.9.0esr-bb20
       - type: file
         path: mozconfig-flatpak
       - type: file
