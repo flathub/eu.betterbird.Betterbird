@@ -254,11 +254,11 @@ modules:
     sources:
       - type: git
         url: https://github.com/GNOME/evolution-data-server.git
-        tag: 3.60.0
+        tag: 3.60.1
         x-checker-data:
           type: git
           tag-pattern: ^([\d.]+)$
-        commit: 9d0ce9fee8c88fb2f7c19b1df311f844bdab710f
+        commit: 9a4bda5279cc5de9772c447559ea9baeb4a085ff
   - name: cbindgen
     buildsystem: simple
     build-commands:
@@ -324,9 +324,9 @@ modules:
           - exec /app/lib/betterbird/betterbird "$@"
       - type: git
         url: https://github.com/Betterbird/thunderbird-patches.git
-        commit: 2a129cda0168dc96ea704ad59db6dd585065adeb
+        commit: c517308acac56cbca4bee7eccc82d923f37cd22b
         dest: thunderbird-patches
-        tag: 140.9.0esr-bb20
+        tag: 140.10.0esr-bb21
       - type: file
         path: mozconfig-flatpak
       - type: file
