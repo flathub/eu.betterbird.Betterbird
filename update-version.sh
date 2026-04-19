@@ -127,7 +127,7 @@ while read -r line; do
 EOT
     fi
   fi
-done < <(curl -Ss "$base_url/SHA256SUMS" | grep "^\S\+  \(source\|$PLATFORM/xpi\)/")
+done < <(curl -fSs "$base_url/SHA256SUMS" | grep "^\S\+  \(source\|$PLATFORM/xpi\)/")
 
 # add source archive entry to sources file
 echo -e "$source_archive\n]" >>"$SOURCES_FILE"
