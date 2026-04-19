@@ -4,14 +4,16 @@ set -xeo pipefail
 script_args=()
 force=false
 private_mirror=false
+compute=false
 while [ $OPTIND -le "$#" ]
 do
-    if getopts fp option
+    if getopts fpc option
     then
         case $option
         in
           f) force=true;;
           p) private_mirror=true;;
+          c) compute=true;;
         esac
     else
         script_args+=("${!OPTIND}")
@@ -20,7 +22,7 @@ do
 done
 
 if ((${#script_args[@]} < 1)); then
-  echo "Usage: $0 [-f] [-p] BETTERBIRD_VERSION [BETTERBIRD_COMMIT]"
+  echo "Usage: $0 [-f] [-p] [-c] BETTERBIRD_VERSION [BETTERBIRD_COMMIT]"
   echo ""
   echo "Example: $0 102.2.2-bb16"
   echo "         $0 102 4d587481bc7dbca1ffc99cce319f84425fab7852"
@@ -28,6 +30,7 @@ if ((${#script_args[@]} < 1)); then
   echo "Options:"
   echo "  -f : Skip the check that the version given as script input and the version specified in the appdata.xml agree."
   echo "  -p : Replace upstream mirror of source tar.xz by private mirror."
+  echo "  -c : Compute checksums instead of reading from SHA256SUMS."
   exit 1
 fi
 
@@ -93,30 +96,65 @@ base_url="${source_archive%/source/*}"
 # write new sources file
 echo '[' >"$SOURCES_FILE"
 
-# read files from SHA256SUMS file
-while read -r line; do
-  checksum="${line%%  *}"
-  path="${line#*  }"
+source_archive_json=""
 
-  # store source archive entry for later, because it should be the last element
-  # in the json array
-  if [[ $path =~ ^source/ ]]; then
-    source_archive='    {
+if $compute; then
+  # download source archive and compute checksum
+  temp_source=$(mktemp)
+  curl -fSs "$source_archive" -o "$temp_source"
+  source_checksum=$(sha256sum "$temp_source" | awk '{print $1}')
+  rm "$temp_source"
+  source_archive_json='    {
+        "type": "archive",
+        "url": "'"$source_archive"'",
+        "sha256": "'"$source_checksum"'"
+    }'
+
+  # download and add XPI files for locales that have patcher scripts
+  for script in thunderbird-patches/${BETTERBIRD_VERSION%%.*}/scripts/*.sh; do
+    locale="${script##*/}"
+    locale="${locale%.sh}"
+    xpi_url="$base_url/$PLATFORM/xpi/$locale.xpi"
+    temp_xpi=$(mktemp)
+    if curl -fSs "$xpi_url" -o "$temp_xpi" 2>/dev/null; then
+      xpi_checksum=$(sha256sum "$temp_xpi" | awk '{print $1}')
+      rm "$temp_xpi"
+      cat >>"$SOURCES_FILE" <<EOT
+      {
+          "type": "file",
+          "url": "$xpi_url",
+          "sha256": "$xpi_checksum",
+          "dest": "langpacks/",
+          "dest-filename": "langpack-$locale@$PACKAGE.mozilla.org.xpi"
+      },
+EOT
+    fi
+  done
+else
+  # read files from SHA256SUMS file
+  curl -fSs "$base_url/SHA256SUMS" | grep "^\S\+  \(source\|$PLATFORM/xpi\)/" | while read -r line; do
+    checksum="${line%%  *}"
+    path="${line#*  }"
+
+    # store source archive entry for later, because it should be the last element
+    # in the json array
+    if [[ $path =~ ^source/ ]]; then
+      source_archive_json='    {
         "type": "archive",
         "url": "'"$base_url"'/'"$path"'",
         "sha256": "'"$checksum"'"
     }'
 
-  # add locale to sources file
-  else
-    # strip directories and .xpi extension
-    locale="${path##*/}"
-    locale="${locale%.*}"
+    # add locale to sources file
+    else
+      # strip directories and .xpi extension
+      locale="${path##*/}"
+      locale="${locale%.*}"
 
-    # include langpack only if there is a Betterbird patch for it
-    if [[ -f "thunderbird-patches/${BETTERBIRD_VERSION%%.*}/scripts/$locale.sh" ]]
-    then
-      cat >>"$SOURCES_FILE" <<EOT
+      # include langpack only if there is a Betterbird patch for it
+      if [[ -f "thunderbird-patches/${BETTERBIRD_VERSION%%.*}/scripts/$locale.sh" ]]
+      then
+        cat >>"$SOURCES_FILE" <<EOT
       {
           "type": "file",
           "url": "$base_url/$path",
@@ -125,12 +163,13 @@ while read -r line; do
           "dest-filename": "langpack-$locale@$PACKAGE.mozilla.org.xpi"
       },
 EOT
+      fi
     fi
-  fi
-done < <(curl -fSs "$base_url/SHA256SUMS" | grep "^\S\+  \(source\|$PLATFORM/xpi\)/")
+  done
+fi
 
 # add source archive entry to sources file
-echo -e "$source_archive\n]" >>"$SOURCES_FILE"
+echo -e "$source_archive_json\n]" >>"$SOURCES_FILE"
 
 # update betterbird release tag and commit in manifest
 yq -i '(.modules[] | select(.name=="betterbird") | .sources[] | select(.dest=="thunderbird-patches") | .commit) = "'$betterbird_commit'"' $MANIFEST_FILE
