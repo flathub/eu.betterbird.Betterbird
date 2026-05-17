@@ -132,6 +132,7 @@ if $compute; then
         "url": "'"$source_archive"'",
         "sha256": "'"$source_checksum"'"
     }'
+  $verbose && echo "  Source archive: $source_archive (SHA256: $source_checksum)"
 
   # download and add XPI files for locales that have patcher scripts
   $verbose && echo "  Checking language packs with patches..."
@@ -173,6 +174,7 @@ else
         "url": "'"$base_url"'/'"$path"'",
         "sha256": "'"$checksum"'"
     }'
+      $verbose && echo "  Source archive: $path (SHA256: $checksum)"
 
     # add locale to sources file
     else
