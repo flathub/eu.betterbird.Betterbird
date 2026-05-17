@@ -236,9 +236,15 @@ fi
 if $private_mirror
 then
   $verbose && echo "  Uploading source tarballs to private mirror..."
-  ssh srv5dl curl -C - --retry 5 --retry-all-errors -O --output-dir /srv/containers/dl $(cat thunderbird-sources.json | grep -Eo 'https://.*.source.tar.xz')
+  mapfile -t source_urls < <(jq -r '[.[] | select(.type == "archive") | .url] | .[]' "$SOURCES_FILE")
+  if ((${#source_urls[@]} == 0)); then
+    echo "ERROR: no source archive URLs found in $SOURCES_FILE. Aborting." >&2
+    exit 1
+  fi
+  $verbose && printf "    %s\n" "${source_urls[@]}"
+  ssh srv5dl curl -C - --retry 5 --retry-all-errors -O --output-dir /srv/containers/dl "${source_urls[@]}"
   $verbose && echo "  Rewriting URLs in $SOURCES_FILE to point to private mirror"
-  sed -E 's#https:\/\/archive\.mozilla\.org\/.*\/([^\/]+)\.source\.tar\.xz#https://dl.mfs.name/\1.source.tar.xz#' -i thunderbird-sources.json
+  sed -E 's#https:\/\/archive\.mozilla\.org\/.*\/([^\/]+)\.source\.tar\.xz#https://dl.mfs.name/\1.source.tar.xz#' -i "$SOURCES_FILE"
 fi
 
 cat <<EOT
