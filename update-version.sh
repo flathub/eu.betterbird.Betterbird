@@ -162,29 +162,22 @@ EOT
 else
   $verbose && echo "[step 5/7] Reading checksums from SHA256SUMS"
   # read files from SHA256SUMS file
-  curl -fSs "$base_url/SHA256SUMS" | grep "^\S\+  \(source\|$PLATFORM/xpi\)/" | while read -r line; do
-    checksum="${line%%  *}"
-    path="${line#*  }"
-
+  while read -r checksum path; do
     # store source archive entry for later, because it should be the last element
     # in the json array
-    if [[ $path =~ ^source/ ]]; then
-      source_archive_json='    {
-        "type": "archive",
-        "url": "'"$base_url"'/'"$path"'",
-        "sha256": "'"$checksum"'"
-    }'
-      $verbose && echo "  Source archive: $path (SHA256: $checksum)"
+    if [[ $path =~ ^(source|$PLATFORM/xpi)/ ]]; then
+      if [[ $path =~ ^source/ ]]; then
+        source_archive_json='    {
+          "type": "archive",
+          "url": "'"$base_url"'/'"$path"'",
+          "sha256": "'"$checksum"'"
+        }'
+        $verbose && echo "  Source archive: $path (SHA256: $checksum)"
+      else
+        # add locale to sources file
+        locale="${path##*/}"
+        locale="${locale%.*}"
 
-    # add locale to sources file
-    else
-      # strip directories and .xpi extension
-      locale="${path##*/}"
-      locale="${locale%.*}"
-
-      # include langpack only if there is a Betterbird patch for it
-      if [[ -f "thunderbird-patches/${BETTERBIRD_VERSION%%.*}/scripts/$locale.sh" ]]
-      then
         $verbose && echo "  Adding langpack: $locale (SHA256: $checksum)"
         cat >>"$SOURCES_FILE" <<EOT
       {
@@ -195,14 +188,23 @@ else
           "dest-filename": "langpack-$locale@$PACKAGE.mozilla.org.xpi"
       },
 EOT
-      else
+      fi
+    else
+      locale="${path##*/}"
+      locale="${locale%.*}"
+      if [[ -f "thunderbird-patches/${BETTERBIRD_VERSION%%.*}/scripts/$locale.sh" ]]; then
         $verbose && echo "  Skipping $locale — no matching patch script"
       fi
     fi
-  done
+  done < <(curl -fSs "$base_url/SHA256SUMS")
 fi
 
 # add source archive entry to sources file
+if [[ -z "$source_archive_json" ]]; then
+  echo "ERROR: source archive entry was not built by the SHA256SUMS loop (\$source_archive_json is empty). This is a script bug — the SHA256SUMS source path was not matched." >&2
+  echo "You can try rerunning with -c to compute checksums, or file an issue." >&2
+  exit 1
+fi
 echo -e "$source_archive_json\n]" >>"$SOURCES_FILE"
 $verbose && echo "  Done. Sources written to $SOURCES_FILE"
 
