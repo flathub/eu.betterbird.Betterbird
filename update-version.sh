@@ -173,11 +173,11 @@ else
           "sha256": "'"$checksum"'"
         }'
         $verbose && echo "  Source archive: $path (SHA256: $checksum)"
-      else
-        # add locale to sources file
-        locale="${path##*/}"
-        locale="${locale%.*}"
-
+else
+      # add locale to sources file only if patcher script exists
+      locale="${path##*/}"
+      locale="${locale%.*}"
+      if [[ -f "thunderbird-patches/${BETTERBIRD_VERSION%%.*}/scripts/$locale.sh" ]]; then
         $verbose && echo "  Adding langpack: $locale (SHA256: $checksum)"
         cat >>"$SOURCES_FILE" <<EOT
       {
@@ -188,11 +188,7 @@ else
           "dest-filename": "langpack-$locale@$PACKAGE.mozilla.org.xpi"
       },
 EOT
-      fi
-    else
-      locale="${path##*/}"
-      locale="${locale%.*}"
-      if [[ -f "thunderbird-patches/${BETTERBIRD_VERSION%%.*}/scripts/$locale.sh" ]]; then
+      else
         $verbose && echo "  Skipping $locale — no matching patch script"
       fi
     fi
