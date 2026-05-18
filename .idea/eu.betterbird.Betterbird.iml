@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/.env" />
+      <excludeFolder url="file://$MODULE_DIR$/.flatpak" />
+      <excludeFolder url="file://$MODULE_DIR$/.flatpak-builder" />
+      <excludeFolder url="file://$MODULE_DIR$/.jj" />
+      <excludeFolder url="file://$MODULE_DIR$/.pixi" />
+      <excludeFolder url="file://$MODULE_DIR$/.pixi/envs/default" />
+      <excludeFolder url="file://$MODULE_DIR$/build" />
+    </content>
+    <orderEntry type="jdk" jdkName="default" jdkType="Python SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="PyDocumentationSettings">
+    <option name="format" value="PLAIN" />
+    <option name="myDocStringFormat" value="Plain" />
+  </component>
+  <component name="TestRunnerService">
+    <option name="PROJECT_TEST_RUNNER" value="py.test" />
+  </component>
+</module>

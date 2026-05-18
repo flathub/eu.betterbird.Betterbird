@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/flatpak-builder-tools" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/shared-modules" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/thunderbird-patches" vcs="Git" />
+  </component>
+</project>
