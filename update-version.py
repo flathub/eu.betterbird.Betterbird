@@ -30,17 +30,19 @@ KNOWN_TAGS_FILE = ".known-tags"
 
 from typing import Union, Optional
 
+
 def log_verbose(verbose: bool, msg: str) -> None:
     """Print a progress message only when verbose mode is enabled."""
     if verbose:
         print(msg)
 
 
-def run_cmd(cmd, cwd=None, check=True, capture=False, text=False) -> str:
+def run_cmd(cmd, cwd:Optional[Path]=None, check=True, capture=False, text=False) -> str:
     """Run a shell command."""
+    if not cwd:
+        cwd = os.path.dirname(__file__)
     result = subprocess.run(
-        cmd, shell=True, cwd=cwd, check=check,
-        capture_output=capture, text=text
+        cmd, shell=True, cwd=cwd, check=check, capture_output=capture, text=text
     )
     if capture:
         return result.stdout.strip()
@@ -51,29 +53,53 @@ def parse_args():
     parser = argparse.ArgumentParser(
         description="Update Betterbird version",
         epilog=f"Example: {sys.argv[0]} 102.2.2-bb16\n"
-               f"         {sys.argv[0]} 102 4d587481bc7dbca1ffc99cce319f84425fab7852"
+        f"         {sys.argv[0]} 102 4d587481bc7dbca1ffc99cce319f84425fab7852",
     )
     parser.add_argument("version", help="Betterbird version (tag or major version)")
-    parser.add_argument("commit", nargs="?", help="Betterbird commit hash (required if version is major version only)")
-    parser.add_argument("-f", "--force", action="store_true", help="Skip version check from appdata.xml")
-    parser.add_argument("-p", "--private-mirror", action="store_true", help="Replace upstream mirror with private mirror")
-    parser.add_argument("-c", "--self-contained", action="store_true",
-                        help="Download source and XPI files directly to compute SHA256 hashes (skip SHA256SUMS file)")
-    parser.add_argument("-v", "--verbose", action="store_true",
-                        help="Verbose: print progress messages for each step")
+    parser.add_argument(
+        "commit",
+        nargs="?",
+        help="Betterbird commit hash (required if version is major version only)",
+    )
+    parser.add_argument(
+        "-f", "--force", action="store_true", help="Skip version check from appdata.xml"
+    )
+    parser.add_argument(
+        "-p",
+        "--private-mirror",
+        action="store_true",
+        help="Replace upstream mirror with private mirror",
+    )
+    parser.add_argument(
+        "-c",
+        "--self-contained",
+        action="store_true",
+        help="Download source and XPI files directly to compute SHA256 hashes (skip SHA256SUMS file)",
+    )
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        help="Verbose: print progress messages for each step",
+    )
     return parser.parse_args()
 
 
 def ensure_repo(verbose: bool = False):
     """Clone or update the Betterbird repository."""
     if Path("thunderbird-patches").exists():
-        log_verbose(verbose, "[step 1/7] thunderbird-patches: repo exists, resetting to HEAD and fetching updates…")
+        log_verbose(
+            verbose,
+            "[step 1/7] thunderbird-patches: repo exists, resetting to HEAD and fetching updates…",
+        )
         log_verbose(verbose, "  Running: git reset --hard HEAD")
         run_cmd("git reset --hard HEAD", cwd="thunderbird-patches")
         log_verbose(verbose, "  Running: git fetch")
         run_cmd("git fetch", cwd="thunderbird-patches")
     else:
-        log_verbose(verbose, f"[step 1/7] thunderbird-patches: cloning {BETTERBIRD_REPO}…")
+        log_verbose(
+            verbose, f"[step 1/7] thunderbird-patches: cloning {BETTERBIRD_REPO}…"
+        )
         run_cmd(f"git clone -n {BETTERBIRD_REPO} thunderbird-patches")
 
 
@@ -81,10 +107,20 @@ def get_commit(version=None, commit=None, verbose: bool = False):
     """Checkout the specified commit and return its hash."""
     if commit:
         log_verbose(verbose, f"  Resolving commit '{commit}' to SHA…")
-        betterbird_commit = run_cmd(f"git rev-list -1 {commit}", cwd="thunderbird-patches", capture=True, text=True)
+        betterbird_commit = run_cmd(
+            f"git rev-list -1 {commit}",
+            cwd="thunderbird-patches",
+            capture=True,
+            text=True,
+        )
     else:
         log_verbose(verbose, f"  Resolving tag '{version}' to SHA…")
-        betterbird_commit = run_cmd(f"git rev-list -1 {version}", cwd="thunderbird-patches", capture=True, text=True)
+        betterbird_commit = run_cmd(
+            f"git rev-list -1 {version}",
+            cwd="thunderbird-patches",
+            capture=True,
+            text=True,
+        )
     log_verbose(verbose, f"  Checking out commit {betterbird_commit}")
     run_cmd(f"git checkout {betterbird_commit}", cwd="thunderbird-patches")
     return betterbird_commit
@@ -102,7 +138,9 @@ def get_appdata_version():
 def get_appdata_source_location():
     """Extract the full source artifact location URL from appdata.xml."""
     content = Path(APPDATA_FILE).read_text()
-    match = re.search(r'<artifact type="source">\s*<location>([^<]+)</location>', content, re.DOTALL)
+    match = re.search(
+        r'<artifact type="source">\s*<location>([^<]+)</location>', content, re.DOTALL
+    )
     if match:
         return match.group(1)
     return None
@@ -113,7 +151,7 @@ def get_base_url():
     source_archive = get_appdata_source_location()
     if source_archive:
         # Remove the "/source/…" suffix to get base URL
-        return re.sub(r'/source/.*$', '', source_archive)
+        return re.sub(r"/source/.*$", "", source_archive)
     return None
 
 
@@ -134,7 +172,9 @@ def update_sources_file(base_url, betterbird_version, verbose: bool = False):
     log_verbose(verbose, "[step 5/7] Reading checksums from SHA256SUMS")
 
     # Get SHA256SUMS content
-    sha256_output = run_cmd(f"curl -Ss '{base_url}/SHA256SUMS'", capture=True, text=True)
+    sha256_output = run_cmd(
+        f"curl -Ss '{base_url}/SHA256SUMS'", capture=True, text=True
+    )
 
     entries = []
     source_archive = None
@@ -155,24 +195,33 @@ def update_sources_file(base_url, betterbird_version, verbose: bool = False):
 
             # Check if Betterbird has a patch for this locale
             major_version = betterbird_version.split(".")[0]
-            patch_script = Path(f"thunderbird-patches/{major_version}/scripts/{locale}.sh")
+            patch_script = Path(
+                f"thunderbird-patches/{major_version}/scripts/{locale}.sh"
+            )
             if patch_script.exists():
                 langpack_count += 1
-                log_verbose(verbose, f"  [{langpack_count}] {locale} (SHA256: {checksum})")
-                entries.append({
-                    "type": "file",
-                    "url": f"{base_url}/{path}",
-                    "sha256": checksum,
-                    "dest": "langpacks/",
-                    "dest-filename": f"langpack-{locale}@{PACKAGE}.mozilla.org.xpi"
-                })
+                log_verbose(
+                    verbose, f"  [{langpack_count}] {locale} (SHA256: {checksum})"
+                )
+                entries.append(
+                    {
+                        "type": "file",
+                        "url": f"{base_url}/{path}",
+                        "sha256": checksum,
+                        "dest": "langpacks/",
+                        "dest-filename": f"langpack-{locale}@{PACKAGE}.mozilla.org.xpi",
+                    }
+                )
             else:
-                log_verbose(verbose, f"  [{langpack_count + 1}] {locale} — skipping, no patch script")
+                log_verbose(
+                    verbose,
+                    f"  [{langpack_count + 1}] {locale} — skipping, no patch script",
+                )
         elif path.startswith("source/"):
             source_archive = {
                 "type": "archive",
                 "url": f"{base_url}/{path}",
-                "sha256": checksum
+                "sha256": checksum,
             }
             log_verbose(verbose, f"  Source archive: {path} (SHA256: {checksum})")
 
@@ -193,40 +242,58 @@ def update_sources_file(base_url, betterbird_version, verbose: bool = False):
     log_verbose(verbose, f"  Done. Sources written to {SOURCES_FILE}")
 
 
-def update_manifest(betterbird_commit, source_spec, betterbird_version, verbose: bool = False):
+def update_manifest(
+    betterbird_commit, source_spec, betterbird_version, verbose: bool = False
+):
     """Update manifest YAML using PyYAML."""
     if yaml is None:
-        raise ImportError("PyYAML is required for update_manifest. Install with: pip install pyyaml")
+        raise ImportError(
+            "PyYAML is required for update_manifest. Install with: pip install pyyaml"
+        )
 
-    log_verbose(verbose, f"[step 6/7] Updating {MANIFEST_FILE} (commit: {betterbird_commit}, source_spec: {source_spec})")
+    log_verbose(
+        verbose,
+        f"[step 6/7] Updating {MANIFEST_FILE} (commit: {betterbird_commit}, source_spec: {source_spec})",
+    )
 
-    with open(MANIFEST_FILE, "r") as f:
+    manifest_file = os.path.join(os.path.dirname(__file__), MANIFEST_FILE)
+    with open(manifest_file, "r") as f:
         manifest = yaml.safe_load(f)
 
     # Find the betterbird module
     for module in manifest.get("modules", []):
-        if module.get("name") == "betterbird":
+        if isinstance(module, dict) and module.get("name") == "betterbird":
             for source in module.get("sources", []):
-                if source.get("dest") == "thunderbird-patches":
+                if isinstance(source, dict) and source.get("dest") == "thunderbird-patches":
                     source["commit"] = betterbird_commit
                     if source_spec == "tag":
-                        log_verbose(verbose, f"  Setting tag in manifest to {betterbird_version}")
+                        log_verbose(
+                            verbose,
+                            f"  Setting tag in manifest to {betterbird_version}",
+                        )
                         source["tag"] = betterbird_version
                     else:
-                        log_verbose(verbose, "  Removing tag from manifest (commit-based update)")
+                        log_verbose(
+                            verbose,
+                            "  Removing tag from manifest (commit-based update)",
+                        )
                         source.pop("tag", None)
                     break
             break
 
-    with open(MANIFEST_FILE, "w") as f:
+    with open(manifest_file, "w") as f:
         yaml.dump(manifest, f, default_flow_style=False, sort_keys=False)
 
 
 def update_distribution_ini(betterbird_commit, verbose: bool = False):
     """Update version in distribution.ini."""
-    short_commit = run_cmd(f"git rev-parse --short {betterbird_commit}", capture=True, text=True)
-    log_verbose(verbose, f"[step 7/7] Updating version in {DIST_FILE} to {short_commit}")
-    sed_expr = f's/version=.*$/version={short_commit}/'
+    short_commit = run_cmd(
+        f"git rev-parse --short {betterbird_commit}", capture=True, text=True
+    )
+    log_verbose(
+        verbose, f"[step 7/7] Updating version in {DIST_FILE} to {short_commit}"
+    )
+    sed_expr = f"s/version=.*$/version={short_commit}/"
     run_cmd(f"sed -i '{sed_expr}' '{DIST_FILE}'")
 
 
@@ -255,24 +322,31 @@ def handle_private_mirror(betterbird_version, verbose: bool = False):
     urls = [entry["url"] for entry in data if entry["type"] == "archive"]
 
     if not urls:
-        print("ERROR: no source archive URLs found in sources file. Aborting.", file=sys.stderr)
+        print(
+            "ERROR: no source archive URLs found in sources file. Aborting.",
+            file=sys.stderr,
+        )
         sys.exit(1)
 
     log_verbose(verbose, "    " + "\n    ".join(urls))
 
     for url in urls:
-        run_cmd(f'ssh srv5dl "curl -C - --retry 5 --retry-all-errors -O --output-dir /srv/containers/dl {url}"')
+        run_cmd(
+            f'ssh srv5dl "curl -C - --retry 5 --retry-all-errors -O --output-dir /srv/containers/dl {url}"'
+        )
 
-    log_verbose(verbose, f"  Rewriting URLs in {SOURCES_FILE} to point to private mirror")
+    log_verbose(
+        verbose, f"  Rewriting URLs in {SOURCES_FILE} to point to private mirror"
+    )
 
     # Replace URLs in sources.json
     with open(SOURCES_FILE, "r") as f:
         content = f.read()
 
     new_content = re.sub(
-        r'https://archive\.mozilla\.org/.*/([^/]+)\.source\.tar\.xz',
-        r'https://dl.mfs.name/\1.source.tar.xz',
-        content
+        r"https://archive\.mozilla\.org/.*/([^/]+)\.source\.tar\.xz",
+        r"https://dl.mfs.name/\1.source.tar.xz",
+        content,
     )
 
     with open(SOURCES_FILE, "w") as f:
@@ -296,7 +370,7 @@ def self_contained_update_sources(base_url, betterbird_version, verbose: bool = 
     source_archive_entry = {
         "type": "archive",
         "url": source_url,
-        "sha256": source_checksum
+        "sha256": source_checksum,
     }
 
     entries = []
@@ -315,16 +389,23 @@ def self_contained_update_sources(base_url, betterbird_version, verbose: bool = 
                 try:
                     sha256 = compute_sha256(xpi_url)
                     locale_count += 1
-                    log_verbose(verbose, f"  [{locale_count}] {locale} (SHA256: {sha256})")
-                    entries.append({
-                        "type": "file",
-                        "url": xpi_url,
-                        "sha256": sha256,
-                        "dest": "langpacks/",
-                        "dest-filename": f"langpack-{locale}@{PACKAGE}.mozilla.org.xpi"
-                    })
+                    log_verbose(
+                        verbose, f"  [{locale_count}] {locale} (SHA256: {sha256})"
+                    )
+                    entries.append(
+                        {
+                            "type": "file",
+                            "url": xpi_url,
+                            "sha256": sha256,
+                            "dest": "langpacks/",
+                            "dest-filename": f"langpack-{locale}@{PACKAGE}.mozilla.org.xpi",
+                        }
+                    )
                 except Exception as exc:
-                    log_verbose(verbose, f"  [{locale_count + 1}] {locale} — not available, skipping ({exc})")
+                    log_verbose(
+                        verbose,
+                        f"  [{locale_count + 1}] {locale} — not available, skipping ({exc})",
+                    )
 
     # Write JSON array with source archive last
     with open(SOURCES_FILE, "w") as f:
@@ -350,17 +431,22 @@ def main():
     else:
         source_spec = "tag"
 
-    log_verbose(verbose, f"[update-version.py] Parsed args: BETTERBIRD_VERSION={betterbird_version}, "
-               f"BETTERBIRD_COMMIT={betterbird_commit or '<none>'}, "
-               f"force={args.force}, private_mirror={args.private_mirror}, "
-               f"self_contained={args.self_contained}, verbose={verbose}")
+    log_verbose(
+        verbose,
+        f"[update-version.py] Parsed args: BETTERBIRD_VERSION={betterbird_version}, "
+        f"BETTERBIRD_COMMIT={betterbird_commit or '<none>'}, "
+        f"force={args.force}, private_mirror={args.private_mirror}, "
+        f"self_contained={args.self_contained}, verbose={verbose}",
+    )
 
     print()
     if source_spec == "tag":
         print(f"Updating to TAG {betterbird_version}")
     else:
         print(f"Updating to COMMIT {betterbird_commit}")
-    print(f" using Betterbird patches for Thunderbird {betterbird_version.split('.')[0]}")
+    print(
+        f" using Betterbird patches for Thunderbird {betterbird_version.split('.')[0]}"
+    )
     print()
 
     # Clone/update repo
@@ -370,22 +456,30 @@ def main():
     betterbird_commit = get_commit(
         betterbird_version if source_spec == "tag" else None,
         betterbird_commit,
-        verbose=verbose
+        verbose=verbose,
     )
     os.chdir("..")
     log_verbose(verbose, f"  thunderbird-patches ready at {betterbird_commit}")
 
     # Version check from appdata.xml
     if source_spec == "tag" and not args.force:
-        log_verbose(verbose, f"[step 2/7] Checking version agreement between CLI input and {APPDATA_FILE}")
+        log_verbose(
+            verbose,
+            f"[step 2/7] Checking version agreement between CLI input and {APPDATA_FILE}",
+        )
         appdata_version = get_appdata_version()
         if appdata_version:
-            log_verbose(verbose, f"  CLI version: {betterbird_version}  |  appdata.xml version: {appdata_version}")
+            log_verbose(
+                verbose,
+                f"  CLI version: {betterbird_version}  |  appdata.xml version: {appdata_version}",
+            )
         else:
             log_verbose(verbose, f"  Could not read version from {APPDATA_FILE}")
         if appdata_version and not betterbird_version.startswith(appdata_version):
-            print(f"Betterbird version given on command line ({betterbird_version}) "
-                  f"and version according to {APPDATA_FILE} ({appdata_version}) don't agree. Stopping.")
+            print(
+                f"Betterbird version given on command line ({betterbird_version}) "
+                f"and version according to {APPDATA_FILE} ({appdata_version}) don't agree. Stopping."
+            )
             print(f"Hint: This check can be skipped by passing the -f flag.")
             sys.exit(1)
         log_verbose(verbose, "  Versions agree.")
