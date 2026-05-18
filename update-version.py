@@ -7,14 +7,12 @@ import os
 import re
 import subprocess
 import sys
+import git
+import yaml
 from datetime import datetime
 from pathlib import Path
 from urllib.request import urlopen
-
-try:
-    import yaml
-except ImportError:
-    yaml = None
+from typing import Optional
 
 # Configuration
 BETTERBIRD_REPO = "https://github.com/Betterbird/thunderbird-patches"
@@ -26,10 +24,6 @@ MANIFEST_FILE = "eu.betterbird.Betterbird.yml"
 DIST_FILE = "distribution.ini"
 BUILD_DATE_FILE = ".build-date"
 KNOWN_TAGS_FILE = ".known-tags"
-
-
-from typing import Union, Optional
-
 
 def log_verbose(verbose: bool, msg: str) -> None:
     """Print a progress message only when verbose mode is enabled."""
@@ -93,36 +87,28 @@ def ensure_repo(verbose: bool = False):
             "[step 1/7] thunderbird-patches: repo exists, resetting to HEAD and fetching updates…",
         )
         log_verbose(verbose, "  Running: git reset --hard HEAD")
-        run_cmd("git reset --hard HEAD", cwd="thunderbird-patches")
+        repo = git.Repo("thunderbird-patches")
+        repo.git.reset("--hard", "HEAD")
         log_verbose(verbose, "  Running: git fetch")
-        run_cmd("git fetch", cwd="thunderbird-patches")
+        repo.remotes.origin.fetch()
     else:
         log_verbose(
             verbose, f"[step 1/7] thunderbird-patches: cloning {BETTERBIRD_REPO}…"
         )
-        run_cmd(f"git clone -n {BETTERBIRD_REPO} thunderbird-patches")
+        git.Repo.clone_from(BETTERBIRD_REPO, "thunderbird-patches", no_checkout=True)
 
 
 def get_commit(version=None, commit=None, verbose: bool = False):
     """Checkout the specified commit and return its hash."""
+    repo = git.Repo("thunderbird-patches")
     if commit:
         log_verbose(verbose, f"  Resolving commit '{commit}' to SHA…")
-        betterbird_commit = run_cmd(
-            f"git rev-list -1 {commit}",
-            cwd="thunderbird-patches",
-            capture=True,
-            text=True,
-        )
+        betterbird_commit = repo.rev_parse(commit).hexsha
     else:
         log_verbose(verbose, f"  Resolving tag '{version}' to SHA…")
-        betterbird_commit = run_cmd(
-            f"git rev-list -1 {version}",
-            cwd="thunderbird-patches",
-            capture=True,
-            text=True,
-        )
+        betterbird_commit = repo.rev_parse(version).hexsha
     log_verbose(verbose, f"  Checking out commit {betterbird_commit}")
-    run_cmd(f"git checkout {betterbird_commit}", cwd="thunderbird-patches")
+    repo.git.checkout(betterbird_commit)
     return betterbird_commit
 
 
@@ -172,9 +158,8 @@ def update_sources_file(base_url, betterbird_version, verbose: bool = False):
     log_verbose(verbose, "[step 5/7] Reading checksums from SHA256SUMS")
 
     # Get SHA256SUMS content
-    sha256_output = run_cmd(
-        f"curl -Ss '{base_url}/SHA256SUMS'", capture=True, text=True
-    )
+    with urlopen(f"{base_url}/SHA256SUMS") as response:
+        sha256_output = response.read().decode()
 
     entries = []
     source_archive = None
@@ -246,11 +231,6 @@ def update_manifest(
     betterbird_commit, source_spec, betterbird_version, verbose: bool = False
 ):
     """Update manifest YAML using PyYAML."""
-    if yaml is None:
-        raise ImportError(
-            "PyYAML is required for update_manifest. Install with: pip install pyyaml"
-        )
-
     log_verbose(
         verbose,
         f"[step 6/7] Updating {MANIFEST_FILE} (commit: {betterbird_commit}, source_spec: {source_spec})",
@@ -287,14 +267,15 @@ def update_manifest(
 
 def update_distribution_ini(betterbird_commit, verbose: bool = False):
     """Update version in distribution.ini."""
-    short_commit = run_cmd(
-        f"git rev-parse --short {betterbird_commit}", capture=True, text=True
-    )
+    repo = git.Repo("thunderbird-patches")
+    short_commit = repo.rev_parse(betterbird_commit).hexsha[:7]
     log_verbose(
         verbose, f"[step 7/7] Updating version in {DIST_FILE} to {short_commit}"
     )
-    sed_expr = f"s/version=.*$/version={short_commit}/"
-    run_cmd(f"sed -i '{sed_expr}' '{DIST_FILE}'")
+    dist_path = Path(DIST_FILE)
+    content = dist_path.read_text()
+    content = re.sub(r"^version=.*$", f"version={short_commit}", content, flags=re.MULTILINE)
+    dist_path.write_text(content)
 
 
 def update_known_tags(betterbird_version, verbose: bool = False):
@@ -458,7 +439,6 @@ def main():
         betterbird_commit,
         verbose=verbose,
     )
-    os.chdir("..")
     log_verbose(verbose, f"  thunderbird-patches ready at {betterbird_commit}")
 
     # Version check from appdata.xml
@@ -480,13 +460,12 @@ def main():
                 f"Betterbird version given on command line ({betterbird_version}) "
                 f"and version according to {APPDATA_FILE} ({appdata_version}) don't agree. Stopping."
             )
-            print(f"Hint: This check can be skipped by passing the -f flag.")
+            print("Hint: This check can be skipped by passing the -f flag.")
             sys.exit(1)
         log_verbose(verbose, "  Versions agree.")
 
     # Save build date
     log_verbose(verbose, "[step 3/7] Writing build date to .build-date")
-    tz = os.environ.get("TZ", "Europe/Berlin")
     build_date = datetime.now().astimezone().strftime("%Y%m%d%H%M%S")
     Path(BUILD_DATE_FILE).write_text(build_date + "\n")
 
