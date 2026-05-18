@@ -238,7 +238,19 @@ def update_manifest(
 
     manifest_file = os.path.join(os.path.dirname(__file__), MANIFEST_FILE)
     with open(manifest_file, "r") as f:
-        manifest = yaml.safe_load(f)
+        raw_content = f.read()
+
+    # Preserve leading comment lines (e.g. # yaml-language-server: $schema=…)
+    leading_comments = []
+    body_start = 0
+    for line in raw_content.splitlines(True):
+        if line.startswith("#"):
+            leading_comments.append(line)
+            body_start += len(line)
+        else:
+            break
+
+    manifest = yaml.safe_load(raw_content[body_start:])
 
     # Find the betterbird module
     for module in manifest.get("modules", []):
@@ -261,8 +273,13 @@ def update_manifest(
                     break
             break
 
+    import io
+    output = io.StringIO()
+    yaml.dump(manifest, output, default_flow_style=False, sort_keys=False)
+    new_content = "".join(leading_comments) + output.getvalue()
+
     with open(manifest_file, "w") as f:
-        yaml.dump(manifest, f, default_flow_style=False, sort_keys=False)
+        f.write(new_content)
 
 
 def update_distribution_ini(betterbird_commit, verbose: bool = False):
