@@ -217,12 +217,10 @@ def update_sources_file(base_url, betterbird_version, verbose: bool = False):
         )
 
     # Write JSON array with source archive last
+    all_entries = entries + [source_archive]
     with open(SOURCES_FILE, "w") as f:
-        f.write("[\n")
-        for entry in entries:
-            f.write(f"    {json.dumps(entry, indent=8)[8:]},\n")
-        f.write(f"    {json.dumps(source_archive, indent=8)[8:]}\n")
-        f.write("]\n")
+        json.dump(all_entries, f, indent=4)
+        f.write("\n")
 
     log_verbose(verbose, f"  Done. Sources written to {SOURCES_FILE}")
 
@@ -406,12 +404,10 @@ def self_contained_update_sources(base_url, betterbird_version, verbose: bool = 
                     )
 
     # Write JSON array with source archive last
+    all_entries = entries + [source_archive_entry]
     with open(SOURCES_FILE, "w") as f:
-        f.write("[\n")
-        for entry in entries:
-            f.write(f"    {json.dumps(entry, indent=8)[8:]},\n")
-        f.write(f"    {json.dumps(source_archive_entry, indent=8)[8:]}\n")
-        f.write("]\n")
+        json.dump(all_entries, f, indent=4)
+        f.write("\n")
 
     log_verbose(verbose, f"  Done. Sources written to {SOURCES_FILE}")
 
