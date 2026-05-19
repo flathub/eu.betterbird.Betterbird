@@ -16,6 +16,10 @@ from typing import Optional
 
 # Configuration
 BETTERBIRD_REPO = "https://github.com/Betterbird/thunderbird-patches"
+FLATHUB_REPO = "https://github.com/flathub/eu.betterbird.Betterbird"
+FLATHUB_DIR = "eu.betterbird.Betterbird"
+PATCHES_DIR = "thunderbird-patches"
+RESULT_FILE = ".auto-update-result"
 PACKAGE = "thunderbird"
 PLATFORM = "linux-x86_64"
 SOURCES_FILE = f"{PACKAGE}-sources.json"
@@ -49,7 +53,7 @@ def parse_args():
         epilog=f"Example: {sys.argv[0]} 102.2.2-bb16\n"
         f"         {sys.argv[0]} 102 4d587481bc7dbca1ffc99cce319f84425fab7852",
     )
-    parser.add_argument("version", help="Betterbird version (tag or major version)")
+    parser.add_argument("version", nargs="?", help="Betterbird version (tag or major version)")
     parser.add_argument(
         "commit",
         nargs="?",
@@ -75,6 +79,19 @@ def parse_args():
         "--verbose",
         action="store_true",
         help="Verbose: print progress messages for each step",
+    )
+    parser.add_argument(
+        "--auto",
+        nargs="?",
+        const="",
+        metavar="MAJOR_RELEASE",
+        help="Automated mode: discover new tags, update, commit, push, and create a PR. "
+        "Optionally pass the major release number to filter tags.",
+    )
+    parser.add_argument(
+        "--branch",
+        default="master",
+        help="Target branch for the PR (default: master)",
     )
     return parser.parse_args()
 
@@ -412,9 +429,193 @@ def self_contained_update_sources(base_url, betterbird_version, verbose: bool = 
     log_verbose(verbose, f"  Done. Sources written to {SOURCES_FILE}")
 
 
+def setup_repos(flathub_repo: str, verbose: bool = False):
+    """Clone or update the flathub repo and thunderbird-patches."""
+
+    # Clone/update flathub repo
+    if Path(FLATHUB_DIR).exists():
+        log_verbose(
+            verbose,
+            f"[auto] {FLATHUB_DIR}: repo exists, resetting to HEAD and fetching updates…",
+        )
+        repo = git.Repo(FLATHUB_DIR)
+        repo.git.reset("--hard", "HEAD")
+        repo.remotes.origin.fetch()
+    else:
+        log_verbose(
+            verbose, f"[auto] {FLATHUB_DIR}: cloning {flathub_repo}…"
+        )
+        git.Repo.clone_from(flathub_repo, FLATHUB_DIR)
+
+    os.chdir(FLATHUB_DIR)
+
+    # Clone/update thunderbird-patches
+    if Path(PATCHES_DIR).exists():
+        log_verbose(
+            verbose,
+            f"[auto] {PATCHES_DIR}: repo exists, resetting to HEAD and fetching updates…",
+        )
+        repo = git.Repo(PATCHES_DIR)
+        repo.git.reset("--hard", "HEAD")
+        repo.remotes.origin.fetch()
+    else:
+        log_verbose(
+            verbose, f"[auto] {PATCHES_DIR}: cloning {BETTERBIRD_REPO}…"
+        )
+        git.Repo.clone_from(BETTERBIRD_REPO, PATCHES_DIR)
+
+
+def find_new_tags(patches_dir: str, known_tags_file: str, verbose: bool = False):
+    """Return tags in thunderbird-patches that are not in .known-tags."""
+    patches_repo = git.Repo(patches_dir)
+    all_tags = sorted(tag.name for tag in patches_repo.tags)
+
+    known_tags = set()
+    if Path(known_tags_file).exists():
+        known_tags = set(Path(known_tags_file).read_text().splitlines())
+
+    new_tags = [t for t in all_tags if t not in known_tags]
+    if verbose and new_tags:
+        log_verbose(verbose, f"[auto] New tags: {', '.join(new_tags)}")
+    return new_tags
+
+
+def auto_update(major_release: str, target_branch: str, verbose: bool = False):
+    """Run automated update: discover new tags, update, commit, push, create PR."""
+
+    # Setup repos
+    setup_repos(FLATHUB_REPO, verbose=verbose)
+
+    # Find new tags
+    new_tags = find_new_tags(PATCHES_DIR, KNOWN_TAGS_FILE, verbose=verbose)
+    if not new_tags:
+        print("No new tags found.")
+        Path(RESULT_FILE).write_text("version_updated=false\n")
+        return
+
+    # Filter by major release
+    target_tag = None
+    for tag in new_tags:
+        tag_major = tag.split(".")[0]
+        if tag_major == major_release:
+            target_tag = tag
+            break
+        else:
+            log_verbose(
+                verbose,
+                f"[auto] Skipping {tag}: major version {tag_major} does not match {major_release}",
+            )
+
+    if not target_tag:
+        print(f"No new tags found for major release {major_release}.")
+        Path(RESULT_FILE).write_text("version_updated=false\n")
+        return
+
+    # Check if update branch already exists
+    flathub_repo_git = git.Repo(FLATHUB_DIR)
+    existing_branch = flathub_repo_git.git.ls_remote(
+        "--heads", "origin", f"update-{target_tag}"
+    ).strip()
+    if existing_branch:
+        log_verbose(
+            verbose,
+            f"[auto] Skipping: branch update-{target_tag} already exists",
+        )
+        Path(RESULT_FILE).write_text("version_updated=false\n")
+        return
+
+    # Run the version update
+    log_verbose(verbose, f"[auto] Updating to {target_tag}…")
+    ensure_repo(verbose=verbose)
+    betterbird_commit = get_commit(target_tag, None, verbose=verbose)
+
+    # Save build date
+    build_date = datetime.now().astimezone().strftime("%Y%m%d%H%M%S")
+    Path(BUILD_DATE_FILE).write_text(build_date + "\n")
+
+    # Get base URL and update sources
+    base_url = get_base_url()
+    if not base_url:
+        print(f"Error: Could not extract base URL from {APPDATA_FILE}")
+        Path(RESULT_FILE).write_text("version_updated=false\n")
+        return
+
+    update_sources_file(base_url, target_tag, verbose=verbose)
+    update_manifest(betterbird_commit, "tag", target_tag, verbose=verbose)
+    update_distribution_ini(betterbird_commit, verbose=verbose)
+    update_known_tags(target_tag, verbose=verbose)
+
+    # Update .known-tags in flathub repo
+    Path(KNOWN_TAGS_FILE).write_text(
+        "\n".join(sorted(set(
+            (Path(KNOWN_TAGS_FILE).read_text().splitlines() if Path(KNOWN_TAGS_FILE).exists() else [])
+            + list(new_tags)
+        ))) + "\n"
+    )
+
+    # Commit and push
+    update_branch = f"update-{target_tag}"
+    log_verbose(verbose, f"[auto] Creating branch {update_branch}…")
+    flathub_repo_git.git.switch("-c", update_branch)
+    flathub_repo_git.git.add(
+        MANIFEST_FILE, SOURCES_FILE, DIST_FILE, BUILD_DATE_FILE, KNOWN_TAGS_FILE
+    )
+    flathub_repo_git.git.commit(
+        "-m", f"Update to {target_tag}",
+        "--", MANIFEST_FILE, SOURCES_FILE, DIST_FILE, BUILD_DATE_FILE, KNOWN_TAGS_FILE
+    )
+    log_verbose(verbose, f"[auto] Pushing {update_branch}…")
+    flathub_repo_git.remotes.origin.push(update_branch)
+
+    # Create PR
+    log_verbose(verbose, f"[auto] Creating PR…")
+    if target_branch in ("master", "beta"):
+        subprocess.run(
+            ["gh", "pr", "create", "--fill", "--base", target_branch],
+            check=True,
+        )
+    else:
+        subprocess.run(
+            ["gh", "pr", "create", "--fill", "--title", f"Release {target_tag}"],
+            check=True,
+        )
+
+    # Switch back to target branch
+    flathub_repo_git.git.switch(target_branch)
+    flathub_repo_git.git.branch("-D", update_branch)
+
+    # Write result
+    Path(RESULT_FILE).write_text(f"version_updated=true\nnew_version={target_tag}\n")
+    print(f"Successfully updated to {target_tag} and created PR.")
+
+
 def main():
     args = parse_args()
     verbose = args.verbose
+
+    # --auto mode: automated CI/CD workflow
+    if args.auto is not None:
+        major_release :Optional[str] = args.auto if args.auto else None
+        if not major_release:
+            print("Usage: update-version.py --auto [MAJOR_RELEASE]")
+            print("")
+            print("Example: update-version.py --auto 140")
+            sys.exit(1)
+        auto_update(major_release, args.branch, verbose=verbose)
+        return
+
+    betterbird_version = args.version
+    betterbird_commit = args.commit
+
+    if not betterbird_version:
+        print("Usage: update-version.py [-f] [-p] [-c] [-v] BETTERBIRD_VERSION [BETTERBIRD_COMMIT]")
+        print("       update-version.py --auto [MAJOR_RELEASE]")
+        print("")
+        print("Examples:")
+        print("  update-version.py 102.2.2-bb16")
+        print("  update-version.py 102 4d587481bc7dbca1ffc99cce319f84425fab7852")
+        print("  update-version.py --auto 140")
+        sys.exit(1)
 
     betterbird_version = args.version
     betterbird_commit = args.commit
