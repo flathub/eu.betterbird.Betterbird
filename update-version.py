@@ -15,19 +15,20 @@ from urllib.request import urlopen
 from typing import Optional
 
 # Configuration
+SCRIPT_DIR = Path(__file__).parent
 BETTERBIRD_REPO = "https://github.com/Betterbird/thunderbird-patches"
 FLATHUB_REPO = "https://github.com/flathub/eu.betterbird.Betterbird"
-FLATHUB_DIR = "eu.betterbird.Betterbird"
-PATCHES_DIR = "thunderbird-patches"
-RESULT_FILE = ".auto-update-result"
+FLATHUB_DIR = SCRIPT_DIR
+PATCHES_DIR = SCRIPT_DIR / "thunderbird-patches"
+RESULT_FILE = SCRIPT_DIR / ".auto-update-result"
 PACKAGE = "thunderbird"
 PLATFORM = "linux-x86_64"
-SOURCES_FILE = f"{PACKAGE}-sources.json"
-APPDATA_FILE = "thunderbird-patches/metadata/eu.betterbird.Betterbird.140.appdata.xml"
-MANIFEST_FILE = "eu.betterbird.Betterbird.yml"
-DIST_FILE = "distribution.ini"
-BUILD_DATE_FILE = ".build-date"
-KNOWN_TAGS_FILE = ".known-tags"
+SOURCES_FILE = FLATHUB_DIR / f"{PACKAGE}-sources.json"
+APPDATA_FILE = PATCHES_DIR / "metadata/eu.betterbird.Betterbird.140.appdata.xml"
+MANIFEST_FILE = FLATHUB_DIR / "eu.betterbird.Betterbird.yml"
+DIST_FILE = FLATHUB_DIR / "distribution.ini"
+BUILD_DATE_FILE = FLATHUB_DIR / ".build-date"
+KNOWN_TAGS_FILE = FLATHUB_DIR / ".known-tags"
 
 def log_verbose(verbose: bool, msg: str) -> None:
     """Print a progress message only when verbose mode is enabled."""
@@ -98,13 +99,14 @@ def parse_args():
 
 def ensure_repo(verbose: bool = False):
     """Clone or update the Betterbird repository."""
-    if Path("thunderbird-patches").exists():
+    patches_path = Path(__file__).parent / "thunderbird-patches"
+    if patches_path.exists():
         log_verbose(
             verbose,
             "[step 1/7] thunderbird-patches: repo exists, resetting to HEAD and fetching updates…",
         )
         log_verbose(verbose, "  Running: git reset --hard HEAD")
-        repo = git.Repo("thunderbird-patches")
+        repo = git.Repo(patches_path)
         repo.git.reset("--hard", "HEAD")
         log_verbose(verbose, "  Running: git fetch")
         repo.remotes.origin.fetch()
@@ -112,12 +114,13 @@ def ensure_repo(verbose: bool = False):
         log_verbose(
             verbose, f"[step 1/7] thunderbird-patches: cloning {BETTERBIRD_REPO}…"
         )
-        git.Repo.clone_from(BETTERBIRD_REPO, "thunderbird-patches", no_checkout=True)
+        git.Repo.clone_from(BETTERBIRD_REPO, patches_path, no_checkout=True)
 
 
 def get_commit(version=None, commit=None, verbose: bool = False):
     """Checkout the specified commit and return its hash."""
-    repo = git.Repo("thunderbird-patches")
+    patches_path = Path(__file__).parent / "thunderbird-patches"
+    repo = git.Repo(patches_path)
     if commit:
         log_verbose(verbose, f"  Resolving commit '{commit}' to SHA…")
         betterbird_commit = repo.rev_parse(commit).hexsha
@@ -446,8 +449,6 @@ def setup_repos(flathub_repo: str, verbose: bool = False):
             verbose, f"[auto] {FLATHUB_DIR}: cloning {flathub_repo}…"
         )
         git.Repo.clone_from(flathub_repo, FLATHUB_DIR)
-
-    os.chdir(FLATHUB_DIR)
 
     # Clone/update thunderbird-patches
     if Path(PATCHES_DIR).exists():
