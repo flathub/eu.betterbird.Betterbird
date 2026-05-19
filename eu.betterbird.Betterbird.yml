@@ -296,6 +296,8 @@ modules:
       - ./apply-patches.sh 140
       - sed -i 's#-I/usr/include#-I/app/include#g' comm/third_party/appindicator/moz.build
       - export MOZ_BUILD_DATE=$(cat .build-date); ./mach configure; ./mach build -v -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install
+      - ls -l /app/lib/*
+      - ls -l /app/bin
       - rm -rf /app/lib/thunderbird/chrome
       - rm -f /app/bin/thunderbird
       - mv /app/lib/thunderbird /app/lib/betterbird
