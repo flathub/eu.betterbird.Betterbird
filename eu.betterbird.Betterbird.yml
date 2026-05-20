@@ -228,7 +228,8 @@ modules:
   - -DCMAKE_INSTALL_LIBDIR:PATH=/app/lib
   - -DBUILD_SHARED_LIBS=On
   - -DICAL_BUILD_DOCS=False
-  - -DWITH_CXX_BINDINGS=False
+  - -DLIBICAL_CXX_BINDINGS=False
+  - -DLIBICAL_JAVA_BINDINGS=False
   sources:
   - type: archive
     url: https://github.com/libical/libical/releases/download/v4.0.1/libical-4.0.1.tar.gz
