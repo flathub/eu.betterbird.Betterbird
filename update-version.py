@@ -20,7 +20,6 @@ BETTERBIRD_REPO = "https://github.com/Betterbird/thunderbird-patches"
 FLATHUB_REPO = "https://github.com/flathub/eu.betterbird.Betterbird"
 FLATHUB_DIR = SCRIPT_DIR
 PATCHES_DIR = SCRIPT_DIR / "thunderbird-patches"
-RESULT_FILE = SCRIPT_DIR / ".auto-update-result"
 PACKAGE = "thunderbird"
 PLATFORM = "linux-x86_64"
 SOURCES_FILE = FLATHUB_DIR / f"{PACKAGE}-sources.json"
@@ -491,7 +490,6 @@ def auto_update(major_release: str, target_branch: str, verbose: bool = False):
     new_tags = find_new_tags(PATCHES_DIR, KNOWN_TAGS_FILE, verbose=verbose)
     if not new_tags:
         print("No new tags found.")
-        Path(RESULT_FILE).write_text("version_updated=false\n")
         return
 
     # Filter by major release
@@ -509,7 +507,6 @@ def auto_update(major_release: str, target_branch: str, verbose: bool = False):
 
     if not target_tag:
         print(f"No new tags found for major release {major_release}.")
-        Path(RESULT_FILE).write_text("version_updated=false\n")
         return
 
     # Check if update branch already exists
@@ -522,7 +519,6 @@ def auto_update(major_release: str, target_branch: str, verbose: bool = False):
             verbose,
             f"[auto] Skipping: branch update-{target_tag} already exists",
         )
-        Path(RESULT_FILE).write_text("version_updated=false\n")
         return
 
     # Run the version update
@@ -538,7 +534,6 @@ def auto_update(major_release: str, target_branch: str, verbose: bool = False):
     base_url = get_base_url()
     if not base_url:
         print(f"Error: Could not extract base URL from {APPDATA_FILE}")
-        Path(RESULT_FILE).write_text("version_updated=false\n")
         return
 
     update_sources_file(base_url, target_tag, verbose=verbose)
@@ -586,7 +581,6 @@ def auto_update(major_release: str, target_branch: str, verbose: bool = False):
     flathub_repo_git.git.branch("-D", update_branch)
 
     # Write result
-    Path(RESULT_FILE).write_text(f"version_updated=true\nnew_version={target_tag}\n")
     print(f"Successfully updated to {target_tag} and created PR.")
 
 
