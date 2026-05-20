@@ -227,7 +227,7 @@ modules:
   config-opts:
   - -DCMAKE_INSTALL_LIBDIR:PATH=/app/lib
   - -DBUILD_SHARED_LIBS=On
-  - -DICAL_BUILD_DOCS=False
+  - -DLIBICAL_BUILD_DOCS=False
   - -DLIBICAL_CXX_BINDINGS=False
   - -DLIBICAL_JAVA_BINDINGS=False
   sources:
