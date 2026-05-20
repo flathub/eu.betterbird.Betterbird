@@ -12,3 +12,8 @@ builddir/
 .env/
 
 thunderbird-patches
+# pixi environments
+.pixi/*
+!.pixi/config.toml
+
+.idea/
