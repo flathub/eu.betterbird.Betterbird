@@ -1,304 +1,368 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/flatpak/flatpak-builder/main/data/flatpak-manifest.schema.json
 id: eu.betterbird.Betterbird
 runtime: org.freedesktop.Platform
-runtime-version: '24.08'
+runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.node22
-  - org.freedesktop.Sdk.Extension.llvm20
+- org.freedesktop.Sdk.Extension.node24
+- org.freedesktop.Sdk.Extension.llvm20
 command: betterbird
 finish-args:
-  - --share=ipc
-  - --share=network
-  - --socket=pulseaudio
-  - --socket=wayland
-  - --socket=fallback-x11
-  - --socket=pcsc
-  - --socket=cups
-  - --require-version=0.10.3
-  - --persist=.thunderbird
-  - --env=DICPATH=/usr/share/hunspell
-  - --filesystem=xdg-download:rw
-  - --filesystem=~/.gnupg
-  - --filesystem=xdg-run/gnupg:ro
-  - --filesystem=xdg-run/speech-dispatcher:ro
-  - --filesystem=/run/.heim_org.h5l.kcm-socket
-  - --filesystem=/var/mail
-  - --filesystem=/var/spool/mail
-  - --device=all
-  - --env=MOZ_DBUS_APP_NAME=betterbird
-  - --own-name=org.mozilla.betterbird.*
-  - --talk-name=org.gtk.vfs.*
-  - --talk-name=org.a11y.Bus
-  - --talk-name=org.kde.StatusNotifierWatcher
-  - --talk-name=org.gnome.evolution.dataserver.Calendar8
-  - --talk-name=org.gnome.evolution.dataserver.Sources5
-  - --system-talk-name=org.freedesktop.NetworkManager
+- --share=ipc
+- --share=network
+- --socket=pulseaudio
+- --socket=wayland
+- --socket=fallback-x11
+- --socket=pcsc
+- --socket=cups
+- --require-version=0.10.3
+- --persist=.thunderbird
+- --env=DICPATH=/usr/share/hunspell
+- --filesystem=xdg-download:rw
+- --filesystem=~/.gnupg
+- --filesystem=xdg-run/gnupg:ro
+- --filesystem=xdg-run/speech-dispatcher:ro
+- --filesystem=/run/.heim_org.h5l.kcm-socket
+- --filesystem=/var/mail
+- --filesystem=/var/spool/mail
+- --device=all
+- --env=MOZ_DBUS_APP_NAME=betterbird
+- --own-name=org.mozilla.betterbird.*
+- --talk-name=org.gtk.vfs.*
+- --talk-name=org.a11y.Bus
+- --talk-name=org.kde.StatusNotifierWatcher
+- --talk-name=org.gnome.evolution.dataserver.Calendar8
+- --talk-name=org.gnome.evolution.dataserver.Sources5
+- --system-talk-name=org.freedesktop.NetworkManager
 cleanup:
-  - /include
-  - /lib/pkgconfig
-  - /lib/girepository-1.0
-  - /lib/rust
-  - /share/pkgconfig
-  - /share/aclocal
-  - /share/gtk-doc
-  - /share/doc
-  - /share/info
-  - /share/gir-1.0
-  - /share/man
-  - /man
-  - '*.la'
-  - '*.a'
+- /include
+- /lib/pkgconfig
+- /lib/girepository-1.0
+- /lib/rust
+- /share/pkgconfig
+- /share/aclocal
+- /share/gtk-doc
+- /share/doc
+- /share/info
+- /share/gir-1.0
+- /share/man
+- /man
+- '*.la'
+- '*.a'
 build-options:
   no-debuginfo: true
+  env:
+    RUSTC_WRAPPER: /app/bin/sccache
+    SCCACHE_DIR: /run/ccache/sccache
+    SCCACHE_CONF: /run/ccache/sccache/config
 modules:
-  - shared-modules/dbus-glib/dbus-glib.json
-  - shared-modules/libcanberra/libcanberra.json
-  - shared-modules/intltool/intltool-0.51.json
-  - shared-modules/libsecret/libsecret.json
-  - name: rust
-    buildsystem: simple
-    sources:
-      - type: archive
-        only-arches:
-          - aarch64
-        dest: rust-aarch64-unknown-linux-gnu
-        url: https://static.rust-lang.org/dist/rust-1.83.0-aarch64-unknown-linux-gnu.tar.xz
-        sha256: 5f02e00bca65f6eebafe2ac6b1bbdecb5f160f260a9c2231a51ed8d382f0ada0
-      - type: archive
-        only-arches:
-          - x86_64
-        dest: rust-x86_64-unknown-linux-gnu
-        url: https://static.rust-lang.org/dist/rust-1.83.0-x86_64-unknown-linux-gnu.tar.xz
-        sha256: b6467a0e8a6c5dca35269785c994e4d80d89754d6c600162cc9146f90c87ee08
-    build-options:
-      prefix: /app/lib/rust
-      arch:
-        x86_64:
-          env:
-            NATIVE_TARGET: x86_64-unknown-linux-gnu
-        aarch64:
-          env:
-            NATIVE_TARGET: aarch64-unknown-linux-gnu
-    build-commands:
-      - cd "rust-$NATIVE_TARGET" && ./install.sh --prefix=/app/lib/rust --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose
-  - name: libdbusmenu
-    build-options:
-      cflags: -Wno-error
-      env:
-        HAVE_VALGRIND_FALSE: '#'
-        HAVE_VALGRIND_TRUE: ''
-    cleanup:
-      - /include
-      - /libexec
-      - /lib/pkgconfig
-      - /lib/*.la
-      - /share/doc
-      - /share/libdbusmenu
-      - /share/gtk-doc
-      - /share/gir-1.0
-    config-opts:
-      - --disable-static
-      - --disable-gtk-doc
-      - --enable-introspection=no
-      - --disable-vala
-      - --disable-dumper
-      - --disable-tests
-      - --with-gtk=3
-    sources:
-      - type: archive
-        url: https://launchpad.net/libdbusmenu/16.04/16.04.0/+download/libdbusmenu-16.04.0.tar.gz
-        sha256: b9cc4a2acd74509435892823607d966d424bd9ad5d0b00938f27240a1bfa878a
-  - name: pcsc-lite
-    config-opts:
-      - --disable-libudev
-      - --disable-libsystemd
-      - --without-systemdsystemunitdir
-      - --disable-serial
-      - --disable-usb
-      - --disable-documentation
-    post-install:
-      - rm /app/sbin/pcscd
-      - rmdir /app/sbin || true
-    sources:
-      - type: archive
-        url: https://pcsclite.apdu.fr/files/pcsc-lite-1.9.9.tar.bz2
-        sha256: cbcc3b34c61f53291cecc0d831423c94d437b188eb2b97b7febc08de1c914e8a
-  - name: autoconf-2.72
-    config-opts:
-      - --program-suffix=2.72
-    cleanup:
-      - '*'
-    sources:
-      - type: archive
-        url: https://ftp.gnu.org/gnu/autoconf/autoconf-2.72.tar.xz
-        sha256: ba885c1319578d6c94d46e9b0dceb4014caafe2490e437a0dbca3f270a223f5a
-  - name: yasm
-    cleanup:
-      - '*'
-    sources:
-      - type: archive
-        url: https://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz
-        sha256: 3dce6601b495f5b3d45b59f7d2492a340ee7e84b5beca17e48f862502bd5603f
-  - name: libnotify
-    buildsystem: meson
-    config-opts:
-      - -Dtests=false
-      - -Dintrospection=disabled
-      - -Dman=false
-      - -Dgtk_doc=false
-      - -Ddocbook_docs=disabled
-    sources:
-      - type: archive
-        url: https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.3.tar.xz
-        sha256: ee8f3ef946156ad3406fdf45feedbdcd932dbd211ab4f16f75eba4f36fb2f6c0
-  - name: sound-theme-freedesktop
-    sources:
-      - type: git
-        url: https://salsa.debian.org/gnome-team/sound-theme-freedesktop.git
-        tag: upstream/0.8
-  - name: krb5
-    subdir: src
-    config-opts:
-      - --localstatedir=/var/lib
-      - --sbindir=${FLATPAK_DEST}/bin
-      - --disable-rpath
-      - --disable-static
-    post-install:
-      - install -Dm644 ../krb5.conf -t ${FLATPAK_DEST}/etc/
-    sources:
-      - type: archive
-        url: https://kerberos.org/dist/krb5/1.21/krb5-1.21.3.tar.gz
-        sha256: b7a4cd5ead67fb08b980b21abd150ff7217e85ea320c9ed0c6dadd304840ad35
-      - type: file
-        path: krb5.conf
-    cleanup:
-      - /bin
-      - /share/et
-      - /share/examples
-      - /share/man
-  - name: libical
-    cleanup:
-      - /lib/cmake
-    buildsystem: cmake-ninja
-    config-opts:
-      - -DCMAKE_INSTALL_LIBDIR:PATH=/app/lib
-      - -DBUILD_SHARED_LIBS=On
-      - -DICAL_BUILD_DOCS=False
-      - -DWITH_CXX_BINDINGS=False
-    sources:
-      - type: archive
-        url: https://github.com/libical/libical/releases/download/v3.0.16/libical-3.0.16.tar.gz
-        sha256: b44705dd71ca4538c86fb16248483ab4b48978524fb1da5097bd76aa2e0f0c33
-  - name: evolution-data-server
-    cleanup:
-      - /share/GConf
-    buildsystem: cmake-ninja
-    config-opts:
-      - -DENABLE_CANBERRA=OFF
-      - -DENABLE_GOA=OFF
-      - -DENABLE_DOT_LOCKING=OFF
-      - -DENABLE_FILE_LOCKING=fcntl
-      - -DENABLE_GTK=ON
-      - -DENABLE_GTK4=OFF
-      - -DENABLE_GOOGLE=OFF
-      - -DENABLE_VALA_BINDINGS=OFF
-      - -DENABLE_WEATHER=OFF
-      - -DWITH_OPENLDAP=OFF
-      - -DWITH_LIBDB=OFF
-      - -DENABLE_INTROSPECTION=OFF
-      - -DENABLE_INSTALLED_TESTS=OFF
-      - -DENABLE_GTK_DOC=OFF
-      - -DENABLE_EXAMPLES=OFF
-      - -DENABLE_OAUTH2_WEBKITGTK4=OFF
-      - -DENABLE_OAUTH2_WEBKITGTK=OFF
-    sources:
-      - type: git
-        url: https://gitlab.gnome.org/GNOME/evolution-data-server.git
-        tag: 3.54.1
-  - name: cbindgen
-    buildsystem: simple
-    build-commands:
-      - cargo --offline fetch --manifest-path Cargo.toml --verbose
-      - cargo --offline build --release --verbose
-      - install -Dm 755 target/release/cbindgen -t /app/bin
-    build-options:
-      append-path: /app/lib/rust/bin
-      env:
-        CARGO_HOME: /run/build/cbindgen/cargo
-    cleanup:
-      - '*'
-    sources:
-      - type: git
-        url: https://github.com/eqrion/cbindgen.git
-        tag: v0.27.0
-        commit: 58c6156b0d91e82abb03c26187b8d18fa4345ce0
-      - cbindgen-sources.json
-  - name: betterbird
-    buildsystem: simple
-    build-options:
-      append-path: /app/lib/rust/bin:/usr/lib/sdk/node22/bin:/usr/lib/sdk/llvm20/bin
-      prepend-ld-library-path: /usr/lib/sdk/llvm20/lib
-      env:
-        TERM: linux
-        CARGO_HOME: /run/build/betterbird/cargo
-        npm_config_nodedir: /usr/lib/sdk/node22
-    build-commands:
-      - ./make-mozconfig.sh 140
-      - chmod u+x apply-patches.sh
-      - ./apply-patches.sh 140
-      - sed -i 's#-I/usr/include#-I/app/include#g' comm/third_party/appindicator/moz.build
-      - export MOZ_BUILD_DATE=$(cat .build-date); ./mach configure; ./mach build -v -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install
-      - rm -rf /app/lib/thunderbird/chrome
-      - rm -f /app/bin/thunderbird
-      - mv /app/lib/thunderbird /app/lib/betterbird
-      - install -Dm755 betterbird-wrapper /app/bin/betterbird
-      - install -Dm644 distribution.ini /app/lib/betterbird/distribution/distribution.ini
-      - install -Dm644 default-preferences.js /app/lib/betterbird/defaults/pref/default-preferences.js
-      - mkdir -p /app/lib/betterbird/extensions
-      - for xpi in langpacks/*.xpi; do export locale=$(basename -s .xpi $xpi); install -Dm644 -t /app/share/runtime/locale/${locale:9:2}/ $xpi; ln -sf /app/share/runtime/locale/${locale:9:2}/$(basename $xpi) /app/lib/betterbird/extensions/$(basename $xpi); done
-      - for i in 16 22 24 32 48 64 128 256; do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/lib/betterbird/chrome/icons/default/default${i}.png; done
-      - install -Dm644 comm/mail/branding/betterbird/default.svg /app/share/icons/hicolor/scalable/status/eu.betterbird.Betterbird-default.svg
-      - install -Dm644 comm/mail/branding/betterbird/newmail.svg /app/share/icons/hicolor/scalable/status/eu.betterbird.Betterbird-newmail.svg
-      - for i in 16 22 24 32 48 64 128 256; do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png; done
-      - install -Dm644 thunderbird-patches/metadata/icons/betterbird.svg /app/share/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg
-      - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop /app/share/applications/eu.betterbird.Betterbird.desktop
-      - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.140.appdata.xml /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml
-      - install -Dm644 fonts.conf /app/etc/fonts/local.conf
-    sources:
-      - thunderbird-sources.json
-      - type: file
-        path: distribution.ini
-      - type: file
-        path: default-preferences.js
-      - type: script
-        dest-filename: betterbird-wrapper
-        commands:
-          - export TMPDIR="$XDG_RUNTIME_DIR/app/$FLATPAK_ID"
-          - exec /app/lib/betterbird/betterbird "$@"
-      - type: git
-        url: https://github.com/Betterbird/thunderbird-patches.git
-        commit: 07d8f9c89d8d26a3d009a04f47378c601293efed
-        dest: thunderbird-patches
-        tag: 140.1.1esr-bb8-build2
-      - type: file
-        path: mozconfig-flatpak
-      - type: file
-        path: mozconfig-aarch64
-      - type: file
-        path: .build-date
-      - type: script
-        dest-filename: make-mozconfig.sh
-        commands:
-          - cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak | sed -r 's/(mk_add_options MOZ_MAKE_FLAGS="-j[0-9]+")/# \1/' > mozconfig
-        only-arches:
-          - x86_64
-      - type: script
-        dest-filename: make-mozconfig.sh
-        commands:
-          - cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak mozconfig-aarch64 | sed -r 's/(mk_add_options MOZ_MAKE_FLAGS="-j[0-9]+")/# \1/' > mozconfig
-        only-arches:
-          - aarch64
-      - type: file
-        path: apply-patches.sh
-      - type: file
-        path: fonts.conf
+- name: sccache
+  buildsystem: simple
+  build-commands:
+  - install -Dma+rwx sccache /app/bin/sccache
+  cleanup:
+  - /bin/sccache
+  sources:
+  - type: archive
+    url: https://github.com/mozilla/sccache/releases/download/v0.15.0/sccache-v0.15.0-x86_64-unknown-linux-musl.tar.gz
+    sha256: 782d2b5dd7ae0a55ebe368ab258114d0928d019ac2d949ab85d5d02f3926709e
+    only-arches:
+    - x86_64
+    x-checker-data:
+      type: json
+      url: https://api.github.com/repos/mozilla/sccache/releases/latest
+      version-query: .tag_name
+      url-query: .assets[] | select(.name=="sccache-" + $version + "-x86_64-unknown-linux-musl.tar.gz")
+        | .browser_download_url
+      url-template: https://github.com/mozilla/sccache/releases/download/$version/sccache-$version-x86_64-unknown-linux-musl.tar.gz
+  - type: archive
+    url: https://github.com/mozilla/sccache/releases/download/v0.15.0/sccache-v0.15.0-aarch64-unknown-linux-musl.tar.gz
+    sha256: 3a6a3712b49da3d263bf2d30d702de4302793016019e800bfb81c0c69401d8f8
+    only-arches:
+    - aarch64
+    x-checker-data:
+      type: json
+      url: https://api.github.com/repos/mozilla/sccache/releases/latest
+      version-query: .tag_name
+      url-query: .assets[] | select(.name=="sccache-" + $version + "-aarch64-unknown-linux-musl.tar.gz")
+        | .browser_download_url
+      url-template: https://github.com/mozilla/sccache/releases/download/$version/sccache-$version-aarch64-unknown-linux-musl.tar.gz
+- shared-modules/libcanberra/libcanberra.json
+- shared-modules/intltool/intltool-0.51.json
+- name: rust
+  buildsystem: simple
+  sources:
+  - type: archive
+    only-arches:
+    - aarch64
+    dest: rust-aarch64-unknown-linux-gnu
+    url: https://static.rust-lang.org/dist/rust-1.86.0-aarch64-unknown-linux-gnu.tar.xz
+    sha256: 2b97d1e09a1d7fdbed748332879318ee7f41c008837f87ccb44ec045df0a8a1b
+  - type: archive
+    only-arches:
+    - x86_64
+    dest: rust-x86_64-unknown-linux-gnu
+    url: https://static.rust-lang.org/dist/rust-1.86.0-x86_64-unknown-linux-gnu.tar.xz
+    sha256: 6b448b3669e0c74f7f4b87da7da4868a552fcbba1f955032d8925ad2fffb3798
+  build-options:
+    prefix: /app/lib/rust
+    arch:
+      x86_64:
+        env:
+          NATIVE_TARGET: x86_64-unknown-linux-gnu
+      aarch64:
+        env:
+          NATIVE_TARGET: aarch64-unknown-linux-gnu
+  build-commands:
+  - cd "rust-$NATIVE_TARGET" && ./install.sh --prefix=/app/lib/rust --without=rust-docs
+    --without=rust-docs-json-preview --disable-ldconfig --verbose
+- name: libdbusmenu
+  build-options:
+    cflags: -Wno-error
+    env:
+      HAVE_VALGRIND_FALSE: '#'
+      HAVE_VALGRIND_TRUE: ''
+  cleanup:
+  - /include
+  - /libexec
+  - /lib/pkgconfig
+  - /lib/*.la
+  - /share/doc
+  - /share/libdbusmenu
+  - /share/gtk-doc
+  - /share/gir-1.0
+  config-opts:
+  - --disable-static
+  - --disable-gtk-doc
+  - --enable-introspection=no
+  - --disable-vala
+  - --disable-dumper
+  - --disable-tests
+  - --with-gtk=3
+  sources:
+  - type: archive
+    url: https://launchpad.net/libdbusmenu/16.04/16.04.0/+download/libdbusmenu-16.04.0.tar.gz
+    mirror-urls:
+    - https://sources.suse.com/SUSE:SLFO:Main:Build/libdbusmenu/a5b3e4717f09f90f9cd5568a5f933e8d/libdbusmenu-16.04.0.tar.gz
+    - https://mirror.math.princeton.edu/pub/frugalware/frugalware-2.1/source/xlib/libdbusmenu/libdbusmenu-16.04.0.tar.gz
+    - https://ftp.fr.openbsd.org/pub/OpenBSD/distfiles/libdbusmenu-16.04.0.tar.gz
+    sha256: b9cc4a2acd74509435892823607d966d424bd9ad5d0b00938f27240a1bfa878a
+    x-checker-data:
+      type: html
+      url: https://launchpad.net/libdbusmenu/+download
+      version-pattern: libdbusmenu-16.04.([\d\.]+)\.tar\.gz
+      url-template: https://launchpad.net/libdbusmenu/16.04/16.04.$version/+download/libdbusmenu-16.04.$version.tar.gz
+- name: pcsc-lite
+  config-opts:
+  - --disable-libudev
+  - --disable-libsystemd
+  - --without-systemdsystemunitdir
+  - --disable-serial
+  - --disable-usb
+  - --disable-documentation
+  - --disable-polkit
+  post-install:
+  - rm /app/sbin/pcscd
+  - rmdir /app/sbin || true
+  sources:
+  - type: git
+    url: https://github.com/LudovicRousseau/PCSC.git
+    tag: 2.4.1
+    x-checker-data:
+      type: git
+      tag-pattern: ^([\d.]+)$
+    commit: 5a96d5b1c6a3658c581a793d01f6a00e1a44e360
+- name: yasm
+  build-options:
+    cflags: -std=c17
+  cleanup:
+  - '*'
+  sources:
+  - type: archive
+    url: https://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz
+    sha256: 3dce6601b495f5b3d45b59f7d2492a340ee7e84b5beca17e48f862502bd5603f
+    x-checker-data:
+      type: html
+      url: https://www.tortall.net/projects/yasm/releases/
+      version-pattern: yasm-([\d\.]+)\.tar\.gz
+      url-template: https://www.tortall.net/projects/yasm/releases/yasm-$version.tar.gz
+- name: sound-theme-freedesktop
+  sources:
+  - type: git
+    url: https://salsa.debian.org/gnome-team/sound-theme-freedesktop.git
+    tag: upstream/0.8
+    x-checker-data:
+      type: git
+      tag-pattern: ^upstream/([\d.]+)$
+    commit: 3a91d7a2742e5b591badc3443eab9ea5bd7826e5
+- name: krb5
+  subdir: src
+  config-opts:
+  - --localstatedir=/var/lib
+  - --sbindir=${FLATPAK_DEST}/bin
+  - --disable-rpath
+  - --disable-static
+  post-install:
+  - install -Dm644 ../krb5.conf -t ${FLATPAK_DEST}/etc/
+  sources:
+  - type: archive
+    url: https://kerberos.org/dist/krb5/1.22/krb5-1.22.tar.gz
+    sha256: 652be617b4647f3c5dcac21547d47c7097101aad4e306f1778fb48e17b220ba3
+    x-checker-data:
+      type: html
+      url: https://kerberos.org/dist/krb5/
+      version-pattern: href="([\d\.]+)/"
+      url-template: https://kerberos.org/dist/krb5/$version/krb5-$version.tar.gz
+  - type: file
+    path: krb5.conf
+  cleanup:
+  - /bin
+  - /share/et
+  - /share/examples
+  - /share/man
+- name: libical
+  cleanup:
+  - /lib/cmake
+  buildsystem: cmake-ninja
+  config-opts:
+  - -DCMAKE_INSTALL_LIBDIR:PATH=/app/lib
+  - -DBUILD_SHARED_LIBS=On
+  - -DLIBICAL_BUILD_DOCS=False
+  - -DLIBICAL_CXX_BINDINGS=False
+  - -DLIBICAL_JAVA_BINDINGS=False
+  sources:
+  - type: archive
+    url: https://github.com/libical/libical/releases/download/v4.0.1/libical-4.0.1.tar.gz
+    sha256: 7c1d8b780ce305a8823e5824ec4d7eb05d85ae8f808836b495aa37b0c3d08337
+    x-checker-data:
+      type: json
+      url: https://api.github.com/repos/libical/libical/releases/latest
+      version-query: .tag_name | sub("^v"; "")
+      url-query: .assets[] | select(.name=="libical-" + $version + ".tar.gz") | .browser_download_url
+- name: evolution-data-server
+  cleanup:
+  - /share/GConf
+  buildsystem: cmake-ninja
+  config-opts:
+  - -DENABLE_CANBERRA=OFF
+  - -DENABLE_GOA=OFF
+  - -DENABLE_DOT_LOCKING=OFF
+  - -DENABLE_FILE_LOCKING=fcntl
+  - -DENABLE_GTK=ON
+  - -DENABLE_GTK4=OFF
+  - -DENABLE_GOOGLE=OFF
+  - -DENABLE_VALA_BINDINGS=OFF
+  - -DENABLE_WEATHER=OFF
+  - -DWITH_OPENLDAP=OFF
+  - -DWITH_LIBDB=OFF
+  - -DENABLE_INTROSPECTION=OFF
+  - -DENABLE_INSTALLED_TESTS=OFF
+  - -DENABLE_GTK_DOC=OFF
+  - -DENABLE_EXAMPLES=OFF
+  - -DENABLE_OAUTH2_WEBKITGTK4=OFF
+  - -DENABLE_OAUTH2_WEBKITGTK=OFF
+  sources:
+  - type: git
+    url: https://github.com/GNOME/evolution-data-server.git
+    tag: 3.60.1
+    x-checker-data:
+      type: git
+      tag-pattern: ^([\d.]+)$
+    commit: 9a4bda5279cc5de9772c447559ea9baeb4a085ff
+- name: cbindgen
+  buildsystem: simple
+  build-commands:
+  - cargo --offline fetch --manifest-path Cargo.toml --verbose
+  - cargo --offline build --release --verbose
+  - install -Dm 755 target/release/cbindgen -t /app/bin
+  build-options:
+    append-path: /app/lib/rust/bin
+    env:
+      CARGO_HOME: /run/build/cbindgen/cargo
+  cleanup:
+  - '*'
+  sources:
+  - type: git
+    url: https://github.com/mozilla/cbindgen.git
+    tag: v0.29.2
+    x-checker-data:
+      type: git
+      tag-pattern: ^v([\d.]+)$
+    commit: 76f41c090c0587d940a0ef81a41c8b995f074926
+  - cbindgen-sources.json
+- name: betterbird
+  buildsystem: simple
+  build-options:
+    append-path: /app/lib/rust/bin:/usr/lib/sdk/node24/bin:/usr/lib/sdk/llvm20/bin
+    prepend-ld-library-path: /usr/lib/sdk/llvm20/lib
+    env:
+      TERM: linux
+      CARGO_HOME: /run/build/betterbird/cargo
+      npm_config_nodedir: /usr/lib/sdk/node24
+  build-commands:
+  - ./make-mozconfig.sh 140
+  - chmod u+x apply-patches.sh
+  - ./apply-patches.sh 140
+  - sed -i 's#-I/usr/include#-I/app/include#g' comm/third_party/appindicator/moz.build
+  - export MOZ_BUILD_DATE=$(cat .build-date); ./mach configure; ./mach build -v -j
+    ${FLATPAK_BUILDER_N_JOBS}; ./mach install
+  - rm -rf /app/lib/betterbird/chrome
+  - rm -f /app/bin/betterbird
+  - install -Dm755 betterbird-wrapper /app/bin/betterbird
+  - install -Dm644 distribution.ini /app/lib/betterbird/distribution/distribution.ini
+  - install -Dm644 default-preferences.js /app/lib/betterbird/defaults/pref/default-preferences.js
+  - mkdir -p /app/lib/betterbird/extensions
+  - for xpi in langpacks/*.xpi; do export locale=$(basename -s .xpi $xpi); install
+    -Dm644 -t /app/share/runtime/locale/${locale:9:2}/ $xpi; ln -sf /app/share/runtime/locale/${locale:9:2}/$(basename
+    $xpi) /app/lib/betterbird/extensions/$(basename $xpi); done
+  - for i in 16 22 24 32 48 64 128 256; do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png
+    /app/lib/betterbird/chrome/icons/default/default${i}.png; done
+  - install -Dm644 comm/mail/branding/betterbird/default.svg /app/share/icons/hicolor/scalable/status/eu.betterbird.Betterbird-default.svg
+  - install -Dm644 comm/mail/branding/betterbird/newmail.svg /app/share/icons/hicolor/scalable/status/eu.betterbird.Betterbird-newmail.svg
+  - for i in 16 22 24 32 48 64 128 256; do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png
+    /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png; done
+  - install -Dm644 thunderbird-patches/metadata/icons/betterbird.svg /app/share/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg
+  - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop /app/share/applications/eu.betterbird.Betterbird.desktop
+  - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.140.appdata.xml
+    /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml
+  - install -Dm644 fonts.conf /app/etc/fonts/local.conf
+  sources:
+  - thunderbird-sources.json
+  - type: file
+    path: distribution.ini
+  - type: file
+    path: default-preferences.js
+  - type: script
+    dest-filename: betterbird-wrapper
+    commands:
+    - export TMPDIR="$XDG_RUNTIME_DIR/app/$FLATPAK_ID"
+    - exec /app/lib/betterbird/betterbird "$@"
+  - type: git
+    url: https://github.com/Betterbird/thunderbird-patches.git
+    commit: 0da6103f678fa3ddce65e4ffb7eb283e0a071407
+    dest: thunderbird-patches
+    tag: 140.11.0esr-bb23-build2
+  - type: file
+    path: mozconfig-flatpak
+  - type: file
+    path: mozconfig-aarch64
+  - type: file
+    path: .build-date
+  - type: script
+    dest-filename: make-mozconfig.sh
+    commands:
+    - cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak | sed -r 's/(mk_add_options
+      MOZ_MAKE_FLAGS="-j[0-9]+")/# \1/' > mozconfig
+    only-arches:
+    - x86_64
+  - type: script
+    dest-filename: make-mozconfig.sh
+    commands:
+    - cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak mozconfig-aarch64
+      | sed -r 's/(mk_add_options MOZ_MAKE_FLAGS="-j[0-9]+")/# \1/' > mozconfig
+    only-arches:
+    - aarch64
+  - type: file
+    path: apply-patches.sh
+  - type: file
+    path: fonts.conf
