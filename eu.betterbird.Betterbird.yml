@@ -96,14 +96,14 @@ modules:
     only-arches:
     - aarch64
     dest: rust-aarch64-unknown-linux-gnu
-    url: https://static.rust-lang.org/dist/rust-1.86.0-aarch64-unknown-linux-gnu.tar.xz
-    sha256: 2b97d1e09a1d7fdbed748332879318ee7f41c008837f87ccb44ec045df0a8a1b
+        url: https://static.rust-lang.org/dist/rust-1.92.0-aarch64-unknown-linux-gnu.tar.xz
+        sha256: 3e383f8b4fca710d0600d0c1de97b78281672be2cda6575ecbe1c183a12e3822
   - type: archive
     only-arches:
     - x86_64
     dest: rust-x86_64-unknown-linux-gnu
-    url: https://static.rust-lang.org/dist/rust-1.86.0-x86_64-unknown-linux-gnu.tar.xz
-    sha256: 6b448b3669e0c74f7f4b87da7da4868a552fcbba1f955032d8925ad2fffb3798
+        url: https://static.rust-lang.org/dist/rust-1.92.0-x86_64-unknown-linux-gnu.tar.xz
+        sha256: d2ccef59dd9f7439f2c694948069f789a044dc1addcc0803613232af8f88ee0c
   build-options:
     prefix: /app/lib/rust
     arch:
@@ -284,11 +284,11 @@ modules:
   sources:
   - type: git
     url: https://github.com/mozilla/cbindgen.git
-    tag: v0.29.2
+        tag: v0.29.3
     x-checker-data:
       type: git
       tag-pattern: ^v([\d.]+)$
-    commit: 76f41c090c0587d940a0ef81a41c8b995f074926
+        commit: b5f2a978302e86fa06659a945a26c1b8b9aa9b8d
   - cbindgen-sources.json
 - name: betterbird
   buildsystem: simple
