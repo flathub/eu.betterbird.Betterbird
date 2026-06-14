@@ -153,14 +153,14 @@ modules:
       version-pattern: libdbusmenu-16.04.([\d\.]+)\.tar\.gz
       url-template: https://launchpad.net/libdbusmenu/16.04/16.04.$version/+download/libdbusmenu-16.04.$version.tar.gz
 - name: pcsc-lite
+  buildsystem: meson
   config-opts:
-  - --disable-libudev
-  - --disable-libsystemd
-  - --without-systemdsystemunitdir
-  - --disable-serial
-  - --disable-usb
-  - --disable-documentation
-  - --disable-polkit
+  - -Dlibsystemd=disabled
+  - -Dlibudev=disabled
+  - -Ddocumentation=disabled
+  - -Dserial=disabled
+  - -Dusb=disabled
+  - -Dpolkit=disabled
   post-install:
   - rm /app/sbin/pcscd
   - rmdir /app/sbin || true
