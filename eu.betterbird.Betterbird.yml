@@ -155,12 +155,12 @@ modules:
 - name: pcsc-lite
   buildsystem: meson
   config-opts:
-  - -Dlibsystemd=disabled
-  - -Dlibudev=disabled
-  - -Ddocumentation=disabled
-  - -Dserial=disabled
-  - -Dusb=disabled
-  - -Dpolkit=disabled
+  - -Dlibsystemd=false
+  - -Dlibudev=false
+  - -Ddocumentation=false
+  - -Dserial=false
+  - -Dusb=false
+  - -Dpolkit=false
   post-install:
   - rm /app/sbin/pcscd
   - rmdir /app/sbin || true
