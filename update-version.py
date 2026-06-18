@@ -8,11 +8,12 @@ import re
 import subprocess
 import sys
 import git
-import yaml
+from ruamel.yaml import YAML
 from datetime import datetime
 from pathlib import Path
 from urllib.request import urlopen
 from typing import Optional
+
 
 # Configuration
 SCRIPT_DIR = Path(__file__).parent
@@ -247,27 +248,19 @@ def update_sources_file(base_url, betterbird_version, verbose: bool = False):
 def update_manifest(
     betterbird_commit, source_spec, betterbird_version, verbose: bool = False
 ):
-    """Update manifest YAML using PyYAML."""
+    """Update manifest YAML using ruamel.yaml."""
     log_verbose(
         verbose,
         f"[step 6/7] Updating {MANIFEST_FILE} (commit: {betterbird_commit}, source_spec: {source_spec})",
     )
 
     manifest_file = os.path.join(os.path.dirname(__file__), MANIFEST_FILE)
+    yaml_handler = YAML()
+    yaml_handler.indent(mapping=2, sequence=4, offset=2)
+    yaml_handler.width = 1000
+
     with open(manifest_file, "r") as f:
-        raw_content = f.read()
-
-    # Preserve leading comment lines (e.g. # yaml-language-server: $schema=…)
-    leading_comments = []
-    body_start = 0
-    for line in raw_content.splitlines(True):
-        if line.startswith("#"):
-            leading_comments.append(line)
-            body_start += len(line)
-        else:
-            break
-
-    manifest = yaml.safe_load(raw_content[body_start:])
+        manifest = yaml_handler.load(f)
 
     # Find the betterbird module
     for module in manifest.get("modules", []):
@@ -290,13 +283,8 @@ def update_manifest(
                     break
             break
 
-    import io
-    output = io.StringIO()
-    yaml.dump(manifest, output, default_flow_style=False, sort_keys=False)
-    new_content = "".join(leading_comments) + output.getvalue()
-
     with open(manifest_file, "w") as f:
-        f.write(new_content)
+        yaml_handler.dump(manifest, f)
 
 
 def update_distribution_ini(betterbird_commit, verbose: bool = False):
