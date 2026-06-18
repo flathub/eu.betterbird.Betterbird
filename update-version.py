@@ -23,7 +23,7 @@ PATCHES_DIR = SCRIPT_DIR / "thunderbird-patches"
 PACKAGE = "thunderbird"
 PLATFORM = "linux-x86_64"
 SOURCES_FILE = FLATHUB_DIR / f"{PACKAGE}-sources.json"
-APPDATA_FILE = PATCHES_DIR / "metadata/eu.betterbird.Betterbird.140.appdata.xml"
+APPDATA_FILE = PATCHES_DIR / "metadata/eu.betterbird.Betterbird.153.appdata.xml"
 MANIFEST_FILE = FLATHUB_DIR / "eu.betterbird.Betterbird.yml"
 DIST_FILE = FLATHUB_DIR / "distribution.ini"
 BUILD_DATE_FILE = FLATHUB_DIR / ".build-date"
@@ -594,7 +594,7 @@ def main():
         if not major_release:
             print("Usage: update-version.py --auto [MAJOR_RELEASE]")
             print("")
-            print("Example: update-version.py --auto 140")
+            print("Example: update-version.py --auto 153")
             sys.exit(1)
         auto_update(major_release, args.branch, verbose=verbose)
         return
@@ -609,7 +609,7 @@ def main():
         print("Examples:")
         print("  update-version.py 102.2.2-bb16")
         print("  update-version.py 102 4d587481bc7dbca1ffc99cce319f84425fab7852")
-        print("  update-version.py --auto 140")
+        print("  update-version.py --auto 153")
         sys.exit(1)
 
     betterbird_version = args.version
