@@ -14,7 +14,6 @@ export CXXFLAGS="$CXXFLAGS -DFLATPAK_COMPILE -fno-exceptions"
 ac_add_options --with-system-jpeg
 ac_add_options --with-system-zlib
 ac_add_options --with-system-libvpx
-ac_add_options --with-system-bz2=/usr/lib
 ac_add_options --with-system-ffi
 ac_add_options --enable-system-pixman
 # libicu in freedesktop runtime 24.08 does not seem to work
