@@ -17,3 +17,5 @@ thunderbird-patches
 !.pixi/config.toml
 
 .idea/
+
+__pycache__/
