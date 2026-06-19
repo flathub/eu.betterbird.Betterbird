@@ -280,11 +280,11 @@ modules:
     sources:
       - type: git
         url: https://github.com/mozilla/cbindgen.git
-        tag: v0.29.3
+        tag: v0.29.4
         x-checker-data:
           type: git
           tag-pattern: ^v([\d.]+)$
-        commit: b5f2a978302e86fa06659a945a26c1b8b9aa9b8d
+        commit: b826cb8911488fe8a209d2b693492c0c673e8cca
       - cbindgen-sources.json
   - name: betterbird
     buildsystem: simple
