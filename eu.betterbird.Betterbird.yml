@@ -5,7 +5,7 @@ runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.node24
-  - org.freedesktop.Sdk.Extension.llvm20
+  - org.freedesktop.Sdk.Extension.llvm22
 command: betterbird
 finish-args:
   - --share=ipc
@@ -289,8 +289,8 @@ modules:
   - name: betterbird
     buildsystem: simple
     build-options:
-      append-path: /app/lib/rust/bin:/usr/lib/sdk/node24/bin:/usr/lib/sdk/llvm20/bin
-      prepend-ld-library-path: /usr/lib/sdk/llvm20/lib
+      append-path: /app/lib/rust/bin:/usr/lib/sdk/node24/bin:/usr/lib/sdk/llvm22/bin
+      prepend-ld-library-path: /usr/lib/sdk/llvm22/lib
       env:
         TERM: linux
         CARGO_HOME: /run/build/betterbird/cargo
