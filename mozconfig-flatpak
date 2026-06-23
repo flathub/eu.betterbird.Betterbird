@@ -43,3 +43,6 @@ ac_add_options --disable-necko-wifi
 
 # Fix python virtualenv
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/builddir
+
+# clobber sources when needed
+mk_add_options AUTOCLOBBER=1
