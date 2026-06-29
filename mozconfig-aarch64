@@ -3,6 +3,3 @@
 # Set target and host to aarch64-unknown-linux-gnu
 ac_add_options --target=aarch64-unknown-linux-gnu
 ac_add_options --host=aarch64-unknown-linux-gnu
-
-# Additional options specific to aarch64
-mk_add_options AUTOCLOBBER=1

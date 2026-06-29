@@ -1,0 +1,23 @@
+[workspace]
+authors = ["Martin Schumann <mfs@mfs.name>"]
+channels = ["conda-forge", "https://prefix.dev/github-releases"]
+name = "eu.betterbird.Betterbird"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = "3.14.*"
+pyyaml = ">=6.0.3,<7"
+pixi-pycharm = ">=0.0.11,<0.0.12"
+gitpython = ">=3.1.50,<4"
+ruff = ">=0.15.13,<0.16"
+"ruamel.yaml" = ">=0.19.1,<0.20"
+
+[pypi-dependencies]
+flatpak-cargo-generator = { path = "./flatpak-builder-tools/cargo", editable = true }
+# Deps from ./flatpak-builder-tools/cargo/pyproject.toml:
+aiohttp = "<4.0.0,>=3.9.5"
+PyYAML  = "<7.0.0,>=6.0.2"
+tomlkit = ">=0.13.3,<1.0"

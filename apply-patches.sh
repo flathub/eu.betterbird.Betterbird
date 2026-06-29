@@ -7,7 +7,7 @@ echo
 echo "======================================================="
 echo "Copying patches"
 mkdir -p patches
-find thunderbird-patches/$VERSION -type f -name *.patch -exec cp '{}' patches/ ';'
+cp -r thunderbird-patches/$VERSION/* patches/
 
 echo
 echo "======================================================="
@@ -18,7 +18,7 @@ while read -r line; do
         then
             if [[ -f patches/$patch ]]
             then
-                echo Applying patch $patch ... 
+                echo Applying patch $patch ...
                 git apply --apply --allow-empty patches/$patch
             else
                 echo Patch $patch not found. Exiting.
@@ -37,7 +37,7 @@ while read -r line; do
         then
             if [[ -f ../patches/$patch ]]
             then
-                echo Applying patch $patch ... 
+                echo Applying patch $patch ...
                 git apply --apply --allow-empty ../patches/$patch
             else
                 echo Patch $patch not found. Exiting.
@@ -54,7 +54,7 @@ if [ -d langpacks ]
 then
 cd langpacks
 for langpack in *.xpi
-do 
+do
     lang=$(echo "$langpack" | sed -r 's#\langpack-([^@]+)@thunderbird.mozilla.org.xpi#\1#')
     echo " -- $lang --"
     mkdir $lang
@@ -65,7 +65,7 @@ do
       rm -f ../$langpack
 
     echo "   * removing original branding"
-      rm -f chrome/$lang/locale/branding/*
+    rm -f chrome/$lang/locale/branding/*
     rm -f localization/$lang/branding/*
 
       echo "   * modifying manifest.json"
@@ -75,14 +75,12 @@ do
     echo "   * copying Betterbird branding from en-US"
     branding_source="../../comm/mail/branding/betterbird/locales/en-US"
     cp "$branding_source/brand.ftl" localization/$lang/branding/
-      cp "$branding_source/brand.dtd" "$branding_source/brand.properties" chrome/$lang/locale/branding/ 
+    cp "$branding_source/brand.dtd" "$branding_source/brand.properties" chrome/$lang/locale/branding/
 
-    bb_string_patcher="../../thunderbird-patches/$VERSION/scripts/$lang.cmd"
+    bb_string_patcher="../../thunderbird-patches/$VERSION/scripts/$lang.sh"
     if [[ -f "$bb_string_patcher" ]]
     then
         echo "   * adding extra strings"
-          sed -ri 's/^(::|REM)/#/; s/%lecho%/lessecho/; s/\r$//; s/\$/\\\$/g; s/%%S/%S/g' "$bb_string_patcher"
-        perl -pi -e 's#\\(?=[^ ]+$)#/#g' "$bb_string_patcher"
         . "$bb_string_patcher"
     fi
 

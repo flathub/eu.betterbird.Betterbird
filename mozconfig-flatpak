@@ -4,6 +4,7 @@
 mk_add_options MOZ_CO_PROJECT=mail
 ac_add_options --prefix=/app
 ac_add_options --enable-release
+ac_add_options --with-ccache=sccache
 export MOZ_NOSPAM=1
 
 # define FLATPAK_COMPILE to enable flatpak-specific patches
@@ -13,7 +14,6 @@ export CXXFLAGS="$CXXFLAGS -DFLATPAK_COMPILE -fno-exceptions"
 ac_add_options --with-system-jpeg
 ac_add_options --with-system-zlib
 ac_add_options --with-system-libvpx
-ac_add_options --with-system-bz2=/usr/lib
 ac_add_options --with-system-ffi
 ac_add_options --enable-system-pixman
 # libicu in freedesktop runtime 24.08 does not seem to work
@@ -43,3 +43,6 @@ ac_add_options --disable-necko-wifi
 
 # Fix python virtualenv
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/builddir
+
+# clobber sources when needed
+mk_add_options AUTOCLOBBER=1

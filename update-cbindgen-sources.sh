@@ -27,7 +27,7 @@ yq -i '(.modules[] | select(.name=="cbindgen") | .sources[] | select(.type=="git
 yq -i '(.modules[] | select(.name=="cbindgen") | .sources[] | select(.type=="git") | .tag) = "'$CBINDGEN_VERSION'"' $MANIFEST_FILE
 
 # update cbindgen-sources.json
-.env/bin/python flatpak-builder-tools/cargo/flatpak-cargo-generator.py cbindgen/Cargo.lock -o cbindgen-sources.json
+pixi run python flatpak-builder-tools/cargo/flatpak-cargo-generator.py cbindgen/Cargo.lock -o cbindgen-sources.json
 
 rm -rf cbindgen
 

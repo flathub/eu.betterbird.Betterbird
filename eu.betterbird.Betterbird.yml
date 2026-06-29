@@ -1,10 +1,11 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/flatpak/flatpak-builder/main/data/flatpak-manifest.schema.json
 id: eu.betterbird.Betterbird
 runtime: org.freedesktop.Platform
-runtime-version: '24.08'
+runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.node22
-  - org.freedesktop.Sdk.Extension.llvm20
+  - org.freedesktop.Sdk.Extension.node24
+  - org.freedesktop.Sdk.Extension.llvm22
 command: betterbird
 finish-args:
   - --share=ipc
@@ -50,11 +51,42 @@ cleanup:
   - '*.a'
 build-options:
   no-debuginfo: true
+  env:
+    RUSTC_WRAPPER: /app/bin/sccache
+    SCCACHE_DIR: /run/ccache/sccache
+    SCCACHE_CONF: /run/ccache/sccache/config
 modules:
-  - shared-modules/dbus-glib/dbus-glib.json
+  - name: sccache
+    buildsystem: simple
+    build-commands:
+      - install -Dma+rwx sccache /app/bin/sccache
+    cleanup:
+      - /bin/sccache
+    sources:
+      - type: archive
+        url: https://github.com/mozilla/sccache/releases/download/v0.15.0/sccache-v0.15.0-x86_64-unknown-linux-musl.tar.gz
+        sha256: 782d2b5dd7ae0a55ebe368ab258114d0928d019ac2d949ab85d5d02f3926709e
+        only-arches:
+          - x86_64
+        x-checker-data:
+          type: json
+          url: https://api.github.com/repos/mozilla/sccache/releases/latest
+          version-query: .tag_name
+          url-query: .assets[] | select(.name=="sccache-" + $version + "-x86_64-unknown-linux-musl.tar.gz") | .browser_download_url
+          url-template: https://github.com/mozilla/sccache/releases/download/$version/sccache-$version-x86_64-unknown-linux-musl.tar.gz
+      - type: archive
+        url: https://github.com/mozilla/sccache/releases/download/v0.15.0/sccache-v0.15.0-aarch64-unknown-linux-musl.tar.gz
+        sha256: 3a6a3712b49da3d263bf2d30d702de4302793016019e800bfb81c0c69401d8f8
+        only-arches:
+          - aarch64
+        x-checker-data:
+          type: json
+          url: https://api.github.com/repos/mozilla/sccache/releases/latest
+          version-query: .tag_name
+          url-query: .assets[] | select(.name=="sccache-" + $version + "-aarch64-unknown-linux-musl.tar.gz") | .browser_download_url
+          url-template: https://github.com/mozilla/sccache/releases/download/$version/sccache-$version-aarch64-unknown-linux-musl.tar.gz
   - shared-modules/libcanberra/libcanberra.json
   - shared-modules/intltool/intltool-0.51.json
-  - shared-modules/libsecret/libsecret.json
   - name: rust
     buildsystem: simple
     sources:
@@ -62,14 +94,14 @@ modules:
         only-arches:
           - aarch64
         dest: rust-aarch64-unknown-linux-gnu
-        url: https://static.rust-lang.org/dist/rust-1.83.0-aarch64-unknown-linux-gnu.tar.xz
-        sha256: 5f02e00bca65f6eebafe2ac6b1bbdecb5f160f260a9c2231a51ed8d382f0ada0
+        url: https://static.rust-lang.org/dist/rust-1.95.0-aarch64-unknown-linux-gnu.tar.xz
+        sha256: 094c9c36531911c5cc7dd6ab2d3069ab8dcd744d6239b0bda1387b243dfc391e
       - type: archive
         only-arches:
           - x86_64
         dest: rust-x86_64-unknown-linux-gnu
-        url: https://static.rust-lang.org/dist/rust-1.83.0-x86_64-unknown-linux-gnu.tar.xz
-        sha256: b6467a0e8a6c5dca35269785c994e4d80d89754d6c600162cc9146f90c87ee08
+        url: https://static.rust-lang.org/dist/rust-1.95.0-x86_64-unknown-linux-gnu.tar.xz
+        sha256: 2e0338f18ecbaa4a0f631b9e80e8b8e26bb6fe77dd5454fba8a70cf96c1e84a1
     build-options:
       prefix: /app/lib/rust
       arch:
@@ -107,55 +139,58 @@ modules:
     sources:
       - type: archive
         url: https://launchpad.net/libdbusmenu/16.04/16.04.0/+download/libdbusmenu-16.04.0.tar.gz
+        mirror-urls:
+          - https://sources.suse.com/SUSE:SLFO:Main:Build/libdbusmenu/a5b3e4717f09f90f9cd5568a5f933e8d/libdbusmenu-16.04.0.tar.gz
+          - https://mirror.math.princeton.edu/pub/frugalware/frugalware-2.1/source/xlib/libdbusmenu/libdbusmenu-16.04.0.tar.gz
+          - https://ftp.fr.openbsd.org/pub/OpenBSD/distfiles/libdbusmenu-16.04.0.tar.gz
         sha256: b9cc4a2acd74509435892823607d966d424bd9ad5d0b00938f27240a1bfa878a
+        x-checker-data:
+          type: html
+          url: https://launchpad.net/libdbusmenu/+download
+          version-pattern: libdbusmenu-16.04.([\d\.]+)\.tar\.gz
+          url-template: https://launchpad.net/libdbusmenu/16.04/16.04.$version/+download/libdbusmenu-16.04.$version.tar.gz
   - name: pcsc-lite
+    buildsystem: meson
     config-opts:
-      - --disable-libudev
-      - --disable-libsystemd
-      - --without-systemdsystemunitdir
-      - --disable-serial
-      - --disable-usb
-      - --disable-documentation
+      - -Dlibsystemd=false
+      - -Dlibudev=false
+      - -Dserial=false
+      - -Dusb=false
+      - -Dpolkit=false
     post-install:
       - rm /app/sbin/pcscd
       - rmdir /app/sbin || true
     sources:
-      - type: archive
-        url: https://pcsclite.apdu.fr/files/pcsc-lite-1.9.9.tar.bz2
-        sha256: cbcc3b34c61f53291cecc0d831423c94d437b188eb2b97b7febc08de1c914e8a
-  - name: autoconf-2.72
-    config-opts:
-      - --program-suffix=2.72
-    cleanup:
-      - '*'
-    sources:
-      - type: archive
-        url: https://ftp.gnu.org/gnu/autoconf/autoconf-2.72.tar.xz
-        sha256: ba885c1319578d6c94d46e9b0dceb4014caafe2490e437a0dbca3f270a223f5a
+      - type: git
+        url: https://github.com/LudovicRousseau/PCSC.git
+        tag: 2.5.0
+        x-checker-data:
+          type: git
+          tag-pattern: ^([\d.]+)$
+        commit: d353daed40ede5805caf44176057feb7b7cab90f
   - name: yasm
+    build-options:
+      cflags: -std=c17
     cleanup:
       - '*'
     sources:
       - type: archive
         url: https://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz
         sha256: 3dce6601b495f5b3d45b59f7d2492a340ee7e84b5beca17e48f862502bd5603f
-  - name: libnotify
-    buildsystem: meson
-    config-opts:
-      - -Dtests=false
-      - -Dintrospection=disabled
-      - -Dman=false
-      - -Dgtk_doc=false
-      - -Ddocbook_docs=disabled
-    sources:
-      - type: archive
-        url: https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.3.tar.xz
-        sha256: ee8f3ef946156ad3406fdf45feedbdcd932dbd211ab4f16f75eba4f36fb2f6c0
+        x-checker-data:
+          type: html
+          url: https://www.tortall.net/projects/yasm/releases/
+          version-pattern: yasm-([\d\.]+)\.tar\.gz
+          url-template: https://www.tortall.net/projects/yasm/releases/yasm-$version.tar.gz
   - name: sound-theme-freedesktop
     sources:
       - type: git
         url: https://salsa.debian.org/gnome-team/sound-theme-freedesktop.git
         tag: upstream/0.8
+        x-checker-data:
+          type: git
+          tag-pattern: ^upstream/([\d.]+)$
+        commit: 3a91d7a2742e5b591badc3443eab9ea5bd7826e5
   - name: krb5
     subdir: src
     config-opts:
@@ -167,8 +202,13 @@ modules:
       - install -Dm644 ../krb5.conf -t ${FLATPAK_DEST}/etc/
     sources:
       - type: archive
-        url: https://kerberos.org/dist/krb5/1.21/krb5-1.21.3.tar.gz
-        sha256: b7a4cd5ead67fb08b980b21abd150ff7217e85ea320c9ed0c6dadd304840ad35
+        url: https://kerberos.org/dist/krb5/1.22/krb5-1.22.tar.gz
+        sha256: 652be617b4647f3c5dcac21547d47c7097101aad4e306f1778fb48e17b220ba3
+        x-checker-data:
+          type: html
+          url: https://kerberos.org/dist/krb5/
+          version-pattern: href="([\d\.]+)/"
+          url-template: https://kerberos.org/dist/krb5/$version/krb5-$version.tar.gz
       - type: file
         path: krb5.conf
     cleanup:
@@ -183,12 +223,18 @@ modules:
     config-opts:
       - -DCMAKE_INSTALL_LIBDIR:PATH=/app/lib
       - -DBUILD_SHARED_LIBS=On
-      - -DICAL_BUILD_DOCS=False
-      - -DWITH_CXX_BINDINGS=False
+      - -DLIBICAL_BUILD_DOCS=False
+      - -DLIBICAL_CXX_BINDINGS=False
+      - -DLIBICAL_JAVA_BINDINGS=False
     sources:
       - type: archive
-        url: https://github.com/libical/libical/releases/download/v3.0.16/libical-3.0.16.tar.gz
-        sha256: b44705dd71ca4538c86fb16248483ab4b48978524fb1da5097bd76aa2e0f0c33
+        url: https://github.com/libical/libical/releases/download/v4.0.2/libical-4.0.2.tar.gz
+        sha256: 39a979bb5474af3c4601c83dc71512c1121dee56722b3d8d8668ed75bd78ccdd
+        x-checker-data:
+          type: json
+          url: https://api.github.com/repos/libical/libical/releases/latest
+          version-query: .tag_name | sub("^v"; "")
+          url-query: .assets[] | select(.name=="libical-" + $version + ".tar.gz") | .browser_download_url
   - name: evolution-data-server
     cleanup:
       - /share/GConf
@@ -213,8 +259,12 @@ modules:
       - -DENABLE_OAUTH2_WEBKITGTK=OFF
     sources:
       - type: git
-        url: https://gitlab.gnome.org/GNOME/evolution-data-server.git
-        tag: 3.54.1
+        url: https://github.com/GNOME/evolution-data-server.git
+        tag: 3.60.2
+        x-checker-data:
+          type: git
+          tag-pattern: ^([\d.]+)$
+        commit: c63344d7f4891503c108eda5faf50621ccb2602d
   - name: cbindgen
     buildsystem: simple
     build-commands:
@@ -229,28 +279,30 @@ modules:
       - '*'
     sources:
       - type: git
-        url: https://github.com/eqrion/cbindgen.git
-        tag: v0.27.0
-        commit: 58c6156b0d91e82abb03c26187b8d18fa4345ce0
+        url: https://github.com/mozilla/cbindgen.git
+        tag: v0.29.4
+        x-checker-data:
+          type: git
+          tag-pattern: ^v([\d.]+)$
+        commit: b826cb8911488fe8a209d2b693492c0c673e8cca
       - cbindgen-sources.json
   - name: betterbird
     buildsystem: simple
     build-options:
-      append-path: /app/lib/rust/bin:/usr/lib/sdk/node22/bin:/usr/lib/sdk/llvm20/bin
-      prepend-ld-library-path: /usr/lib/sdk/llvm20/lib
+      append-path: /app/lib/rust/bin:/usr/lib/sdk/node24/bin:/usr/lib/sdk/llvm22/bin
+      prepend-ld-library-path: /usr/lib/sdk/llvm22/lib
       env:
         TERM: linux
         CARGO_HOME: /run/build/betterbird/cargo
-        npm_config_nodedir: /usr/lib/sdk/node22
+        npm_config_nodedir: /usr/lib/sdk/node24
     build-commands:
-      - ./make-mozconfig.sh 140
+      - ./make-mozconfig.sh 153
       - chmod u+x apply-patches.sh
-      - ./apply-patches.sh 140
+      - ./apply-patches.sh 153
       - sed -i 's#-I/usr/include#-I/app/include#g' comm/third_party/appindicator/moz.build
       - export MOZ_BUILD_DATE=$(cat .build-date); ./mach configure; ./mach build -v -j ${FLATPAK_BUILDER_N_JOBS}; ./mach install
-      - rm -rf /app/lib/thunderbird/chrome
-      - rm -f /app/bin/thunderbird
-      - mv /app/lib/thunderbird /app/lib/betterbird
+      - rm -rf /app/lib/betterbird/chrome
+      - rm -f /app/bin/betterbird
       - install -Dm755 betterbird-wrapper /app/bin/betterbird
       - install -Dm644 distribution.ini /app/lib/betterbird/distribution/distribution.ini
       - install -Dm644 default-preferences.js /app/lib/betterbird/defaults/pref/default-preferences.js
@@ -262,7 +314,7 @@ modules:
       - for i in 16 22 24 32 48 64 128 256; do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png; done
       - install -Dm644 thunderbird-patches/metadata/icons/betterbird.svg /app/share/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg
       - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop /app/share/applications/eu.betterbird.Betterbird.desktop
-      - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.140.appdata.xml /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml
+      - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.153.appdata.xml /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml
       - install -Dm644 fonts.conf /app/etc/fonts/local.conf
     sources:
       - thunderbird-sources.json
@@ -277,9 +329,9 @@ modules:
           - exec /app/lib/betterbird/betterbird "$@"
       - type: git
         url: https://github.com/Betterbird/thunderbird-patches.git
-        commit: 07d8f9c89d8d26a3d009a04f47378c601293efed
+        commit: be52aa8e8c7b962ec8987e336060f9208b0b0e7f
         dest: thunderbird-patches
-        tag: 140.1.1esr-bb8-build2
+        tag: 153.0b4-bb3
       - type: file
         path: mozconfig-flatpak
       - type: file
@@ -289,13 +341,13 @@ modules:
       - type: script
         dest-filename: make-mozconfig.sh
         commands:
-          - cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak | sed -r 's/(mk_add_options MOZ_MAKE_FLAGS="-j[0-9]+")/# \1/' > mozconfig
+          - cat thunderbird-patches/140/mozconfig-Linux mozconfig-flatpak | sed -r 's/(mk_add_options MOZ_MAKE_FLAGS="-j[0-9]+")/# \1/' > mozconfig
         only-arches:
           - x86_64
       - type: script
         dest-filename: make-mozconfig.sh
         commands:
-          - cat thunderbird-patches/$1/mozconfig-Linux mozconfig-flatpak mozconfig-aarch64 | sed -r 's/(mk_add_options MOZ_MAKE_FLAGS="-j[0-9]+")/# \1/' > mozconfig
+          - cat thunderbird-patches/140/mozconfig-Linux mozconfig-flatpak mozconfig-aarch64 | sed -r 's/(mk_add_options MOZ_MAKE_FLAGS="-j[0-9]+")/# \1/' > mozconfig
         only-arches:
           - aarch64
       - type: file
