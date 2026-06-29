@@ -264,11 +264,11 @@ modules:
     sources:
       - type: git
         url: https://github.com/GNOME/evolution-data-server.git
-        tag: 3.60.2
+        tag: 3.61.1
         x-checker-data:
           type: git
           tag-pattern: ^([\d.]+)$
-        commit: c63344d7f4891503c108eda5faf50621ccb2602d
+        commit: c4efe40dc7956383a29c1ba528146e7648e04900
   - name: cbindgen
     buildsystem: simple
     build-commands:
