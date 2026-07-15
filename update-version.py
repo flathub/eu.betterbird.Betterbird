@@ -30,6 +30,7 @@ DIST_FILE = FLATHUB_DIR / "distribution.ini"
 BUILD_DATE_FILE = FLATHUB_DIR / ".build-date"
 KNOWN_TAGS_FILE = FLATHUB_DIR / ".known-tags"
 
+
 def log_verbose(verbose: bool, msg: str) -> None:
     """Print a progress message only when verbose mode is enabled."""
     if verbose:
@@ -432,9 +433,7 @@ def setup_repos(flathub_repo: str, verbose: bool = False):
         repo.git.reset("--hard", "HEAD")
         repo.remotes.origin.fetch()
     else:
-        log_verbose(
-            verbose, f"[auto] {FLATHUB_DIR}: cloning {flathub_repo}…"
-        )
+        log_verbose(verbose, f"[auto] {FLATHUB_DIR}: cloning {flathub_repo}…")
         git.Repo.clone_from(flathub_repo, FLATHUB_DIR)
 
     # Clone/update thunderbird-patches
@@ -447,16 +446,17 @@ def setup_repos(flathub_repo: str, verbose: bool = False):
         repo.git.reset("--hard", "HEAD")
         repo.remotes.origin.fetch()
     else:
-        log_verbose(
-            verbose, f"[auto] {PATCHES_DIR}: cloning {BETTERBIRD_REPO}…"
-        )
+        log_verbose(verbose, f"[auto] {PATCHES_DIR}: cloning {BETTERBIRD_REPO}…")
         git.Repo.clone_from(BETTERBIRD_REPO, PATCHES_DIR)
 
 
 def find_new_tags(patches_dir: str, known_tags_file: str, verbose: bool = False):
     """Return tags in thunderbird-patches that are not in .known-tags."""
     patches_repo = git.Repo(patches_dir)
-    all_tags = sorted(tag.name for tag in patches_repo.tags)
+    all_tags = sorted(
+        (tag.name for tag in patches_repo.tags),
+        key=lambda t: [int(x) for x in re.findall(r"\d+", t)],
+    )
 
     known_tags = set()
     if Path(known_tags_file).exists():
@@ -486,7 +486,6 @@ def auto_update(major_release: str, target_branch: str, verbose: bool = False):
         tag_major = tag.split(".")[0]
         if tag_major == major_release:
             target_tag = tag
-            break
         else:
             log_verbose(
                 verbose,
@@ -531,10 +530,19 @@ def auto_update(major_release: str, target_branch: str, verbose: bool = False):
 
     # Update .known-tags in flathub repo
     Path(KNOWN_TAGS_FILE).write_text(
-        "\n".join(sorted(set(
-            (Path(KNOWN_TAGS_FILE).read_text().splitlines() if Path(KNOWN_TAGS_FILE).exists() else [])
-            + list(new_tags)
-        ))) + "\n"
+        "\n".join(
+            sorted(
+                set(
+                    (
+                        Path(KNOWN_TAGS_FILE).read_text().splitlines()
+                        if Path(KNOWN_TAGS_FILE).exists()
+                        else []
+                    )
+                    + list(new_tags)
+                )
+            )
+        )
+        + "\n"
     )
 
     # Commit and push
@@ -552,7 +560,7 @@ def auto_update(major_release: str, target_branch: str, verbose: bool = False):
     flathub_repo_git.remotes.origin.push(update_branch)
 
     # Create PR
-    log_verbose(verbose, f"[auto] Creating PR…")
+    log_verbose(verbose, "[auto] Creating PR…")
     if target_branch in ("master", "beta"):
         subprocess.run(
             ["gh", "pr", "create", "--fill", "--base", target_branch],
@@ -578,7 +586,7 @@ def main():
 
     # --auto mode: automated CI/CD workflow
     if args.auto is not None:
-        major_release :Optional[str] = args.auto if args.auto else None
+        major_release: Optional[str] = args.auto if args.auto else None
         if not major_release:
             print("Usage: update-version.py --auto [MAJOR_RELEASE]")
             print("")
