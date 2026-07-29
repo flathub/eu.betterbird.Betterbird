@@ -197,6 +197,8 @@
 140.11.0esr-bb23
 140.11.0esr-bb23-build2
 140.12.0esr-bb24
+140.13.0esr-bb25
+140.13.0esr-bb25-tarball-140.13.0
 140.2.0esr-bb9
 140.2.1esr-bb10
 140.2.1esr-bb10-build2
@@ -235,6 +237,7 @@
 153.0b9-bb5
 153.0esr-bb6
 153.0esr-bb6-build1a
+153.0esr-bb6-build2
 91.0-bb8
 91.0.1-bb9
 91.0.2-bb10
