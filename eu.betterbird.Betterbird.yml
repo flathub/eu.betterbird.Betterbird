@@ -113,42 +113,6 @@ modules:
             NATIVE_TARGET: aarch64-unknown-linux-gnu
     build-commands:
       - cd "rust-$NATIVE_TARGET" && ./install.sh --prefix=/app/lib/rust --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose
-  - name: libdbusmenu
-    build-options:
-      cflags: -Wno-error
-      env:
-        HAVE_VALGRIND_FALSE: '#'
-        HAVE_VALGRIND_TRUE: ''
-    cleanup:
-      - /include
-      - /libexec
-      - /lib/pkgconfig
-      - /lib/*.la
-      - /share/doc
-      - /share/libdbusmenu
-      - /share/gtk-doc
-      - /share/gir-1.0
-    config-opts:
-      - --disable-static
-      - --disable-gtk-doc
-      - --enable-introspection=no
-      - --disable-vala
-      - --disable-dumper
-      - --disable-tests
-      - --with-gtk=3
-    sources:
-      - type: archive
-        url: https://launchpad.net/libdbusmenu/16.04/16.04.0/+download/libdbusmenu-16.04.0.tar.gz
-        mirror-urls:
-          - https://sources.suse.com/SUSE:SLFO:Main:Build/libdbusmenu/a5b3e4717f09f90f9cd5568a5f933e8d/libdbusmenu-16.04.0.tar.gz
-          - https://mirror.math.princeton.edu/pub/frugalware/frugalware-2.1/source/xlib/libdbusmenu/libdbusmenu-16.04.0.tar.gz
-          - https://ftp.fr.openbsd.org/pub/OpenBSD/distfiles/libdbusmenu-16.04.0.tar.gz
-        sha256: b9cc4a2acd74509435892823607d966d424bd9ad5d0b00938f27240a1bfa878a
-        x-checker-data:
-          type: html
-          url: https://launchpad.net/libdbusmenu/+download
-          version-pattern: libdbusmenu-16.04.([\d\.]+)\.tar\.gz
-          url-template: https://launchpad.net/libdbusmenu/16.04/16.04.$version/+download/libdbusmenu-16.04.$version.tar.gz
   - name: pcsc-lite
     buildsystem: meson
     config-opts:
@@ -329,9 +293,9 @@ modules:
           - exec /app/lib/betterbird/betterbird "$@"
       - type: git
         url: https://github.com/Betterbird/thunderbird-patches.git
-        commit: 5e7ab0c837ecc379c1c991c35319d453c868a059
+        commit: cc242ef6884b54ec783e0d55ce25c4b0c8f763d3
         dest: thunderbird-patches
-        tag: 153.0esr-bb6-build6
+        tag: 153.0esr-bb6-build10
       - type: file
         path: mozconfig-flatpak
       - type: file
