@@ -437,29 +437,22 @@ def self_contained_update_sources(base_url, betterbird_version, verbose: bool = 
     log_verbose(verbose, f"  Done. Sources written to {SOURCES_FILE}")
 
 
-def setup_repos(flathub_repo: str, base_branch: str, verbose: bool = False):
+def setup_repos(flathub_repo: str, verbose: bool = False):
     """Clone or update the flathub repo and thunderbird-patches."""
 
     # Clone/update flathub repo
     if Path(FLATHUB_DIR).exists():
         log_verbose(
             verbose,
-            f"[auto] {FLATHUB_DIR}: repo exists, resetting to HEAD and fetching updates…",
+            f"[auto] {FLATHUB_DIR}: repo exists, fetching updates…",
         )
         repo = git.Repo(FLATHUB_DIR)
-        repo.git.reset("--hard", "HEAD")
         repo.remotes.origin.fetch()
     else:
         log_verbose(
             verbose, f"[auto] {FLATHUB_DIR}: cloning {flathub_repo}…"
         )
         git.Repo.clone_from(flathub_repo, FLATHUB_DIR)
-
-    # Checkout the base branch at the latest origin state
-    log_verbose(verbose, f"[auto] Checking out base branch {base_branch}…")
-    repo = git.Repo(FLATHUB_DIR)
-    repo.git.checkout(base_branch)
-    repo.git.reset("--hard", f"origin/{base_branch}")
 
     # Clone/update thunderbird-patches
     if Path(PATCHES_DIR).exists():
@@ -477,14 +470,12 @@ def setup_repos(flathub_repo: str, base_branch: str, verbose: bool = False):
         git.Repo.clone_from(BETTERBIRD_REPO, PATCHES_DIR)
 
 
-def find_new_tags(patches_dir: str, known_tags_file: str, verbose: bool = False):
-    """Return tags in thunderbird-patches that are not in .known-tags."""
+def find_new_tags(patches_dir: str, known_tags, verbose: bool = False):
+    """Return tags in thunderbird-patches that are not among the known tags."""
     patches_repo = git.Repo(patches_dir)
     all_tags = sorted(tag.name for tag in patches_repo.tags)
 
-    known_tags = set()
-    if Path(known_tags_file).exists():
-        known_tags = set(Path(known_tags_file).read_text().splitlines())
+    known_tags = set(known_tags)
 
     new_tags = [t for t in all_tags if t not in known_tags]
     if verbose and new_tags:
@@ -496,10 +487,22 @@ def auto_update(major_release: str, target_branch: str, base_branch: str, verbos
     """Run automated update: discover new tags, update, commit, push, create PR."""
 
     # Setup repos
-    setup_repos(FLATHUB_REPO, base_branch, verbose=verbose)
+    setup_repos(FLATHUB_REPO, verbose=verbose)
+    flathub_repo_git = git.Repo(FLATHUB_DIR)
+
+    # Read known tags from the remote base branch (not the caller's local checkout)
+    known_tags = set()
+    try:
+        known_tags = set(
+            flathub_repo_git.git.show(
+                f"origin/{base_branch}:{KNOWN_TAGS_FILE.name}"
+            ).splitlines()
+        )
+    except git.exc.GitCommandError:
+        pass
 
     # Find new tags
-    new_tags = find_new_tags(PATCHES_DIR, KNOWN_TAGS_FILE, verbose=verbose)
+    new_tags = find_new_tags(PATCHES_DIR, known_tags, verbose=verbose)
     if not new_tags:
         print("No new tags found.")
         return
@@ -522,7 +525,6 @@ def auto_update(major_release: str, target_branch: str, base_branch: str, verbos
         return
 
     # Check if update branch already exists
-    flathub_repo_git = git.Repo(FLATHUB_DIR)
     existing_branch = flathub_repo_git.git.ls_remote(
         "--heads", "origin", f"update-{target_tag}"
     ).strip()
@@ -533,57 +535,108 @@ def auto_update(major_release: str, target_branch: str, base_branch: str, verbos
         )
         return
 
-    # Run the version update
+    update_branch = f"update-{target_tag}"
+
+    # Resolve the Betterbird commit and source base URL. These only affect the
+    # ignored thunderbird-patches repository, so they run before the flathub
+    # checkout is touched.
     log_verbose(verbose, f"[auto] Updating to {target_tag}…")
     ensure_repo(verbose=verbose)
     betterbird_commit = get_commit(target_tag, None, verbose=verbose)
 
-    # Save build date
-    build_date = datetime.now().astimezone().strftime("%Y%m%d%H%M%S")
-    Path(BUILD_DATE_FILE).write_text(build_date + "\n")
-
-    # Get base URL and update sources
     base_url = get_base_url()
     if not base_url:
         print(f"Error: Could not extract base URL from {APPDATA_FILE}")
         return
 
-    update_sources_file(base_url, target_tag, verbose=verbose)
-    update_manifest(betterbird_commit, "tag", target_tag, verbose=verbose)
-    update_distribution_ini(betterbird_commit, verbose=verbose)
-    update_known_tags(target_tag, verbose=verbose)
+    # Remember the caller's checkout so it can be restored afterwards
+    if flathub_repo_git.head.is_detached:
+        original_checkout = flathub_repo_git.head.commit.hexsha
+        original_is_branch = False
+    else:
+        original_checkout = flathub_repo_git.active_branch.name
+        original_is_branch = True
 
-    # Update .known-tags in flathub repo
-    Path(KNOWN_TAGS_FILE).write_text(
-        "\n".join(sorted(set(
-            (Path(KNOWN_TAGS_FILE).read_text().splitlines() if Path(KNOWN_TAGS_FILE).exists() else [])
-            + list(new_tags)
-        ))) + "\n"
-    )
+    # Stash local changes (including untracked files) for a clean working tree
+    stashed = False
+    if flathub_repo_git.git.status("--porcelain").strip():
+        log_verbose(verbose, "[auto] Working tree not clean, stashing local changes…")
+        flathub_repo_git.git.stash(
+            "push", "--include-untracked", "-m", "update-version.py auto-update stash"
+        )
+        stashed = True
 
-    # Commit and push
-    update_branch = f"update-{target_tag}"
-    log_verbose(verbose, f"[auto] Creating branch {update_branch} from {base_branch}…")
-    flathub_repo_git.git.switch("-c", update_branch)
-    flathub_repo_git.git.add(
-        MANIFEST_FILE, SOURCES_FILE, DIST_FILE, BUILD_DATE_FILE, KNOWN_TAGS_FILE
-    )
-    flathub_repo_git.git.commit(
-        "-m", f"Update to {target_tag}",
-        "--", MANIFEST_FILE, SOURCES_FILE, DIST_FILE, BUILD_DATE_FILE, KNOWN_TAGS_FILE
-    )
-    log_verbose(verbose, f"[auto] Pushing {update_branch}…")
-    flathub_repo_git.remotes.origin.push(update_branch)
+    try:
+        # Create the update branch based on the fetched remote base branch
+        if update_branch in flathub_repo_git.branches:
+            log_verbose(verbose, f"[auto] Removing stale local branch {update_branch}…")
+            flathub_repo_git.git.branch("-D", update_branch)
+        log_verbose(
+            verbose, f"[auto] Creating branch {update_branch} from origin/{base_branch}…"
+        )
+        flathub_repo_git.git.switch("-c", update_branch, f"origin/{base_branch}")
 
-    # Create PR to merge the update branch into the target branch
-    log_verbose(verbose, f"[auto] Creating PR against {target_branch}…")
-    subprocess.run(
-        ["gh", "pr", "create", "--fill", "--base", target_branch],
-        check=True,
-    )
+        # Save build date
+        build_date = datetime.now().astimezone().strftime("%Y%m%d%H%M%S")
+        Path(BUILD_DATE_FILE).write_text(build_date + "\n")
 
-    # Switch back to base branch
-    flathub_repo_git.git.switch(base_branch)
+        # Update sources, manifest, distribution.ini, known tags
+        update_sources_file(base_url, target_tag, verbose=verbose)
+        update_manifest(betterbird_commit, "tag", target_tag, verbose=verbose)
+        update_distribution_ini(betterbird_commit, verbose=verbose)
+        update_known_tags(target_tag, verbose=verbose)
+
+        # Update .known-tags in flathub repo
+        Path(KNOWN_TAGS_FILE).write_text(
+            "\n".join(sorted(set(
+                (Path(KNOWN_TAGS_FILE).read_text().splitlines() if Path(KNOWN_TAGS_FILE).exists() else [])
+                + list(new_tags)
+            ))) + "\n"
+        )
+
+        # Commit and push
+        flathub_repo_git.git.add(
+            MANIFEST_FILE, SOURCES_FILE, DIST_FILE, BUILD_DATE_FILE, KNOWN_TAGS_FILE
+        )
+        flathub_repo_git.git.commit(
+            "-m", f"Update to {target_tag}",
+            "--", MANIFEST_FILE, SOURCES_FILE, DIST_FILE, BUILD_DATE_FILE, KNOWN_TAGS_FILE
+        )
+        log_verbose(verbose, f"[auto] Pushing {update_branch}…")
+        flathub_repo_git.remotes.origin.push(update_branch)
+
+        # Create PR to merge the update branch into the target branch
+        log_verbose(verbose, f"[auto] Creating PR against {target_branch}…")
+        subprocess.run(
+            ["gh", "pr", "create", "--fill", "--base", target_branch],
+            check=True,
+        )
+    finally:
+        # Return to the caller's checkout and restore any stashed changes.
+        # If restoration cannot complete cleanly, surface it but do not mask
+        # the original error, and keep the stash entry intact.
+        try:
+            if original_is_branch:
+                flathub_repo_git.git.switch(original_checkout)
+            else:
+                flathub_repo_git.git.switch("--detach", original_checkout)
+        except Exception as exc:
+            print(
+                f"Warning: could not return to {original_checkout}: {exc}",
+                file=sys.stderr,
+            )
+        if stashed:
+            log_verbose(verbose, "[auto] Restoring stashed changes…")
+            try:
+                flathub_repo_git.git.stash("pop")
+            except Exception as exc:
+                print(
+                    f"Warning: could not restore stashed changes; "
+                    f"they remain in the stash: {exc}",
+                    file=sys.stderr,
+                )
+
+    # Delete the local update branch only after a successful PR creation
     flathub_repo_git.git.branch("-D", update_branch)
 
     # Write result
