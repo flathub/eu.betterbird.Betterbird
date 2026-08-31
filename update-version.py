@@ -50,8 +50,9 @@ def run_cmd(cmd, cwd:Optional[Path]=None, check=True, capture=False, text=False)
 def parse_args():
     parser = argparse.ArgumentParser(
         description="Update Betterbird version",
-        epilog=f"Example: {sys.argv[0]} 102.2.2-bb16\n"
-        f"         {sys.argv[0]} 102 4d587481bc7dbca1ffc99cce319f84425fab7852",
+        epilog=f"Examples: {sys.argv[0]} 102.2.2-bb16\n"
+        f"          {sys.argv[0]} 102 4d587481bc7dbca1ffc99cce319f84425fab7852",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument("version", nargs="?", help="Betterbird version (tag or major version)")
     parser.add_argument(
@@ -89,9 +90,14 @@ def parse_args():
         "Optionally pass the major release number to filter tags.",
     )
     parser.add_argument(
-        "--branch",
+        "--target",
         default="master",
         help="Target branch for the PR (default: master)",
+    )
+    parser.add_argument(
+        "--base",
+        default="develop",
+        help="Base branch from which the update branch is created (default: develop)",
     )
     return parser.parse_args()
 
@@ -431,7 +437,7 @@ def self_contained_update_sources(base_url, betterbird_version, verbose: bool = 
     log_verbose(verbose, f"  Done. Sources written to {SOURCES_FILE}")
 
 
-def setup_repos(flathub_repo: str, verbose: bool = False):
+def setup_repos(flathub_repo: str, base_branch: str, verbose: bool = False):
     """Clone or update the flathub repo and thunderbird-patches."""
 
     # Clone/update flathub repo
@@ -448,6 +454,12 @@ def setup_repos(flathub_repo: str, verbose: bool = False):
             verbose, f"[auto] {FLATHUB_DIR}: cloning {flathub_repo}…"
         )
         git.Repo.clone_from(flathub_repo, FLATHUB_DIR)
+
+    # Checkout the base branch at the latest origin state
+    log_verbose(verbose, f"[auto] Checking out base branch {base_branch}…")
+    repo = git.Repo(FLATHUB_DIR)
+    repo.git.checkout(base_branch)
+    repo.git.reset("--hard", f"origin/{base_branch}")
 
     # Clone/update thunderbird-patches
     if Path(PATCHES_DIR).exists():
@@ -480,11 +492,11 @@ def find_new_tags(patches_dir: str, known_tags_file: str, verbose: bool = False)
     return new_tags
 
 
-def auto_update(major_release: str, target_branch: str, verbose: bool = False):
+def auto_update(major_release: str, target_branch: str, base_branch: str, verbose: bool = False):
     """Run automated update: discover new tags, update, commit, push, create PR."""
 
     # Setup repos
-    setup_repos(FLATHUB_REPO, verbose=verbose)
+    setup_repos(FLATHUB_REPO, base_branch, verbose=verbose)
 
     # Find new tags
     new_tags = find_new_tags(PATCHES_DIR, KNOWN_TAGS_FILE, verbose=verbose)
@@ -551,7 +563,7 @@ def auto_update(major_release: str, target_branch: str, verbose: bool = False):
 
     # Commit and push
     update_branch = f"update-{target_tag}"
-    log_verbose(verbose, f"[auto] Creating branch {update_branch}…")
+    log_verbose(verbose, f"[auto] Creating branch {update_branch} from {base_branch}…")
     flathub_repo_git.git.switch("-c", update_branch)
     flathub_repo_git.git.add(
         MANIFEST_FILE, SOURCES_FILE, DIST_FILE, BUILD_DATE_FILE, KNOWN_TAGS_FILE
@@ -563,21 +575,15 @@ def auto_update(major_release: str, target_branch: str, verbose: bool = False):
     log_verbose(verbose, f"[auto] Pushing {update_branch}…")
     flathub_repo_git.remotes.origin.push(update_branch)
 
-    # Create PR
-    log_verbose(verbose, f"[auto] Creating PR…")
-    if target_branch in ("master", "beta"):
-        subprocess.run(
-            ["gh", "pr", "create", "--fill", "--base", target_branch],
-            check=True,
-        )
-    else:
-        subprocess.run(
-            ["gh", "pr", "create", "--fill", "--title", f"Release {target_tag}"],
-            check=True,
-        )
+    # Create PR to merge the update branch into the target branch
+    log_verbose(verbose, f"[auto] Creating PR against {target_branch}…")
+    subprocess.run(
+        ["gh", "pr", "create", "--fill", "--base", target_branch],
+        check=True,
+    )
 
-    # Switch back to target branch
-    flathub_repo_git.git.switch(target_branch)
+    # Switch back to base branch
+    flathub_repo_git.git.switch(base_branch)
     flathub_repo_git.git.branch("-D", update_branch)
 
     # Write result
@@ -596,7 +602,7 @@ def main():
             print("")
             print("Example: update-version.py --auto 140")
             sys.exit(1)
-        auto_update(major_release, args.branch, verbose=verbose)
+        auto_update(major_release, args.target, args.base, verbose=verbose)
         return
 
     betterbird_version = args.version
