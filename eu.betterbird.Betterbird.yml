@@ -5,7 +5,7 @@ runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
 - org.freedesktop.Sdk.Extension.node24
-- org.freedesktop.Sdk.Extension.llvm20
+- org.freedesktop.Sdk.Extension.llvm22
 command: betterbird
 finish-args:
 - --share=ipc
@@ -64,8 +64,8 @@ modules:
   - /bin/sccache
   sources:
   - type: archive
-    url: https://github.com/mozilla/sccache/releases/download/v0.16.0/sccache-v0.16.0-x86_64-unknown-linux-musl.tar.gz
-    sha256: aec995a83ad3dff3d14b6314e08858b7b73d35ca85a5bcf3d3a9ec07dee35588
+    url: https://github.com/mozilla/sccache/releases/download/v0.17.0/sccache-v0.17.0-x86_64-unknown-linux-musl.tar.gz
+    sha256: 67c4a96dd237c1f518f6b36083f270f9976d516f1e57fce891755ea782e50006
     only-arches:
     - x86_64
     x-checker-data:
@@ -76,8 +76,8 @@ modules:
         | .browser_download_url
       url-template: https://github.com/mozilla/sccache/releases/download/$version/sccache-$version-x86_64-unknown-linux-musl.tar.gz
   - type: archive
-    url: https://github.com/mozilla/sccache/releases/download/v0.16.0/sccache-v0.16.0-aarch64-unknown-linux-musl.tar.gz
-    sha256: f73a5c39f96bb6ebb89cc7915cf182260d4cbf30765322c5e793d0fe8bd80784
+    url: https://github.com/mozilla/sccache/releases/download/v0.17.0/sccache-v0.17.0-aarch64-unknown-linux-musl.tar.gz
+    sha256: 821a86343191aa1cbab74bd42f9e93c9a63bf85e4742945f40d3ae84193c1c77
     only-arches:
     - aarch64
     x-checker-data:
@@ -96,14 +96,14 @@ modules:
     only-arches:
     - aarch64
     dest: rust-aarch64-unknown-linux-gnu
-    url: https://static.rust-lang.org/dist/rust-1.86.0-aarch64-unknown-linux-gnu.tar.xz
-    sha256: 2b97d1e09a1d7fdbed748332879318ee7f41c008837f87ccb44ec045df0a8a1b
+    url: https://static.rust-lang.org/dist/rust-1.95.0-aarch64-unknown-linux-gnu.tar.xz
+    sha256: 094c9c36531911c5cc7dd6ab2d3069ab8dcd744d6239b0bda1387b243dfc391e
   - type: archive
     only-arches:
     - x86_64
     dest: rust-x86_64-unknown-linux-gnu
-    url: https://static.rust-lang.org/dist/rust-1.86.0-x86_64-unknown-linux-gnu.tar.xz
-    sha256: 6b448b3669e0c74f7f4b87da7da4868a552fcbba1f955032d8925ad2fffb3798
+    url: https://static.rust-lang.org/dist/rust-1.95.0-x86_64-unknown-linux-gnu.tar.xz
+    sha256: 2e0338f18ecbaa4a0f631b9e80e8b8e26bb6fe77dd5454fba8a70cf96c1e84a1
   build-options:
     prefix: /app/lib/rust
     arch:
@@ -231,8 +231,8 @@ modules:
   - -DLIBICAL_JAVA_BINDINGS=False
   sources:
   - type: archive
-    url: https://github.com/libical/libical/releases/download/v4.0.3/libical-4.0.3.tar.gz
-    sha256: 86f29029d0ec9fa30c9001de16c0859a3816ae154ff5b097392b014e21a3d254
+    url: https://github.com/libical/libical/releases/download/v4.0.5/libical-4.0.5.tar.gz
+    sha256: cc09a3ac41d60e6144e644bd3fcf97d47106d659c4a0b8965102581401e67c9c
     x-checker-data:
       type: json
       url: https://api.github.com/repos/libical/libical/releases/latest
@@ -263,11 +263,11 @@ modules:
   sources:
   - type: git
     url: https://github.com/GNOME/evolution-data-server.git
-    tag: 3.61.1
+    tag: 3.61.2
     x-checker-data:
       type: git
       tag-pattern: ^([\d.]+)$
-    commit: c4efe40dc7956383a29c1ba528146e7648e04900
+    commit: aca4b3e77c255b53a10bc50570a4e524890cf760
 - name: cbindgen
   buildsystem: simple
   build-commands:
@@ -292,16 +292,16 @@ modules:
 - name: betterbird
   buildsystem: simple
   build-options:
-    append-path: /app/lib/rust/bin:/usr/lib/sdk/node24/bin:/usr/lib/sdk/llvm20/bin
-    prepend-ld-library-path: /usr/lib/sdk/llvm20/lib
+    append-path: /app/lib/rust/bin:/usr/lib/sdk/node24/bin:/usr/lib/sdk/llvm22/bin
+    prepend-ld-library-path: /usr/lib/sdk/llvm22/lib
     env:
       TERM: linux
       CARGO_HOME: /run/build/betterbird/cargo
       npm_config_nodedir: /usr/lib/sdk/node24
   build-commands:
-  - ./make-mozconfig.sh 140
+  - ./make-mozconfig.sh 153
   - chmod u+x apply-patches.sh
-  - ./apply-patches.sh 140
+  - ./apply-patches.sh 153
   - sed -i 's#-I/usr/include#-I/app/include#g' comm/third_party/appindicator/moz.build
   - export MOZ_BUILD_DATE=$(cat .build-date); ./mach configure; ./mach build -v -j
     ${FLATPAK_BUILDER_N_JOBS}; ./mach install
@@ -322,7 +322,7 @@ modules:
     /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png; done
   - install -Dm644 thunderbird-patches/metadata/icons/betterbird.svg /app/share/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg
   - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop /app/share/applications/eu.betterbird.Betterbird.desktop
-  - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.140.appdata.xml
+  - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.153.appdata.xml
     /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml
   - install -Dm644 fonts.conf /app/etc/fonts/local.conf
   sources:
@@ -338,9 +338,9 @@ modules:
     - exec /app/lib/betterbird/betterbird "$@"
   - type: git
     url: https://github.com/Betterbird/thunderbird-patches.git
-    commit: a72e7ce5658f7c8880b9076f0fa0080ec666cfd4
+    commit: 759c75a74124a924ad0249bf4968a72d9ee4103c
     dest: thunderbird-patches
-    tag: 140.13.0esr-bb25-tarball-140.13.0
+    tag: 153.2.0esr-bb8
   - type: file
     path: mozconfig-flatpak
   - type: file

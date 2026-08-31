@@ -6,6 +6,14 @@ platforms = ["linux-64"]
 version = "0.1.0"
 
 [tasks]
+build = { cmd = "flatpak-builder --repo=repo build eu.betterbird.Betterbird.yml", description = "Build the flatpak" }
+build-shell = { cmd = "flatpak-builder build --build-shell=betterbird --force-clean eu.betterbird.Betterbird.yml", description = "Enter the flatpak build shell for the betterbird module" }
+update-version = { cmd = "python update-version.py", description = "Update Betterbird version (pass args, e.g. `pixi run update-version 153.0b9-bb5`)" }
+update-cbindgen = { cmd = "bash update-cbindgen-sources.sh", description = "Update cbindgen (pass version arg, e.g. `pixi run update-cbindgen v0.29.4`)" }
+clean = { cmd = "rm -rf build .flatpak-builder repo", description = "Remove the flatpak build, .flatpak-builder cache, and repo directories" }
+lint = { cmd = "ruff check update-version.py", description = "Run ruff linter on Python files" }
+format = { cmd = "ruff format --check update-version.py", description = "Check Python formatting with ruff" }
+format-fix = { cmd = "ruff format update-version.py", description = "Auto-fix Python formatting with ruff" }
 
 [dependencies]
 python = "3.14.*"
@@ -13,6 +21,7 @@ pyyaml = ">=6.0.3,<7"
 pixi-pycharm = ">=0.0.11,<0.0.12"
 gitpython = ">=3.1.50,<4"
 ruff = ">=0.15.13,<0.16"
+"ruamel.yaml" = ">=0.19.1,<0.20"
 
 [pypi-dependencies]
 flatpak-cargo-generator = { path = "./flatpak-builder-tools/cargo", editable = true }

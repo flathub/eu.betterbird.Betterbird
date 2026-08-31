@@ -1,6 +1,7 @@
-# This workflow regularly checks for new tags in Betterbird/thunderbird-patches, 
-# runs ./update-version.sh $tag if there is a new tag, commits the result to the
-# develop branch and creates a PR for merging develop into master.
+# This workflow checks for new tags in Betterbird/thunderbird-patches and runs
+# update-version.py --auto if there is a new tag for the configured major
+# release. It prepares the update on the develop branch and creates a PR that
+# merges develop into master.
 
 name: update-version
 
@@ -9,39 +10,27 @@ on:
   #  - cron: "0 */6 * * *"
   workflow_dispatch:
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   job:
     runs-on: ubuntu-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
         with:
-          path: eu.betterbird.Betterbird
-          ref: master
-      - uses: actions/checkout@v4
+          ref: develop
+
+      - uses: actions/setup-python@v5
         with:
-          repository: Betterbird/thunderbird-patches
-          path: thunderbird-patches
-          fetch-depth: 0
+          python-version: '3.12'
 
-      # Install yq
-      - name: yq - portable yaml processor
-        uses: mikefarah/yq@v4.44.3
+      - name: Install dependencies
+        run: pip install GitPython PyYAML
 
-      # Checks for new upstream tags and updates the manifest if new
-      # tags are available
       - name: Auto-update to newest tag
-        run: ./eu.betterbird.Betterbird/.github/scripts/auto-update.sh
-      
-      # Creates a PR to merge develop into master if Betterbird has
-      # been updated
-      - name: Create Pull Request
-        if: ${{env.version_updated=='true'}}
-        uses: peter-evans/create-pull-request@v4.1.3
-        with:
-          path: eu.betterbird.Betterbird
-          branch: update-${{env.new_version}}
-          delete-branch: true
-          commit-message: Update to ${{env.new_version}}
-          title: Update to ${{env.new_version}}
-      
+        run: python update-version.py --auto 153 --branch develop
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
