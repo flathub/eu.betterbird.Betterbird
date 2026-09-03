@@ -4,7 +4,7 @@ runtime: org.freedesktop.Platform
 runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.node24
+  - org.freedesktop.Sdk.Extension.node26
   - org.freedesktop.Sdk.Extension.llvm22
 command: betterbird
 finish-args:
@@ -293,12 +293,12 @@ modules:
   - name: betterbird
     buildsystem: simple
     build-options:
-      append-path: /app/lib/rust/bin:/usr/lib/sdk/node24/bin:/usr/lib/sdk/llvm22/bin
+      append-path: /app/lib/rust/bin:/usr/lib/sdk/node26/bin:/usr/lib/sdk/llvm22/bin
       prepend-ld-library-path: /usr/lib/sdk/llvm22/lib
       env:
         TERM: linux
         CARGO_HOME: /run/build/betterbird/cargo
-        npm_config_nodedir: /usr/lib/sdk/node24
+        npm_config_nodedir: /usr/lib/sdk/node26
     build-commands:
       - ./make-mozconfig.sh 153
       - chmod u+x apply-patches.sh
