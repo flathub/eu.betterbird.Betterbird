@@ -64,8 +64,8 @@ modules:
       - /bin/sccache
     sources:
       - type: archive
-        url: https://github.com/mozilla/sccache/releases/download/v0.17.0/sccache-v0.17.0-x86_64-unknown-linux-musl.tar.gz
-        sha256: 67c4a96dd237c1f518f6b36083f270f9976d516f1e57fce891755ea782e50006
+        url: https://github.com/mozilla/sccache/releases/download/v0.18.0/sccache-v0.18.0-x86_64-unknown-linux-musl.tar.gz
+        sha256: 45f1447fbe231e3037bde351ef70677dd212216c8d62ae7ca409fecc4d6acc89
         only-arches:
           - x86_64
         x-checker-data:
@@ -76,8 +76,8 @@ modules:
             | .browser_download_url
           url-template: https://github.com/mozilla/sccache/releases/download/$version/sccache-$version-x86_64-unknown-linux-musl.tar.gz
       - type: archive
-        url: https://github.com/mozilla/sccache/releases/download/v0.17.0/sccache-v0.17.0-aarch64-unknown-linux-musl.tar.gz
-        sha256: 821a86343191aa1cbab74bd42f9e93c9a63bf85e4742945f40d3ae84193c1c77
+        url: https://github.com/mozilla/sccache/releases/download/v0.18.0/sccache-v0.18.0-aarch64-unknown-linux-musl.tar.gz
+        sha256: 2b3284d5da3b46a47dc4229e75bb7b88ac4aa99c8d754fb7d2f84997e5a4354a
         only-arches:
           - aarch64
         x-checker-data:
@@ -264,11 +264,11 @@ modules:
     sources:
       - type: git
         url: https://github.com/GNOME/evolution-data-server.git
-        tag: 3.61.3
+        tag: 3.62.0
         x-checker-data:
           type: git
           tag-pattern: ^([\d.]+)$
-        commit: ec9e2c6bbe9808cd8ddf49bd3ed45e18b9ce73a8
+        commit: 99edc087f1207979d951295f1a01f9b010e176ca
   - name: cbindgen
     buildsystem: simple
     build-commands:
