@@ -1,0 +1,32 @@
+name: Keep develop in sync with master
+
+on:
+  pull_request:
+    branches:
+      - master
+    types:
+      - closed
+
+jobs:
+  merge-master-into-develop:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # needed to push
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0    # get all branches and history
+
+      - name: Configure git
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Merge master into develop
+        run: |
+          git checkout develop
+          git merge --no-ff master -m "Auto-merge master into develop after PR #${{ github.event.pull_request.number }}"
+          git push origin develop

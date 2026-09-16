@@ -30,7 +30,7 @@ jobs:
         run: pip install GitPython PyYAML
 
       - name: Auto-update to newest tag
-        run: python update-version.py --auto 153 --branch develop
+        run: python update-version.py --auto 153 --base develop --target master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

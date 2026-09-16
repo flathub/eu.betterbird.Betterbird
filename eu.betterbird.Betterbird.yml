@@ -64,8 +64,8 @@ modules:
   - /bin/sccache
   sources:
   - type: archive
-    url: https://github.com/mozilla/sccache/releases/download/v0.17.0/sccache-v0.17.0-x86_64-unknown-linux-musl.tar.gz
-    sha256: 67c4a96dd237c1f518f6b36083f270f9976d516f1e57fce891755ea782e50006
+    url: https://github.com/mozilla/sccache/releases/download/v0.18.0/sccache-v0.18.0-x86_64-unknown-linux-musl.tar.gz
+    sha256: 45f1447fbe231e3037bde351ef70677dd212216c8d62ae7ca409fecc4d6acc89
     only-arches:
     - x86_64
     x-checker-data:
@@ -76,8 +76,8 @@ modules:
         | .browser_download_url
       url-template: https://github.com/mozilla/sccache/releases/download/$version/sccache-$version-x86_64-unknown-linux-musl.tar.gz
   - type: archive
-    url: https://github.com/mozilla/sccache/releases/download/v0.17.0/sccache-v0.17.0-aarch64-unknown-linux-musl.tar.gz
-    sha256: 821a86343191aa1cbab74bd42f9e93c9a63bf85e4742945f40d3ae84193c1c77
+    url: https://github.com/mozilla/sccache/releases/download/v0.18.0/sccache-v0.18.0-aarch64-unknown-linux-musl.tar.gz
+    sha256: 2b3284d5da3b46a47dc4229e75bb7b88ac4aa99c8d754fb7d2f84997e5a4354a
     only-arches:
     - aarch64
     x-checker-data:
@@ -263,11 +263,11 @@ modules:
   sources:
   - type: git
     url: https://github.com/GNOME/evolution-data-server.git
-    tag: 3.61.2
+    tag: 3.62.0
     x-checker-data:
       type: git
       tag-pattern: ^([\d.]+)$
-    commit: aca4b3e77c255b53a10bc50570a4e524890cf760
+    commit: 99edc087f1207979d951295f1a01f9b010e176ca
 - name: cbindgen
   buildsystem: simple
   build-commands:
@@ -321,6 +321,11 @@ modules:
   - for i in 16 22 24 32 48 64 128 256; do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png
     /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png; done
   - install -Dm644 thunderbird-patches/metadata/icons/betterbird.svg /app/share/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg
+  # mach install already ran gtk-update-icon-cache, so the existing icon-theme.cache
+  # does not list the icons installed above. GtkIconTheme trusts that cache and
+  # skips the directory, which makes in-app lookups (e.g. the MATE systray
+  # GtkStatusIcon) fail with a missing-image placeholder. Regenerate it.
+  - gtk-update-icon-cache -f -t /app/share/icons/hicolor
   - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop /app/share/applications/eu.betterbird.Betterbird.desktop
   - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.153.appdata.xml
     /app/share/metainfo/eu.betterbird.Betterbird.appdata.xml
@@ -338,9 +343,9 @@ modules:
     - exec /app/lib/betterbird/betterbird "$@"
   - type: git
     url: https://github.com/Betterbird/thunderbird-patches.git
-    commit: 759c75a74124a924ad0249bf4968a72d9ee4103c
+    commit: 9e4a2790b202c6116fe89e68e41ae447efdd4cfa
     dest: thunderbird-patches
-    tag: 153.2.0esr-bb8
+    tag: 153.3.0esr-bb9
   - type: file
     path: mozconfig-flatpak
   - type: file
