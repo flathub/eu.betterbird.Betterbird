@@ -212,6 +212,10 @@ modules:
           url: https://kerberos.org/dist/krb5/
           version-pattern: href="([\d\.]+)/"
           url-template: https://kerberos.org/dist/krb5/$version/krb5-$version.tar.gz
+      - type: patch
+        # Fix strchr() conformance to C23, required for glibc >= 2.43 (freedesktop SDK 26.08).
+        # Upstream: https://github.com/krb5/krb5/commit/ad4dcf1856dadc4b352b5c8ff08e51c7290fb41f (ticket 9191)
+        path: flatpak-patches/krb5-1.22-c23-strchr.patch
       - type: file
         path: krb5.conf
     cleanup:
