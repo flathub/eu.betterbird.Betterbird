@@ -348,10 +348,9 @@ modules:
           - export TMPDIR="$XDG_RUNTIME_DIR/app/$FLATPAK_ID"
           - exec /app/lib/betterbird/betterbird "$@"
       - type: git
-        url: https://github.com/Betterbird/thunderbird-patches.git
-        commit: 9e4a2790b202c6116fe89e68e41ae447efdd4cfa
+        url: https://github.com/mfschumann/thunderbird-patches.git
+        commit: aa46dbb21a22b40534d2beab5e553443bd19c9aa
         dest: thunderbird-patches
-        tag: 153.3.0esr-bb9
       - type: file
         path: mozconfig-flatpak
       - type: file
