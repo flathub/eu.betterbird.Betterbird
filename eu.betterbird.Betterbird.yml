@@ -1,10 +1,10 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/flatpak/flatpak-builder/main/data/flatpak-manifest.schema.json
 id: eu.betterbird.Betterbird
 runtime: org.freedesktop.Platform
-runtime-version: '25.08'
+runtime-version: '26.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
-- org.freedesktop.Sdk.Extension.node24
+- org.freedesktop.Sdk.Extension.node26
 - org.freedesktop.Sdk.Extension.llvm22
 command: betterbird
 finish-args:
@@ -212,6 +212,10 @@ modules:
       url: https://kerberos.org/dist/krb5/
       version-pattern: href="([\d\.]+)/"
       url-template: https://kerberos.org/dist/krb5/$version/krb5-$version.tar.gz
+  - type: patch
+    # Fix strchr() conformance to C23, required for glibc >= 2.43 (freedesktop SDK 26.08).
+    # Upstream: https://github.com/krb5/krb5/commit/ad4dcf1856dadc4b352b5c8ff08e51c7290fb41f (ticket 9191)
+    path: flatpak-patches/krb5-1.22-c23-strchr.patch
   - type: file
     path: krb5.conf
   cleanup:
@@ -292,12 +296,12 @@ modules:
 - name: betterbird
   buildsystem: simple
   build-options:
-    append-path: /app/lib/rust/bin:/usr/lib/sdk/node24/bin:/usr/lib/sdk/llvm22/bin
+    append-path: /app/lib/rust/bin:/usr/lib/sdk/node26/bin:/usr/lib/sdk/llvm22/bin
     prepend-ld-library-path: /usr/lib/sdk/llvm22/lib
     env:
       TERM: linux
       CARGO_HOME: /run/build/betterbird/cargo
-      npm_config_nodedir: /usr/lib/sdk/node24
+      npm_config_nodedir: /usr/lib/sdk/node26
   build-commands:
   - ./make-mozconfig.sh 153
   - chmod u+x apply-patches.sh
