@@ -80,6 +80,7 @@ do
     bb_string_patcher="../../thunderbird-patches/$VERSION/scripts/$lang.sh"
     if [[ -f "$bb_string_patcher" ]]
     then
+        sed -i 's/\r$//' "$bb_string_patcher"
         echo "   * adding extra strings"
         . "$bb_string_patcher"
     fi

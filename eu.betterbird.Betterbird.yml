@@ -166,11 +166,11 @@ modules:
   sources:
   - type: git
     url: https://github.com/LudovicRousseau/PCSC.git
-    tag: 2.5.1
+    tag: 2.5.2
     x-checker-data:
       type: git
       tag-pattern: ^([\d.]+)$
-    commit: 09138d7f7d02c714b004d9850f28727fbcc48a97
+    commit: 6cadd8152f3cfdb79131a65843d9b85f01f0ae51
 - name: yasm
   build-options:
     cflags: -std=c17
@@ -321,10 +321,6 @@ modules:
   - for i in 16 22 24 32 48 64 128 256; do install -Dm644 thunderbird-patches/metadata/icons/betterbird${i}.png
     /app/share/icons/hicolor/${i}x${i}/apps/eu.betterbird.Betterbird.png; done
   - install -Dm644 thunderbird-patches/metadata/icons/betterbird.svg /app/share/icons/hicolor/scalable/apps/eu.betterbird.Betterbird.svg
-  # mach install already ran gtk-update-icon-cache, so the existing icon-theme.cache
-  # does not list the icons installed above. GtkIconTheme trusts that cache and
-  # skips the directory, which makes in-app lookups (e.g. the MATE systray
-  # GtkStatusIcon) fail with a missing-image placeholder. Regenerate it.
   - gtk-update-icon-cache -f -t /app/share/icons/hicolor
   - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.desktop /app/share/applications/eu.betterbird.Betterbird.desktop
   - install -Dm644 thunderbird-patches/metadata/eu.betterbird.Betterbird.153.appdata.xml
@@ -343,9 +339,9 @@ modules:
     - exec /app/lib/betterbird/betterbird "$@"
   - type: git
     url: https://github.com/Betterbird/thunderbird-patches.git
-    commit: 9e4a2790b202c6116fe89e68e41ae447efdd4cfa
+    commit: d5a1998bc257bee885330d5cc00926737472b2d6
     dest: thunderbird-patches
-    tag: 153.3.0esr-bb9
+    tag: 153.4.0esr-bb10
   - type: file
     path: mozconfig-flatpak
   - type: file
