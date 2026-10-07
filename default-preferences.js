@@ -5,3 +5,5 @@ pref("mail.shell.checkDefaultClient", false);
 pref("mail.shell.checkDefaultMail", false);
 pref("spellchecker.dictionary_path", "/usr/share/hunspell");
 pref("extensions.autoDisableScopes", 3);
+pref("widget.use-xdg-desktop-portal.native-messaging", 2);
+pref("widget.use-xdg-desktop-portal.native-messaging-proxy", 2);
