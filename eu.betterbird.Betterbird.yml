@@ -231,8 +231,8 @@ modules:
   - -DLIBICAL_JAVA_BINDINGS=False
   sources:
   - type: archive
-    url: https://github.com/libical/libical/releases/download/v4.0.5/libical-4.0.5.tar.gz
-    sha256: cc09a3ac41d60e6144e644bd3fcf97d47106d659c4a0b8965102581401e67c9c
+    url: https://github.com/libical/libical/releases/download/v4.0.6/libical-4.0.6.tar.gz
+    sha256: 2e3729cb69c282d3bb17a8d2b198af6e4bc7502fd3621c9adf573921fe9dceb0
     x-checker-data:
       type: json
       url: https://api.github.com/repos/libical/libical/releases/latest
@@ -339,9 +339,8 @@ modules:
     - exec /app/lib/betterbird/betterbird "$@"
   - type: git
     url: https://github.com/Betterbird/thunderbird-patches.git
-    commit: d5a1998bc257bee885330d5cc00926737472b2d6
+    commit: a51ec3d398c4b8d8b92b83997bf61f1b6b76c486
     dest: thunderbird-patches
-    tag: 153.4.0esr-bb10
   - type: file
     path: mozconfig-flatpak
   - type: file
