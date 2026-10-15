@@ -33,6 +33,7 @@ finish-args:
 - --talk-name=org.kde.StatusNotifierWatcher
 - --talk-name=org.gnome.evolution.dataserver.Calendar8
 - --talk-name=org.gnome.evolution.dataserver.Sources5
+- --talk-name=org.freedesktop.NativeMessagingProxy
 - --system-talk-name=org.freedesktop.NetworkManager
 cleanup:
 - /include
@@ -231,8 +232,8 @@ modules:
   - -DLIBICAL_JAVA_BINDINGS=False
   sources:
   - type: archive
-    url: https://github.com/libical/libical/releases/download/v4.0.5/libical-4.0.5.tar.gz
-    sha256: cc09a3ac41d60e6144e644bd3fcf97d47106d659c4a0b8965102581401e67c9c
+    url: https://github.com/libical/libical/releases/download/v4.0.6/libical-4.0.6.tar.gz
+    sha256: 2e3729cb69c282d3bb17a8d2b198af6e4bc7502fd3621c9adf573921fe9dceb0
     x-checker-data:
       type: json
       url: https://api.github.com/repos/libical/libical/releases/latest
@@ -263,11 +264,11 @@ modules:
   sources:
   - type: git
     url: https://github.com/GNOME/evolution-data-server.git
-    tag: 3.62.0
+    tag: 3.62.1
     x-checker-data:
       type: git
       tag-pattern: ^([\d.]+)$
-    commit: 99edc087f1207979d951295f1a01f9b010e176ca
+    commit: 757672184698ec9f46cc16cf8860ec312d1e9d36
 - name: cbindgen
   buildsystem: simple
   build-commands:
@@ -339,9 +340,9 @@ modules:
     - exec /app/lib/betterbird/betterbird "$@"
   - type: git
     url: https://github.com/Betterbird/thunderbird-patches.git
-    commit: d5a1998bc257bee885330d5cc00926737472b2d6
+    commit: ad8667f30aa00d87479660bdf4f20b78dd567852
     dest: thunderbird-patches
-    tag: 153.4.0esr-bb10
+    tag: 153.5.0esr-bb11
   - type: file
     path: mozconfig-flatpak
   - type: file
