@@ -166,11 +166,11 @@ modules:
     sources:
       - type: git
         url: https://github.com/LudovicRousseau/PCSC.git
-        tag: 2.5.2
+        tag: 2.5.3
         x-checker-data:
           type: git
           tag-pattern: ^([\d.]+)$
-        commit: 6cadd8152f3cfdb79131a65843d9b85f01f0ae51
+        commit: 58de510789550941e6548399e024083f54b8d4f5
   - name: yasm
     build-options:
       cflags: -std=c17
@@ -231,8 +231,8 @@ modules:
       - -DLIBICAL_JAVA_BINDINGS=False
     sources:
       - type: archive
-        url: https://github.com/libical/libical/releases/download/v4.0.6/libical-4.0.6.tar.gz
-        sha256: 2e3729cb69c282d3bb17a8d2b198af6e4bc7502fd3621c9adf573921fe9dceb0
+        url: https://github.com/libical/libical/releases/download/v4.0.7/libical-4.0.7.tar.gz
+        sha256: 47c05bc96e41416578cf1803bb2ba3f8d292cb17d5ac2fca539dee922bae8a94
         x-checker-data:
           type: json
           url: https://api.github.com/repos/libical/libical/releases/latest
