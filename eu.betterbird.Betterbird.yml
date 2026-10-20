@@ -33,6 +33,7 @@ finish-args:
   - --talk-name=org.kde.StatusNotifierWatcher
   - --talk-name=org.gnome.evolution.dataserver.Calendar8
   - --talk-name=org.gnome.evolution.dataserver.Sources5
+  - --talk-name=org.freedesktop.NativeMessagingProxy
   - --system-talk-name=org.freedesktop.NetworkManager
 cleanup:
   - /include
@@ -341,9 +342,9 @@ modules:
           - exec /app/lib/betterbird/betterbird "$@"
       - type: git
         url: https://github.com/Betterbird/thunderbird-patches.git
-        commit: d5a1998bc257bee885330d5cc00926737472b2d6
+        commit: ad8667f30aa00d87479660bdf4f20b78dd567852
         dest: thunderbird-patches
-        tag: 153.4.0esr-bb10
+        tag: 153.5.0esr-bb11
       - type: file
         path: mozconfig-flatpak
       - type: file
