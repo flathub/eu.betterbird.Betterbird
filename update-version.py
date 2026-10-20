@@ -8,6 +8,7 @@ import re
 import subprocess
 import sys
 import git
+from ruamel.yaml import YAML
 from datetime import datetime
 from pathlib import Path
 from urllib.request import urlopen
@@ -28,13 +29,16 @@ DIST_FILE = FLATHUB_DIR / "distribution.ini"
 BUILD_DATE_FILE = FLATHUB_DIR / ".build-date"
 KNOWN_TAGS_FILE = FLATHUB_DIR / ".known-tags"
 
+
 def log_verbose(verbose: bool, msg: str) -> None:
     """Print a progress message only when verbose mode is enabled."""
     if verbose:
         print(msg)
 
 
-def run_cmd(cmd, cwd:Optional[Path]=None, check=True, capture=False, text=False) -> str:
+def run_cmd(
+    cmd, cwd: Optional[Path] = None, check=True, capture=False, text=False
+) -> str:
     """Run a shell command."""
     if not cwd:
         cwd = os.path.dirname(__file__)
@@ -53,7 +57,9 @@ def parse_args():
         f"          {sys.argv[0]} 102 4d587481bc7dbca1ffc99cce319f84425fab7852",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    parser.add_argument("version", nargs="?", help="Betterbird version (tag or major version)")
+    parser.add_argument(
+        "version", nargs="?", help="Betterbird version (tag or major version)"
+    )
     parser.add_argument(
         "commit",
         nargs="?",
@@ -252,16 +258,17 @@ def update_sources_file(base_url, betterbird_version, verbose: bool = False):
 def update_manifest(
     betterbird_commit, source_spec, betterbird_version, verbose: bool = False
 ):
-    """Update the thunderbird-patches source in the manifest with a targeted,
-    formatting-preserving edit.
+    """Update the thunderbird-patches source in the manifest.
 
-    This deliberately avoids re-serializing the whole manifest with PyYAML.
-    `yaml.dump()` normalizes indentation (it emits block sequences flush-left),
-    while the flatpak-external-data-checker preserves the file's existing
-    indentation. Re-dumping here therefore rewrote hundreds of lines on every
-    update, which made `master` and `develop` conflict on every
-    merge-back because of pure whitespace differences. Editing only the
-    affected lines keeps the diff minimal and the two branches in sync.
+    Uses ruamel.yaml round-trip mode so the rest of the manifest keeps its
+    existing indentation, line wrapping and comments. PyYAML's yaml.dump()
+    cannot do this: it always emits block sequences flush-left, so using it
+    would rewrite the whole file into a different style. The manifest is kept
+    in the checker-compatible indented style (the flatpak-external-data-checker
+    emits and preserves that style), and re-dumping with PyYAML would make
+    master and develop diverge on every update, which in turn made the
+    automatic 'merge master into develop' conflict on ~700 whitespace-only
+    lines.
     """
     log_verbose(
         verbose,
@@ -269,105 +276,54 @@ def update_manifest(
     )
 
     manifest_file = os.path.join(os.path.dirname(__file__), MANIFEST_FILE)
+
+    yaml = YAML()
+    # Use the exact same ruamel.yaml configuration as
+    # flatpak-external-data-checker (src/lib/utils.py: ``_yaml``), so that
+    # both tools serialise the manifest identically and do not fight over
+    # formatting. The checker preserves comments but re-emits the file with
+    # this style (the Flathub YAML style guide: 2-space mappings, 4-space
+    # sequences indented by 2). No custom ``width`` is set, matching the
+    # checker's default.
+    yaml.indent(mapping=2, sequence=4, offset=2)
+
     with open(manifest_file, "r") as f:
-        raw_content = f.read()
+        manifest = yaml.load(f)
 
-    # Split into lines, keeping line endings so we can splice them back
-    # unchanged for every line we do not touch.
-    lines = raw_content.splitlines(True)
-
-    # Locate the "thunderbird-patches" git source: the list item whose block
-    # contains a "dest: thunderbird-patches" line. A block starts at a line
-    # whose content begins with "- " at the item's indentation and ends right
-    # before the next such line (or at a line with lower/equal indentation
-    # that is not part of the block).
-    def indent_of(line: str) -> int:
-        return len(line) - len(line.lstrip(" "))
-
-    dest_idx = None
-    for i, line in enumerate(lines):
-        if line.strip() == "dest: thunderbird-patches":
-            dest_idx = i
-            break
-    if dest_idx is None:
-        raise RuntimeError(
-            f"Could not find 'dest: thunderbird-patches' in {MANIFEST_FILE}; "
-            "the betterbird module layout may have changed."
-        )
-
-    # Walk backwards to the start of the enclosing list item (the nearest
-    # preceding line whose stripped content starts with "- ").
-    block_start = dest_idx
-    block_indent = None
-    for i in range(dest_idx, -1, -1):
-        if lines[i].lstrip(" ").startswith("- "):
-            block_start = i
-            block_indent = indent_of(lines[i])
-            break
-    if block_indent is None:
-        raise RuntimeError(
-            f"Could not determine the list item containing 'dest: thunderbird-patches' "
-            f"in {MANIFEST_FILE}."
-        )
-
-    # Walk forward to the end of the enclosing list item: the next line that
-    # starts a new item ("- ") at the same or lower indentation.
-    block_end = len(lines)
-    for i in range(block_start + 1, len(lines)):
-        stripped = lines[i].lstrip(" ")
-        if stripped.startswith("- ") and indent_of(lines[i]) <= block_indent:
-            block_end = i
+    # Find the betterbird module's thunderbird-patches source.
+    updated = False
+    for module in manifest.get("modules", []):
+        if isinstance(module, dict) and module.get("name") == "betterbird":
+            for source in module.get("sources", []):
+                if (
+                    isinstance(source, dict)
+                    and source.get("dest") == "thunderbird-patches"
+                ):
+                    source["commit"] = betterbird_commit
+                    if source_spec == "tag":
+                        log_verbose(
+                            verbose,
+                            f"  Setting tag in manifest to {betterbird_version}",
+                        )
+                        source["tag"] = betterbird_version
+                    else:
+                        log_verbose(
+                            verbose,
+                            "  Removing tag from manifest (commit-based update)",
+                        )
+                        source.pop("tag", None)
+                    updated = True
+                    break
             break
 
-    # Indentation used for keys of this list item (e.g. "commit:", "tag:").
-    # The item line is "- type: git"; subsequent keys are indented to the
-    # column just after "- ", which is the block indentation + 2.
-    key_indent = block_indent + 2
-    pad = " " * key_indent
-
-    commit_line = f"{pad}commit: {betterbird_commit}\n"
-    tag_line = f"{pad}tag: {betterbird_version}\n"
-
-    commit_idx = None
-    tag_idx = None
-    for i in range(block_start, block_end):
-        stripped = lines[i].lstrip(" ")
-        if stripped.startswith("commit:"):
-            commit_idx = i
-        elif stripped.startswith("tag:"):
-            tag_idx = i
-
-    if commit_idx is None:
+    if not updated:
         raise RuntimeError(
-            f"Could not find a 'commit:' line in the thunderbird-patches source "
-            f"of {MANIFEST_FILE}."
+            f"Could not find the betterbird module's 'dest: thunderbird-patches' "
+            f"source in {MANIFEST_FILE}; the manifest layout may have changed."
         )
-
-    # Replace the commit value in place.
-    lines[commit_idx] = commit_line
-
-    if source_spec == "tag":
-        log_verbose(
-            verbose,
-            f"  Setting tag in manifest to {betterbird_version}",
-        )
-        if tag_idx is not None:
-            lines[tag_idx] = tag_line
-        else:
-            # Insert the tag directly after the commit line.
-            lines.insert(commit_idx + 1, tag_line)
-    else:
-        log_verbose(
-            verbose,
-            "  Removing tag from manifest (commit-based update)",
-        )
-        if tag_idx is not None:
-            del lines[tag_idx]
-
-    new_content = "".join(lines)
 
     with open(manifest_file, "w") as f:
-        f.write(new_content)
+        yaml.dump(manifest, f)
 
 
 def update_distribution_ini(betterbird_commit, verbose: bool = False):
@@ -379,7 +335,9 @@ def update_distribution_ini(betterbird_commit, verbose: bool = False):
     )
     dist_path = Path(DIST_FILE)
     content = dist_path.read_text()
-    content = re.sub(r"^version=.*$", f"version={short_commit}", content, flags=re.MULTILINE)
+    content = re.sub(
+        r"^version=.*$", f"version={short_commit}", content, flags=re.MULTILINE
+    )
     dist_path.write_text(content)
 
 
@@ -514,9 +472,7 @@ def setup_repos(flathub_repo: str, verbose: bool = False):
         repo = git.Repo(FLATHUB_DIR)
         repo.remotes.origin.fetch()
     else:
-        log_verbose(
-            verbose, f"[auto] {FLATHUB_DIR}: cloning {flathub_repo}…"
-        )
+        log_verbose(verbose, f"[auto] {FLATHUB_DIR}: cloning {flathub_repo}…")
         git.Repo.clone_from(flathub_repo, FLATHUB_DIR)
 
     # Clone/update thunderbird-patches
@@ -529,9 +485,7 @@ def setup_repos(flathub_repo: str, verbose: bool = False):
         repo.git.reset("--hard", "HEAD")
         repo.remotes.origin.fetch()
     else:
-        log_verbose(
-            verbose, f"[auto] {PATCHES_DIR}: cloning {BETTERBIRD_REPO}…"
-        )
+        log_verbose(verbose, f"[auto] {PATCHES_DIR}: cloning {BETTERBIRD_REPO}…")
         git.Repo.clone_from(BETTERBIRD_REPO, PATCHES_DIR)
 
 
@@ -548,7 +502,9 @@ def find_new_tags(patches_dir: str, known_tags, verbose: bool = False):
     return new_tags
 
 
-def auto_update(major_release: str, target_branch: str, base_branch: str, verbose: bool = False):
+def auto_update(
+    major_release: str, target_branch: str, base_branch: str, verbose: bool = False
+):
     """Run automated update: discover new tags, update, commit, push, create PR."""
 
     # Setup repos
@@ -637,7 +593,8 @@ def auto_update(major_release: str, target_branch: str, base_branch: str, verbos
             log_verbose(verbose, f"[auto] Removing stale local branch {update_branch}…")
             flathub_repo_git.git.branch("-D", update_branch)
         log_verbose(
-            verbose, f"[auto] Creating branch {update_branch} from origin/{base_branch}…"
+            verbose,
+            f"[auto] Creating branch {update_branch} from origin/{base_branch}…",
         )
         flathub_repo_git.git.switch("-c", update_branch, f"origin/{base_branch}")
 
@@ -653,10 +610,19 @@ def auto_update(major_release: str, target_branch: str, base_branch: str, verbos
 
         # Update .known-tags in flathub repo
         Path(KNOWN_TAGS_FILE).write_text(
-            "\n".join(sorted(set(
-                (Path(KNOWN_TAGS_FILE).read_text().splitlines() if Path(KNOWN_TAGS_FILE).exists() else [])
-                + list(new_tags)
-            ))) + "\n"
+            "\n".join(
+                sorted(
+                    set(
+                        (
+                            Path(KNOWN_TAGS_FILE).read_text().splitlines()
+                            if Path(KNOWN_TAGS_FILE).exists()
+                            else []
+                        )
+                        + list(new_tags)
+                    )
+                )
+            )
+            + "\n"
         )
 
         # Commit and push
@@ -664,8 +630,14 @@ def auto_update(major_release: str, target_branch: str, base_branch: str, verbos
             MANIFEST_FILE, SOURCES_FILE, DIST_FILE, BUILD_DATE_FILE, KNOWN_TAGS_FILE
         )
         flathub_repo_git.git.commit(
-            "-m", f"Update to {target_tag}",
-            "--", MANIFEST_FILE, SOURCES_FILE, DIST_FILE, BUILD_DATE_FILE, KNOWN_TAGS_FILE
+            "-m",
+            f"Update to {target_tag}",
+            "--",
+            MANIFEST_FILE,
+            SOURCES_FILE,
+            DIST_FILE,
+            BUILD_DATE_FILE,
+            KNOWN_TAGS_FILE,
         )
         log_verbose(verbose, f"[auto] Pushing {update_branch}…")
         flathub_repo_git.remotes.origin.push(update_branch)
@@ -714,7 +686,7 @@ def main():
 
     # --auto mode: automated CI/CD workflow
     if args.auto is not None:
-        major_release :Optional[str] = args.auto if args.auto else None
+        major_release: Optional[str] = args.auto if args.auto else None
         if not major_release:
             print("Usage: update-version.py --auto [MAJOR_RELEASE]")
             print("")
@@ -727,7 +699,9 @@ def main():
     betterbird_commit = args.commit
 
     if not betterbird_version:
-        print("Usage: update-version.py [-f] [-p] [-c] [-v] BETTERBIRD_VERSION [BETTERBIRD_COMMIT]")
+        print(
+            "Usage: update-version.py [-f] [-p] [-c] [-v] BETTERBIRD_VERSION [BETTERBIRD_COMMIT]"
+        )
         print("       update-version.py --auto [MAJOR_RELEASE]")
         print("")
         print("Examples:")
