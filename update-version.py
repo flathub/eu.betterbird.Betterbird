@@ -8,7 +8,6 @@ import re
 import subprocess
 import sys
 import git
-import yaml
 from datetime import datetime
 from pathlib import Path
 from urllib.request import urlopen
@@ -253,7 +252,17 @@ def update_sources_file(base_url, betterbird_version, verbose: bool = False):
 def update_manifest(
     betterbird_commit, source_spec, betterbird_version, verbose: bool = False
 ):
-    """Update manifest YAML using PyYAML."""
+    """Update the thunderbird-patches source in the manifest with a targeted,
+    formatting-preserving edit.
+
+    This deliberately avoids re-serializing the whole manifest with PyYAML.
+    `yaml.dump()` normalizes indentation (it emits block sequences flush-left),
+    while the flatpak-external-data-checker preserves the file's existing
+    indentation. Re-dumping here therefore rewrote hundreds of lines on every
+    update, which made `master` and `develop` conflict on every
+    merge-back because of pure whitespace differences. Editing only the
+    affected lines keeps the diff minimal and the two branches in sync.
+    """
     log_verbose(
         verbose,
         f"[step 6/7] Updating {MANIFEST_FILE} (commit: {betterbird_commit}, source_spec: {source_spec})",
@@ -263,43 +272,99 @@ def update_manifest(
     with open(manifest_file, "r") as f:
         raw_content = f.read()
 
-    # Preserve leading comment lines (e.g. # yaml-language-server: $schema=…)
-    leading_comments = []
-    body_start = 0
-    for line in raw_content.splitlines(True):
-        if line.startswith("#"):
-            leading_comments.append(line)
-            body_start += len(line)
+    # Split into lines, keeping line endings so we can splice them back
+    # unchanged for every line we do not touch.
+    lines = raw_content.splitlines(True)
+
+    # Locate the "thunderbird-patches" git source: the list item whose block
+    # contains a "dest: thunderbird-patches" line. A block starts at a line
+    # whose content begins with "- " at the item's indentation and ends right
+    # before the next such line (or at a line with lower/equal indentation
+    # that is not part of the block).
+    def indent_of(line: str) -> int:
+        return len(line) - len(line.lstrip(" "))
+
+    dest_idx = None
+    for i, line in enumerate(lines):
+        if line.strip() == "dest: thunderbird-patches":
+            dest_idx = i
+            break
+    if dest_idx is None:
+        raise RuntimeError(
+            f"Could not find 'dest: thunderbird-patches' in {MANIFEST_FILE}; "
+            "the betterbird module layout may have changed."
+        )
+
+    # Walk backwards to the start of the enclosing list item (the nearest
+    # preceding line whose stripped content starts with "- ").
+    block_start = dest_idx
+    block_indent = None
+    for i in range(dest_idx, -1, -1):
+        if lines[i].lstrip(" ").startswith("- "):
+            block_start = i
+            block_indent = indent_of(lines[i])
+            break
+    if block_indent is None:
+        raise RuntimeError(
+            f"Could not determine the list item containing 'dest: thunderbird-patches' "
+            f"in {MANIFEST_FILE}."
+        )
+
+    # Walk forward to the end of the enclosing list item: the next line that
+    # starts a new item ("- ") at the same or lower indentation.
+    block_end = len(lines)
+    for i in range(block_start + 1, len(lines)):
+        stripped = lines[i].lstrip(" ")
+        if stripped.startswith("- ") and indent_of(lines[i]) <= block_indent:
+            block_end = i
+            break
+
+    # Indentation used for keys of this list item (e.g. "commit:", "tag:").
+    # The item line is "- type: git"; subsequent keys are indented to the
+    # column just after "- ", which is the block indentation + 2.
+    key_indent = block_indent + 2
+    pad = " " * key_indent
+
+    commit_line = f"{pad}commit: {betterbird_commit}\n"
+    tag_line = f"{pad}tag: {betterbird_version}\n"
+
+    commit_idx = None
+    tag_idx = None
+    for i in range(block_start, block_end):
+        stripped = lines[i].lstrip(" ")
+        if stripped.startswith("commit:"):
+            commit_idx = i
+        elif stripped.startswith("tag:"):
+            tag_idx = i
+
+    if commit_idx is None:
+        raise RuntimeError(
+            f"Could not find a 'commit:' line in the thunderbird-patches source "
+            f"of {MANIFEST_FILE}."
+        )
+
+    # Replace the commit value in place.
+    lines[commit_idx] = commit_line
+
+    if source_spec == "tag":
+        log_verbose(
+            verbose,
+            f"  Setting tag in manifest to {betterbird_version}",
+        )
+        if tag_idx is not None:
+            lines[tag_idx] = tag_line
         else:
-            break
+            # Insert the tag directly after the commit line.
+            lines.insert(commit_idx + 1, tag_line)
+    else:
+        log_verbose(
+            verbose,
+            "  Removing tag from manifest (commit-based update)",
+        )
+        if tag_idx is not None:
+            del lines[tag_idx]
 
-    manifest = yaml.safe_load(raw_content[body_start:])
-
-    # Find the betterbird module
-    for module in manifest.get("modules", []):
-        if isinstance(module, dict) and module.get("name") == "betterbird":
-            for source in module.get("sources", []):
-                if isinstance(source, dict) and source.get("dest") == "thunderbird-patches":
-                    source["commit"] = betterbird_commit
-                    if source_spec == "tag":
-                        log_verbose(
-                            verbose,
-                            f"  Setting tag in manifest to {betterbird_version}",
-                        )
-                        source["tag"] = betterbird_version
-                    else:
-                        log_verbose(
-                            verbose,
-                            "  Removing tag from manifest (commit-based update)",
-                        )
-                        source.pop("tag", None)
-                    break
-            break
-
-    import io
-    output = io.StringIO()
-    yaml.dump(manifest, output, default_flow_style=False, sort_keys=False)
-    new_content = "".join(leading_comments) + output.getvalue()
+    new_content = "".join(lines)
 
     with open(manifest_file, "w") as f:
         f.write(new_content)
