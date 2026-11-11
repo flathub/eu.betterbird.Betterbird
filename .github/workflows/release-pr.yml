@@ -1,0 +1,44 @@
+# Creates or refreshes the release PR from a snapshot branch cut from develop
+# into master. Run manually for a release, or from update-betterbird.yml so that
+# a thunderbird-patches bump gets a Flathub test build before it is released.
+
+name: release-pr
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-pr:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: release-pr
+      cancel-in-progress: false
+    steps:
+      - name: Checkout develop
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+          fetch-depth: 0
+
+      - name: Install pixi
+        env:
+          PIXI_NO_PATH_UPDATE: "1"
+        run: |
+          set -euo pipefail
+          curl -fsSL https://pixi.sh/install.sh | sh
+          echo "$HOME/.pixi/bin" >> "$GITHUB_PATH"
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create or refresh release PR
+        run: pixi run python release-pr.py
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

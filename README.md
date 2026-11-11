@@ -101,6 +101,31 @@ Sending a document from LibreOffice using the flatpak-version of Betterbird does
 #### Other flatpak issues unresolved yet by upstream
 ([#123](https://github.com/flathub/org.mozilla.Thunderbird/issues/123)) Opening Profile Directory doesn't work: https://bugzilla.mozilla.org/show_bug.cgi?id=1625111
 
+## Maintainer workflow
+
+Branches:
+
+- `master` is the stable branch. Flathub runs an official build and publishes it after every change, so `master` only receives release merges. It is protected by Flathub.
+- `beta` is the beta channel. It is protected and currently unused.
+- `develop` is the staging branch. All changes land here first. It is not protected, so the update bots push to it directly.
+
+Automatic updates:
+
+- `bump-dependencies.yml` runs the Flatpak External Data Checker weekly and pushes dependency bumps to `develop`.
+- `update-betterbird.yml` checks `Betterbird/thunderbird-patches` every six hours and pushes new tags to `develop`.
+- `sync-release` keeps `develop` a superset of `release`: it merges `release` into `develop` before a release pull request is merged, and merges `master` into `develop` after one is merged.
+- All three share the `develop-updates` concurrency group, so they never push at the same time.
+
+Releasing:
+
+1. Run the `release-pr` workflow (`workflow_dispatch`). It creates the `release` branch from `origin/develop`, or fast-forwards it if it already exists, and creates or updates the PR into `master`.
+2. Wait for the Flathub test build, then merge the PR with a **merge commit**. Never squash or rebase.
+3. The `release` branch is deleted automatically on merge. `develop` is otherwise untouched; it already contains every commit that was released. `sync-release` adds a content-neutral merge commit to `develop` after the merge.
+
+Never commit to `release`; it is only ever fast-forwarded to `develop`. Fixes found while testing belong on `develop`, after which `release-pr` is run again. `release-pr` fails instead of force-pushing if the branch has commits that are not on `develop`. If a commit does reach `release` anyway, `sync-release` merges it into `develop` when the pull request is opened or updated; a conflicting commit fails that workflow and comments on the pull request.
+
+`update-betterbird.yml` refreshes the release PR after a thunderbird-patches bump, so each bump gets a test build. Dependency bumps do not touch the release PR; they ship with the next release.
+
 ## Bug Reporting / Support
 
 For issues related to the flathub package for Betterbird, please check [the issue tracker for this repository](https://github.com/flathub/eu.betterbird.Betterbird/issues) if the issue has already been reported and open a new issue otherwise.

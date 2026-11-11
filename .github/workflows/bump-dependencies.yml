@@ -1,8 +1,14 @@
-name: Check for updates
+name: Check for dependency updates
 on:
   schedule:
     - cron: '0 14 * * 1' # Run once a week, on Monday, at 14:00
   workflow_dispatch: {}
+
+# Serialise pushes to develop with update-betterbird.yml.
+concurrency:
+  group: develop-updates
+  cancel-in-progress: false
+
 jobs:
   flatpak-external-data-checker:
     runs-on: ubuntu-latest
