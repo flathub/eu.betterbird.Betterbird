@@ -1,0 +1,99 @@
+# Checks Betterbird/thunderbird-patches for new tags of the configured major
+# release and pushes the update directly to develop. A release PR is then
+# created or refreshed so that Flathub runs a test build. Publishing the
+# release itself stays manual.
+
+name: Update Betterbird version
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      major_release:
+        description: "Betterbird major release to update (e.g. 153)"
+        required: true
+        default: "153"
+        type: string
+
+concurrency:
+  group: develop-updates
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    outputs:
+      updated: ${{ steps.update.outputs.updated }}
+    steps:
+      - name: Checkout develop
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+
+      # Cheap pre-check: only set up pixi and clone thunderbird-patches when
+      # there is actually a tag that .known-tags does not list yet.
+      - name: Check for a new tag
+        id: check
+        env:
+          MAJOR_RELEASE: ${{ inputs.major_release || '153' }}
+        run: |
+          new_tag=$(
+            git ls-remote --tags --refs \
+              https://github.com/Betterbird/thunderbird-patches.git \
+              "refs/tags/${MAJOR_RELEASE}.*" \
+              | awk '{print $2}' \
+              | sed 's#^refs/tags/##' \
+              | sort -V \
+              | while read -r tag; do
+                  if ! grep -qxF "$tag" .known-tags; then
+                    echo "$tag"
+                    break
+                  fi
+                done
+          )
+          if [ -n "$new_tag" ]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+            echo "New tag: $new_tag"
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "No new tag for major release ${MAJOR_RELEASE}."
+          fi
+
+      - name: Install pixi
+        if: steps.check.outputs.found == 'true'
+        env:
+          PIXI_NO_PATH_UPDATE: "1"
+        run: |
+          set -euo pipefail
+          curl -fsSL https://pixi.sh/install.sh | sh
+          echo "$HOME/.pixi/bin" >> "$GITHUB_PATH"
+
+      - name: Configure git
+        if: steps.check.outputs.found == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Update develop
+        id: update
+        if: steps.check.outputs.found == 'true'
+        env:
+          MAJOR_RELEASE: ${{ inputs.major_release || '153' }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pixi run python update-version.py --auto "$MAJOR_RELEASE" --verbose
+          echo "updated=true" >> "$GITHUB_OUTPUT"
+
+  release-pr:
+    needs: update
+    if: needs.update.outputs.updated == 'true'
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: ./.github/workflows/release-pr.yml

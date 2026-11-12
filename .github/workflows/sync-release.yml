@@ -1,0 +1,84 @@
+# Keeps develop a superset of the release branch.
+#
+# Commits can end up on `release` without going through develop (a direct push,
+# a review suggestion, or the PR "Update branch" button). release-pr.py refuses
+# to fast-forward over them, so this workflow merges them back into develop:
+#
+#   - before the release PR is merged, `release` is merged into `develop`;
+#   - after the release PR is merged, `master` is merged into `develop`.
+#
+# develop is unprotected, so the pushes use GITHUB_TOKEN. The workflow never
+# touches the release branch or master and never force-pushes.
+
+name: sync-release
+
+on:
+  pull_request:
+    branches:
+      - master
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - closed
+
+concurrency:
+  group: develop-updates
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    if: >-
+      github.repository == 'flathub/eu.betterbird.Betterbird' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'release'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout develop
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Merge release into develop (pre-merge)
+        if: github.event.action != 'closed'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          git fetch origin release
+          if [ -z "$(git rev-list origin/develop..origin/release)" ]; then
+            echo "develop already contains the release branch."
+            exit 0
+          fi
+          if ! git merge --no-ff --no-edit \
+              -m "Merge release branch into develop" origin/release; then
+            git merge --abort || true
+            gh pr comment "$PR_NUMBER" --body \
+              "sync-release could not merge \`release\` into \`develop\` because of a conflict. Resolve it on \`develop\`, push, then re-run this workflow. Do not merge this pull request until \`develop\` contains the release commits."
+            exit 1
+          fi
+          git push origin HEAD:develop
+
+      - name: Merge master into develop (post-merge)
+        if: github.event.action == 'closed' && github.event.pull_request.merged == true
+        run: |
+          set -euo pipefail
+          git fetch origin master
+          if git merge-base --is-ancestor origin/master origin/develop; then
+            echo "develop already contains master."
+            exit 0
+          fi
+          git merge --no-ff --no-edit \
+            -m "Merge master into develop" origin/master
+          git push origin HEAD:develop
