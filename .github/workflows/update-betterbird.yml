@@ -6,8 +6,6 @@
 name: Update Betterbird version
 
 on:
-  schedule:
-    - cron: "0 */6 * * *"
   workflow_dispatch:
     inputs:
       major_release:
@@ -34,6 +32,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: develop
+          submodules: recursive
 
       # Cheap pre-check: only set up pixi and clone thunderbird-patches when
       # there is actually a tag that .known-tags does not list yet.
