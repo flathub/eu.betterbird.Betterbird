@@ -24,6 +24,7 @@ jobs:
         with:
           ref: develop
           fetch-depth: 0
+          submodules: recursive
 
       - name: Install pixi
         env:
