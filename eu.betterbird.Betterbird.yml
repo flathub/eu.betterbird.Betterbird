@@ -65,8 +65,8 @@ modules:
       - /bin/sccache
     sources:
       - type: archive
-        url: https://github.com/mozilla/sccache/releases/download/v0.19.0/sccache-v0.19.0-x86_64-unknown-linux-musl.tar.gz
-        sha256: aa73c7270c997894038c0d8f0d297865f57569e1687883322bc431713d4bb9dd
+        url: https://github.com/mozilla/sccache/releases/download/v0.20.0/sccache-v0.20.0-x86_64-unknown-linux-musl.tar.gz
+        sha256: c3c5db9cd7e3be12b7bab350d8fe8ae7dcfb7269d5432b269e0dffa1a87c6ed2
         only-arches:
           - x86_64
         x-checker-data:
@@ -77,8 +77,8 @@ modules:
             | .browser_download_url
           url-template: https://github.com/mozilla/sccache/releases/download/$version/sccache-$version-x86_64-unknown-linux-musl.tar.gz
       - type: archive
-        url: https://github.com/mozilla/sccache/releases/download/v0.19.0/sccache-v0.19.0-aarch64-unknown-linux-musl.tar.gz
-        sha256: 3e47fc4a71b1ddd1b4294a0de9d34498922fdf41e3cd0bda5df3954e3d6deb9d
+        url: https://github.com/mozilla/sccache/releases/download/v0.20.0/sccache-v0.20.0-aarch64-unknown-linux-musl.tar.gz
+        sha256: 1bd78037804baeb9655f6baf8791f99c43388fae6d6b16944d3d93542fa5711a
         only-arches:
           - aarch64
         x-checker-data:
@@ -167,11 +167,11 @@ modules:
     sources:
       - type: git
         url: https://github.com/LudovicRousseau/PCSC.git
-        tag: 2.5.3
+        tag: 2.5.4
         x-checker-data:
           type: git
           tag-pattern: ^([\d.]+)$
-        commit: 58de510789550941e6548399e024083f54b8d4f5
+        commit: a9848cc4f119903f338fb3231c030640d7ca8932
   - name: yasm
     build-options:
       cflags: -std=c17
